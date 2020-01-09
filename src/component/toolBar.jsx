@@ -1,6 +1,5 @@
 import React from 'react'
 import { css } from 'emotion'
-import 'antd/dist/antd.css'
 import { Button, Menu, Dropdown } from 'antd'
 import { Editor, Transforms, Text } from 'slate'
 import { addImgBlock } from '../lib/customEditor'

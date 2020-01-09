@@ -12,10 +12,6 @@ export const addImgBlock = (e, editor) => {
                 editor,
                 { type: 'image', url, children: [{ text: '' }] }
             )
-            Transforms.insertNodes(
-                editor,
-                { type: 'paragraph', children: [{ text: '' }] }
-            )
         }
     }
 }

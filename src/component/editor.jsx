@@ -9,19 +9,14 @@ import { withWrapper } from '../lib/with'
 const initVal = [{
     type: 'paragraph',
     children: [{ text: 'A line of text in a paragraph.' }],
-},{
-    type:"check-list-item",
-    children: [{text: "123"}]
 }]
 
-const EditorContainer = () => {
+const Editor = () => {
     const [value, setValue] = useState(initVal)
     const editor = useMemo(() => withReact(withWrapper(createEditor())), [])
     const renderElement = useCallback(props => <Element {...props} />, [])
     return (
-        <div className={css`
-            margin: 50px 50px;
-        `}>
+        <div>
             <Slate
                 editor={editor}
                 value={value}
@@ -40,4 +35,4 @@ const EditorContainer = () => {
     )
 }
 
-export default EditorContainer
+export default Editor
