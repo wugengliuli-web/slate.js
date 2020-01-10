@@ -6,13 +6,13 @@ import { css } from 'emotion'
 import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
 import { withWrapper } from '../lib/with'
-const initVal = [{
-    type: 'paragraph',
-    children: [{ text: 'A line of text in a paragraph.' }],
-}]
 
-const Editor = () => {
-    const [value, setValue] = useState(initVal)
+const Editor = ({value, setValue}) => {
+    // let [value, setValue] = useState([{
+    //     type: 'heading-one',
+    //     children: [{ text: '123' }]
+    // }])
+    console.log("didididi")
     const editor = useMemo(() => withReact(withWrapper(createEditor())), [])
     const renderElement = useCallback(props => <Element {...props} />, [])
     return (
@@ -22,10 +22,11 @@ const Editor = () => {
                 value={value}
                 onChange={value => setValue(value)}
             >
-                <ToolBar
+                {/* <ToolBar
                     editor={editor}
-                />
+                /> */}
                 <Editable
+                
                     autoFocus
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}

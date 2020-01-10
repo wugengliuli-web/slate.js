@@ -1,27 +1,31 @@
-import React from 'react'
+import React, { Component } from 'react'
 import EditorContainer from './component/editorContainer'
 import ToolMoveBar from './component/toolMoveBar'
 import { css } from 'emotion'
 import 'antd/dist/antd.css'
-const App = function() {
-    return (
-        <div className={css`
-            display: flex;
-            margin: 50px 50px;
-        `}>
+// import Editor from './component/editor'
+class App extends Component {
+    render() {
+        return (
             <div className={css`
-                flex-grow: 0.8;
+                display: flex;
+                margin: 50px 50px;
             `}>
-                <EditorContainer />
+                    {/* <Editor /> */}
+                    <div className={css`
+                        flex-grow: 0.8;
+                    `}>
+                        <EditorContainer />
+                    </div>
+                    <div className={css`
+                        flex-grow: 0.2;
+                        margin-left: 30px;
+                    `}>
+                        <ToolMoveBar />
+                    </div>
             </div>
-            <div className={css`
-                flex-grow: 0.2;
-                margin-left: 30px;
-            `}>
-                <ToolMoveBar />
-            </div>
-        </div>
-    )
+        )
+    }
 }
 
 export default App
