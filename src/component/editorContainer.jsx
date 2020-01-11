@@ -2,72 +2,74 @@ import React, { useState, useCallback } from 'react'
 import { css } from 'emotion'
 import Editor from './editor'
 import update from 'immutability-helper'
-import { Divider } from 'antd';
-// import uniqueId from 'lodash/uniqueId';
-const EditorContainer = props => {
-    let [state, setState] = useState([
-        [{
-            type: 'heading-one',
-            children: [{ text: '1234' }]
-        }],
-        [{
-            type: 'heading-one',
-            children: [{ text: '1234' }]
-        }],
-        [{
-            type: 'heading-one',
-            children: [{ text: '1234' }]
-        }]
-    ])
-
-    /**
-     * 添加分割线
-     * @param {插入state的索引}
-     */
-    const addDivider = useCallback(index => {
-        if(state.includes('Divider')) {
-            console.log(55)
-        } else {
-            if(index <= 0) index = 0
-            if(index >= state.length) index = state.length - 1
-            setState(update(state, {
-                $splice: [[index, 0, 'Divider']]
-            }))
-        }
-    }, [])
-
+import { Divider, Icon } from 'antd';
+import { Draggable, Droppable } from 'react-beautiful-dnd'
+const EditorContainer = ({state, setState}) => {
     return (
-        <div
-            className={css`
-                min-height: 600px;
-                display: block;
-                padding: 50px;
-            `}
-        >
-            {
-                state.map((item, index) => (
-                    typeof item === 'string' ?
-                    <Divider key={index}>here?</Divider>
-                    :
-                    <Editor 
-                        index={index} 
-                        key={index}
-                        value={item}
-                        //修改编辑器的内容函数 
-                        setValue={data => {
-                            setState(update(state, {
-                                [index]: value => update(value, {
-                                    $set: data
-                                })
-                            }))
-                        }} 
-                        //添加分割线
-                        addDivider={addDivider}
-                    />
-                ))
-            }
-        </div>
+        <Droppable droppableId="editor">
+                {
+                    (provided, snapshot) => (
+                        <div
+                            ref={provided.innerRef}
+                            className={css`
+                                min-height: 600px;
+                                display: block;
+                                padding: 50px;
+                            `}
+                        > 
+                            {
+                                state.map((item, index) => (
+                                    typeof item === 'string' ?
+                                    <Divider key={index}>here?</Divider>
+                                    :
+                                    <Draggable
+                                        key={index}
+                                        draggableId={index + ''}
+                                        index={index}
+                                    >
+                                        {
+                                            (providedDraggable, a) => {
+                                                return (
+                                                    <div
+                                                        className={css`
+                                                            display: flex;
+                                                            &:hover span {
+                                                                opacity: 1;
+                                                            }
+                                                        `}
+                                                        ref={providedDraggable.innerRef}
+                                                        {...providedDraggable.draggableProps}
+                                                    >
+                                                        <span
+                                                            className={css`
+                                                                margin-right: 10px;
+                                                                opacity: 0;
+                                                            `}
+                                                            {...providedDraggable.dragHandleProps}
+                                                        ><Icon type="drag" /></span>
+                                                        <Editor
+                                                            key={index}
+                                                            value={item}
+                                                            //修改编辑器的内容函数 
+                                                            setValue={data => {
+                                                                setState(update(state, {
+                                                                    [index]: value => update(value, {
+                                                                        $set: data
+                                                                    })
+                                                                }))
+                                                            }} 
+                                                        />
+                                                    </div>
+                                                )
+                                            }
+                                        }
+                                    </Draggable>
+                                ))
+                            }  
+                        </div>
+                    )
+                }
+        </Droppable>
     )
 }
-
 export default EditorContainer

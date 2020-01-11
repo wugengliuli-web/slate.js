@@ -1,21 +1,22 @@
 import React from 'react'
-import { useDrag } from 'react-dnd'
+import { Draggable } from 'react-beautiful-dnd'
 import { Button } from 'antd'
 
 const SourceBtn = ({ format, text, attrs }) => {
-    const [{ isDragging }, drag] = useDrag({
-        item: {
-            type: format
-        },
-        collect: monitor => ({
-            isDragging: monitor.isDragging()
-        })
-    })
-
     return (
-        <span ref={drag}>
-            <Button {...attrs}>{text}</Button>
-        </span>
+        <Draggable droppableId={'123'}>
+            {
+                provided => (
+                    <span
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        {...provided.dragHandleProps}
+                    >
+                        <Button {...attrs}>{text}</Button>
+                    </span>
+                )
+            }
+        </Draggable>
     )
 } 
 

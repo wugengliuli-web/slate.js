@@ -15,7 +15,7 @@ const ToolMoveBar = props => {
                 }
             `}
         >
-            {
+            {/* {
                 slateItem.map(item => (
                     <SourceBtn 
                         key={item.format}
@@ -24,7 +24,7 @@ const ToolMoveBar = props => {
                         format={item.format}
                     />
                 ))
-            }
+            } */}
         </div>
     )
 }
