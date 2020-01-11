@@ -1,25 +1,10 @@
 import React, { useState } from 'react'
-import { Button } from 'antd'
 import { css } from 'emotion'
-import uniqueId from 'lodash/uniqueId';
-import { ReactSortable } from "react-sortablejs";
-
-
+import SourceBtn from './sourceBtn'
+import btnData from '../lib/btnData'
 const ToolMoveBar = props => {
 
-    const [slateItem, setSlateItem] = useState([{
-        type: "",
-        type: "",
-        text: 'h1',
-        attrs: {},
-        format: 'heading-one'
-    }, {
-        text: 'h2',
-        attrs: {},
-        format: 'heading-two'
-    }])
-
-    console.log("render")
+    const [slateItem, setSlateItem] = useState(btnData)
 
     return (
         <div
@@ -30,21 +15,16 @@ const ToolMoveBar = props => {
                 }
             `}
         >
-            <ReactSortable
-                group = {{
-                    name: 'editor',
-                    pull: 'clone',
-                    put: false
-                }}
-                sort={false}
-                list={slateItem} 
-                setList={setSlateItem}>
-                {
-                    slateItem.map((item, index) => (
-                        <Button key={index}>{item.text}</Button>
-                    ))
-                }
-            </ReactSortable>
+            {
+                slateItem.map(item => (
+                    <SourceBtn 
+                        key={item.format}
+                        attrs={item.attrs}
+                        text={item.text}
+                        format={item.format}
+                    />
+                ))
+            }
         </div>
     )
 }

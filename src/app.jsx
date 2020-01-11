@@ -4,6 +4,8 @@ import ToolMoveBar from './component/toolMoveBar'
 import { css } from 'emotion'
 import 'antd/dist/antd.css'
 // import Editor from './component/editor'
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 class App extends Component {
     render() {
         return (
@@ -11,7 +13,8 @@ class App extends Component {
                 display: flex;
                 margin: 50px 50px;
             `}>
-                    {/* <Editor /> */}
+                <DndProvider backend={Backend}>
+					{/* <Editor /> */}
                     <div className={css`
                         flex-grow: 0.8;
                     `}>
@@ -23,6 +26,7 @@ class App extends Component {
                     `}>
                         <ToolMoveBar />
                     </div>
+				</DndProvider>
             </div>
         )
     }
