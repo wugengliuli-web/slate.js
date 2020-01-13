@@ -1,22 +1,13 @@
 import React from 'react'
-import { Draggable } from 'react-beautiful-dnd'
-import { Button } from 'antd'
-
-const SourceBtn = ({ format, text, attrs }) => {
+import { Tag } from 'antd'
+import { css } from 'emotion'
+const SourceBtn = ({ format, text, attrs, color }) => {
     return (
-        <Draggable droppableId={'123'}>
-            {
-                provided => (
-                    <span
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        {...provided.dragHandleProps}
-                    >
-                        <Button {...attrs}>{text}</Button>
-                    </span>
-                )
-            }
-        </Draggable>
+        <Tag className={css`
+            margin: 5px;
+        `} 
+        color={color}
+        {...attrs}>{text}</Tag>
     )
 } 
 

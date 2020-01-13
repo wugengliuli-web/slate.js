@@ -1,7 +1,7 @@
 import { addImgBlock } from './customEditor'
 import { Editor, Point, Transforms, Range } from 'slate'
 const withCheckList = editor => {
-    const { deleteBackward, deleteFragment } = editor
+    const { deleteBackward } = editor
     //一个一个删除
     editor.deleteBackward = (...args) => {
         const { selection } = editor
@@ -40,7 +40,6 @@ const withImage = editor => {
     }
 
     editor.insertData = data => {
-        // const text = data.getData('text/plain')
         const { files } = data
         if (files && files.length > 0) {
             for (const file of files) {
@@ -52,7 +51,6 @@ const withImage = editor => {
                         const url = reader.result
                         addImgBlock(editor, url)
                     })
-
                     reader.readAsDataURL(file)
                 }
             }

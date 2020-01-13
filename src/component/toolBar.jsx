@@ -149,9 +149,17 @@ const createMenu = editor => {
 const ToolBar = ({editor}) => {
     return (
         <div className={css`
+            width: calc(100% - 300px);
+            height: 50px;
+            overflow: auto;
+            white-space:nowrap;
             margin-bottom: 50px;
+            position: fixed;
+            top: 60px;
+            left: 0;
             & > button {
-                margin: 5px 5px;
+                margin: 0 3px;
+                padding: 8px;
             }
         `}>
             <MarkButton
@@ -185,18 +193,6 @@ const ToolBar = ({editor}) => {
                 format="code"
             />
             <BlockButton
-                icon="tag"
-                text="标题1"
-                editor={editor}
-                format="heading-one"
-            />
-            <BlockButton
-                icon="tag"
-                text="标题2"
-                editor={editor}
-                format="heading-two"
-            />
-            <BlockButton
                 icon="copy"
                 text="块引用"
                 editor={editor}
@@ -213,12 +209,6 @@ const ToolBar = ({editor}) => {
                 text="符号列表"
                 editor={editor}
                 format="bulleted-list"
-            />
-            <AddButton 
-                icon="file-image"
-                text="添加图片"
-                editor={editor}
-                click={addImgBlock}
             />
             <BlockButton
                 icon="check"

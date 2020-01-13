@@ -1,67 +1,91 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useMemo } from 'react'
 import EditorContainer from './component/editorContainer'
 import ToolMoveBar from './component/toolMoveBar'
 import { css } from 'emotion'
 import 'antd/dist/antd.css'
 import { DragDropContext } from 'react-beautiful-dnd';
-import update from 'immutability-helper'
+import updata from 'immutability-helper'
+import './scss/index.scss'
+import { createEditor } from 'slate'
+import { withReact } from 'slate-react'
+import { withWrapper } from './lib/with'
+import uniqueId from 'lodash/uniqueId';
 const App = props =>  {
-    let [state, setState] = useState([
-        [{
-            type: 'heading-one',
-            children: [{ text: '这是0' }]
-        }],
-        [{
-            type: 'heading-two',
-            children: [{ text: '这是1' }]
-        }],
-        [{
-            type: 'heading-one',
-            children: [{ text: '这是2' }]
-        }]
-    ])
-
-    let onDragEnd = useCallback(info => {
-        let newIndex = info.destination.index
-        let oldIndex = info.source.index
-        let newState = state.concat()
-        newState = update(state, {
-            [oldIndex]: val => update(val, {
-                $set: state[newIndex]
-            }),
-            [newIndex]: val => update(val, {
-                $set: state[oldIndex]
-            })
-        })
-        console.log(oldIndex, newIndex)
-        newState.forEach(item => {
-            console.log(item[0].children[0])
-        })
-        setState(newState)
-    }, []) 
+    const editor = useMemo(() => withReact(withWrapper(createEditor())), [])
+    let [state, setState] = useState([])
+    let onDragEnd = info => {
+        const { source, destination } = info
+        if (!destination) {
+            return;
+        }
+        //如果是在编辑区域的拖动
+        if(destination.droppableId === 'editor' && source.droppableId === 'editor') {
+            let newIndex = destination.index
+            let oldIndex = source.index
+            /**
+             * 先提取出原本位置的元素
+             * 后插入新的位置
+             */
+            //提取原本位置的元素
+            let newState = Array.from(state)
+            let [oldEl] = newState.splice(oldIndex, 1)
+            newState.splice(newIndex, 0, oldEl)
+            setState(newState)
+        } else {
+            //如果是拖动块状产生编辑器的
+            let { draggableId } = info
+            let { index } = destination
+            setState(updata(state, {
+                $splice: [[index, 0, {
+                    editor,
+                    id: uniqueId(),
+                    isShowToolBar: false,
+                    content: [{
+                        type: draggableId,
+                        children: [{ text: '' }]
+                    }]
+                }]]
+            }))
+        }
+    }
 
     return (
         <div className={css`
-            display: flex;
-            margin: 50px 50px;
+            width: 100%;
+            height: 100%;
         `}>
+            <div className={css`
+                width: 100%;
+                height: 60px;
+                line-height: 60px;
+                text-align: center;
+            `}>账户信息</div>
             <DragDropContext
                 onDragEnd={onDragEnd}
             >
-                {/* <Editor /> */}
                 <div className={css`
-                    flex-grow: 0.8;
+                    height: calc(100% - 60px);
+                    width: 100%;
+                    position: relative;
                 `}>
-                    <EditorContainer
-                        state={state}
-                        setState={setState}
-                    />
-                </div>
-                <div className={css`
-                    flex-grow: 0.2;
-                    margin-left: 30px;
-                `}>
-                    <ToolMoveBar />
+                    <div className={css`
+                        margin-right: 300px;
+                        height: 100%;
+                    `}>
+                        <EditorContainer
+                            state={state}
+                            setState={setState}
+                        />
+                    </div>
+                    <div className={css`
+                        width: 300px;
+                        height: 100%;
+                        position: absolute;
+                        right: 0;
+                        top: 0px;
+                    `}>
+                        <ToolMoveBar />
+                    </div>
                 </div>
             </DragDropContext>
         </div>

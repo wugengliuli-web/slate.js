@@ -1,39 +1,46 @@
-import React, { useRef, useMemo, useCallback } from 'react'
-import { Slate, withReact, Editable } from 'slate-react'
-import { createEditor } from 'slate'
-import ToolBar from './toolBar'
+import React, { useCallback, useRef } from 'react'
+import { Slate, Editable } from 'slate-react'
 import { css } from 'emotion'
 import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
-import { withWrapper } from '../lib/with'
-import btnData from '../lib/btnData'
-const Editor = ({value, setValue}) => {
-    // let [value, setValue] = useState([{
-    //     type: 'heading-one',
-    //     children: [{ text: '123' }]
-    // }])
-    const editor = useMemo(() => withReact(withWrapper(createEditor())), [])
+const Editor = ({value, setValue, readOnly, editor}) => {
+    let el = useRef(null)
     const renderElement = useCallback(props => <Element {...props} />, [])
+    const onDOMBeforeInput = e => {
+        
+    }
     return (
         <div
+            ref={el}
             className={css`
-                width: 800px;
-                margin: 0 auto;
+                width: 716px;
+                box-sizing: border-box;
+                transition: all 0.3s;
+                margin: 5px 0;
+                padding: 5px;
+                border: 1px solid #fff;
+                &:hover {
+                    border: ${readOnly ? 'border: 1px solid #fff;' : '1px solid #bee1c7'};
+                }
             `}
+            
         >
             <Slate
                 editor={editor}
                 value={value}
                 onChange={value => {
-                    setValue(value)
+                    let dom = el.current.firstChild
+                    if(dom === document.activeElement) {
+                        setValue(value, true)
+                    } else {
+                        setValue(value, false)
+                    }
                 }}
             >
-                {/* <ToolBar
-                    editor={editor}
-                /> */}
                 <Editable
-                
-                    autoFocus
+                    onDOMBeforeInput={onDOMBeforeInput}
+                    readOnly={readOnly}
+                    placeholder="在此编辑内容"
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                 />

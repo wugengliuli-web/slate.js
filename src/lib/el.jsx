@@ -6,7 +6,7 @@ import {
     ReactEditor
 } from 'slate-react'
 import { Transforms } from 'slate'
-import { Checkbox } from 'antd'
+import { Checkbox, Upload, Icon, message } from 'antd'
 export const BlockQuote = ({ attributes, children, element }) => {
     return (
         <blockquote {...attributes}
@@ -96,7 +96,7 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
     const { checked } = element
     return (
         <div
-            
+
             className={css`
                 flex-direction: row;
                 align-items: center;
@@ -104,7 +104,7 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
                     margin-top: 0;
                 }
             `}
-            >
+        >
             <span
                 contentEditable={false}
                 className={css`
@@ -137,9 +137,33 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
                         outline: none;
                     }
                 `}
-                >
+            >
                 {children}
             </span>
         </div>
+    )
+}
+
+
+export const UploadImg = ({ attributes, children, element }) => {
+    const { Dragger } = Upload;
+    const props = {
+        name: 'file',
+        multiple: true,
+        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        onChange(info) {
+            const { status } = info.file;
+            if (status !== 'uploading') {
+                console.log(info.file, info.fileList)
+            }
+            if (status === 'done') {
+                message.success(`上传成功`)
+            } else if (status === 'error') {
+                message.error(`上传失败`)
+            }
+        }
+    }
+    return (
+        <div>aaa</div>
     )
 }

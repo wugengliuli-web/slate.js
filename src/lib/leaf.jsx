@@ -8,10 +8,10 @@ export const renderLeaf = ({ attributes, children, leaf }) => {
 	if (leaf.code) {
 		children = <code
 			className={css`
-          font-family: monospace;
-          background-color: #eee;
-          padding: 3px;
-        `}
+				font-family: monospace;
+				background-color: #eee;
+				padding: 3px;
+			`}
 		>{children}</code>
 	}
 
