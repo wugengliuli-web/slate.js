@@ -9,9 +9,9 @@ import './scss/index.scss'
 import { createEditor } from 'slate'
 import { withReact } from 'slate-react'
 import { withWrapper } from './lib/with'
-import uniqueId from 'lodash/uniqueId';
+import uniqueId from 'lodash/uniqueId'
 const App = props =>  {
-    const editor = useMemo(() => withReact(withWrapper(createEditor())), [])
+    let editor = useMemo(() => withReact(withWrapper(createEditor())))
     let [state, setState] = useState([])
     let onDragEnd = info => {
         const { source, destination } = info

@@ -31,8 +31,6 @@ const EditorContainer = ({state, setState}) => {
                                     state.map((item, index) => {
                                         return (
                                             <div key={item.id}>
-                                                {item.isShowToolBar}
-                                            
                                                 {item.isShowToolBar ? <ToolBar editor={item.editor} /> : null}
                                                 <Draggable
                                                     key={index}
@@ -49,6 +47,7 @@ const EditorContainer = ({state, setState}) => {
                                                                         &:hover > span {
                                                                             opacity: ${snapshot.isDraggingOver ? '0' : '1'}
                                                                         }
+                                                                        opacity: ${snapshotDraggable.isDragging ? '0.5' : '1'}
                                                                     `}
                                                                     ref={providedDraggable.innerRef}
                                                                     {...providedDraggable.draggableProps}

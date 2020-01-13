@@ -5,6 +5,12 @@ const SourceBtn = ({ format, text, attrs, color }) => {
     return (
         <Tag className={css`
             margin: 5px;
+            width: 120px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 20px;
+            cursor: move;
         `} 
         color={color}
         {...attrs}>{text}</Tag>
