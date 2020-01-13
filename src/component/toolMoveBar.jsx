@@ -17,6 +17,13 @@ const ToolMoveBar = props => {
                 {
                     (provided, snapshot) => (
                         <div
+                            className={css`
+                                & > span {
+                                    line-height: 50px;
+                                    font-size: 36px;
+                                    user-select: none;
+                                }
+                            `}  
                             ref={provided.innerRef}
                         >
                             {
@@ -30,9 +37,9 @@ const ToolMoveBar = props => {
                                             (providedDraggable, snapshotDraggable) => {
                                                 return (
                                                     <>
-                                                        <span
-                                                            {...providedDraggable.dragHandleProps}
+                                                        <span                                                   
                                                             {...providedDraggable.draggableProps}
+                                                            {...providedDraggable.dragHandleProps}
                                                             ref={providedDraggable.innerRef}
                                                         >
                                                             <SourceBtn

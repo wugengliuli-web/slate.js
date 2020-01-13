@@ -17,6 +17,7 @@ export const BlockQuote = ({ attributes, children, element }) => {
             padding-left: 10px;
             color: #aaa;
             font-style: italic;
+            margin: 0;
         `}
         >{children}</blockquote>
     )
@@ -70,7 +71,6 @@ export const Image = ({ attributes, children, element }) => {
                 <img
                     className={css`
                         max-width: 100%;
-                        ${'' /* display: block; */}
                     `}
                     alt=""
                     src={element.url}

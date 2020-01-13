@@ -30,7 +30,7 @@ const Editor = ({value, setValue, readOnly, editor}) => {
                 value={value}
                 onChange={value => {
                     let dom = el.current.firstChild
-                    if(dom === document.activeElement) {
+                    if(document.activeElement === dom) {
                         setValue(value, true)
                     } else {
                         setValue(value, false)

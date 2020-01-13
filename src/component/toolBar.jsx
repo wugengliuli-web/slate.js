@@ -1,8 +1,9 @@
 import React from 'react'
 import { css } from 'emotion'
-import { Button, Menu, Dropdown } from 'antd'
+import { Button, Menu, Dropdown, Tag } from 'antd'
 import { Editor, Transforms, Text } from 'slate'
 import { addImgBlock } from '../lib/customEditor'
+import { fontColor, fontSize, fontLineHeight, fontBackgroundColor } from '../lib/fontStyle'
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const isMarkActive = (editor, format) => {
     const marks = Editor.marks(editor)
@@ -43,7 +44,6 @@ const toggleBlock = (editor, format) => {
       const block = { type: format, children: [] }
       Transforms.wrapNodes(editor, block)
     }
-    console.log(editor)
 }
 
 const MarkButton = ({ editor, text, format, icon }) => {
@@ -64,23 +64,6 @@ const BlockButton = ({ editor, text, format, icon }) => {
     )
 }
 
-const AddButton = ({ editor, text, icon, click }) => {
-    return (
-        <Button
-            icon={icon}
-        >
-            {text}
-            <input className={css`
-                opacity: 0;
-                width: 110px;
-                position: absolute;
-                left: 0;
-                top: 0;
-                height: 100%;
-            `} type="file" onChange={e => click(e, editor)}></input>
-        </Button>
-    )
-}
 
 const toggleBlockStyle = (editor, changeStyle) => {
     Transforms.setNodes(editor, {
@@ -97,8 +80,7 @@ const StyleBlockButton = ({ editor, text, changeStyle, icon }) => {
     )
 }
 
-const toggleMarkStyle = (editor, changeStyle) => {
-    
+const setMarkStyle = (editor, changeStyle) => {
     Transforms.setNodes(
         editor, 
         { ...changeStyle },
@@ -106,42 +88,112 @@ const toggleMarkStyle = (editor, changeStyle) => {
     )
 }
 
-const StyleMarkButton = ({ editor, text, changeStyle, icon }) => {
+const StyleMarkButton = ({ color, editor, changeStyle}) => {
     return (
-        <Button
-            icon={icon}
-            onClick={e => toggleMarkStyle(editor, changeStyle)}
-        >{text}</Button>
+        <div
+            className={css`
+                background: ${color};
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+            `}
+            color={color}
+            onClick={e => setMarkStyle(editor, changeStyle)}
+        ></div>
     )
 }
 
 
-const createMenu = editor => {
+const setBlockStyle = (editor, changeStyle) => {
+    Transforms.setNodes(editor, {
+        style: changeStyle
+    })
+}
+
+const createMenuFontColor = editor => {
     return (
         <Menu>
-            <Menu.Item>
-                <StyleMarkButton
-                    text="红色"
-                    editor={editor}
-                    changeStyle={{
-                        color: 'red'
-                    }}
-                />
-                <StyleMarkButton
-                    text="蓝色"
-                    editor={editor}
-                    changeStyle={{
-                        color: 'blue'
-                    }}
-                />
-                <StyleMarkButton
-                    text="黑色"
-                    editor={editor}
-                    changeStyle={{
-                        color: 'black'
-                    }}
-                />
-            </Menu.Item>
+            {
+                fontColor.map((item, index) => (
+                    <Menu.Item key={index}>
+                        <StyleMarkButton
+                            editor={editor}
+                            color={item}
+                            changeStyle={{
+                                color: item
+                            }}
+                        />
+                    </Menu.Item>
+                ))        
+            }
+            
+        </Menu>
+    )
+} 
+
+const createMenuFontSize = editor => {
+    return (
+        <Menu>
+            {
+                fontSize.map((item, index) => (
+                    <Menu.Item key={index}>
+                        <div
+                            className={css`
+                                text-align: center;
+                                height: 20px;
+                                line-height: 20px;
+                                font-size: 16px;
+                            `}
+                            onClick={e => setBlockStyle(editor, { fontSize: item })}
+                        >{item}</div>
+                    </Menu.Item>
+                ))
+            }
+        </Menu>
+    )
+}
+
+
+const createMenuFontLineHeight = editor => {
+    return (
+        <Menu>
+            {
+                fontLineHeight.map((item, index) => (
+                    <Menu.Item key={index}>
+                        <div
+                            className={css`
+                                text-align: center;
+                                height: 20px;
+                                line-height: 20px;
+                                font-size: 16px;
+                            `}
+                            onClick={e => setBlockStyle(editor, { lineHeight: item })}
+                        >{item}</div>
+                    </Menu.Item>
+                ))
+            }
+        </Menu>
+    )
+}
+
+
+const createMenuFontBGcolor = editor => {
+    return (
+        <Menu>
+            {
+                fontBackgroundColor.map((item, index) => (
+                    <Menu.Item key={index}>
+                        <StyleMarkButton
+                            editor={editor}
+                            color={item}
+                            changeStyle={{
+                                bgColor: item
+                            }}
+                        />
+                    </Menu.Item>
+                ))        
+            }
+            
         </Menu>
     )
 } 
@@ -157,6 +209,8 @@ const ToolBar = ({editor}) => {
             position: fixed;
             top: 60px;
             left: 0;
+            display: flex;
+            justify-content: center;
             & > button {
                 margin: 0 3px;
                 padding: 8px;
@@ -186,18 +240,6 @@ const ToolBar = ({editor}) => {
                 editor={editor}
                 format="underline"
             />
-            <MarkButton
-                icon="code"
-                text="代码块"
-                editor={editor}
-                format="code"
-            />
-            <BlockButton
-                icon="copy"
-                text="块引用"
-                editor={editor}
-                format="block-quote"
-            />
             <BlockButton
                 icon="ordered-list"
                 text="数字列表"
@@ -225,7 +267,7 @@ const ToolBar = ({editor}) => {
                 }}
             />
             <StyleBlockButton 
-                icon="align-center"
+                icon="align-right"
                 text="文字靠右"
                 editor={editor}
                 changeStyle={{
@@ -233,15 +275,46 @@ const ToolBar = ({editor}) => {
                 }}
             />
             <StyleBlockButton 
-                icon="align-center"
+                icon="align-left"
                 text="文字靠左"
                 editor={editor}
                 changeStyle={{
                     textAlign: 'left'
                 }}
             />
-            <Dropdown overlay={createMenu(editor)} placement="bottomLeft">
+            <Dropdown
+                overlayClassName={css`
+                    & .ant-dropdown-menu {
+                        display: flex;
+                        max-width: 220px;
+                        flex-wrap: wrap;
+                    }
+                `}
+                overlay={createMenuFontColor(editor)} 
+            >
                 <Button icon="font-colors">文字颜色</Button>
+            </Dropdown>
+            <Dropdown
+                overlay={createMenuFontSize(editor)} 
+            >
+                <Button icon="font-size">文字大小</Button>
+            </Dropdown>
+            <Dropdown
+                overlay={createMenuFontLineHeight(editor)} 
+            >
+                <Button icon="line-height">文字行高</Button>
+            </Dropdown>
+            <Dropdown
+                overlayClassName={css`
+                    & .ant-dropdown-menu {
+                        display: flex;
+                        max-width: 220px;
+                        flex-wrap: wrap;
+                    }
+                `}
+                overlay={createMenuFontBGcolor(editor)} 
+            >
+                <Button icon="bg-colors">文字背景颜色</Button>
             </Dropdown>
         </div>
     )

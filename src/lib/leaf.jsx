@@ -5,16 +5,6 @@ export const renderLeaf = ({ attributes, children, leaf }) => {
 		children = <strong>{children}</strong>
 	}
 
-	if (leaf.code) {
-		children = <code
-			className={css`
-				font-family: monospace;
-				background-color: #eee;
-				padding: 3px;
-			`}
-		>{children}</code>
-	}
-
 	if (leaf.italic) {
 		children = <em>{children}</em>
 	}
@@ -28,20 +18,16 @@ export const renderLeaf = ({ attributes, children, leaf }) => {
 	}
 
 	if (leaf.color) {
-		switch (leaf.color) {
-			case 'red':
-				children = <span className={css`
-					color: red
+		children = <span className={css`
+					color: ${leaf.color}
 				`}>{children}</span>
-			case 'black':
-				children = <span className={css`
-					color: black
-				`}>{children}</span>
-			case 'blue':
-				children = <span className={css`
-					color: blue
-				`}>{children}</span>
-		}
 	}
+
+	if (leaf.bgColor) {
+		children = <span className={css`
+					background-color: ${leaf.bgColor}
+				`}>{children}</span>
+	}
+
 	return <span {...attributes}>{children}</span>
 }

@@ -14,4 +14,8 @@ export default [{
     text: 'Image',
     attrs: {},
     format: 'addImage'
+}, {
+    text: 'Quote',
+    attrs: {},
+    format: 'block-quote'
 }]
