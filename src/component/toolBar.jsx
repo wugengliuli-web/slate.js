@@ -258,6 +258,14 @@ const ToolBar = ({editor}) => {
                 editor={editor}
                 format="check-list-item"
             />
+            <StyleBlockButton
+                icon="menu-unfold"
+                text="缩进"
+                editor={editor}
+                changeStyle={{
+                    textIndent: '2em'
+                }}
+            />
             <StyleBlockButton 
                 icon="align-center"
                 text="文字居中"
