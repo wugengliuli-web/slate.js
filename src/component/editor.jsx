@@ -5,7 +5,7 @@ import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
 const Editor = ({value, setValue, readOnly, editor}) => {
     let el = useRef(null)
-    const renderElement = useCallback(props => <Element {...props} />, [])
+    const renderElement = useCallback(props => <Element editor={editor} {...props} />, [])
     const onDOMBeforeInput = e => {
         
     }

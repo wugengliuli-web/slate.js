@@ -22,10 +22,9 @@ export const renderLeaf = ({ attributes, children, leaf }) => {
 					color: ${leaf.color}
 				`}>{children}</span>
 	}
-
-	if (leaf.bgColor) {
+	if (leaf.background) {
 		children = <span className={css`
-					background-color: ${leaf.bgColor}
+					background-color: ${leaf.background}
 				`}>{children}</span>
 	}
 

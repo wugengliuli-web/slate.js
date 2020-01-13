@@ -7,6 +7,7 @@ import {
 } from 'slate-react'
 import { Transforms } from 'slate'
 import { Checkbox, Upload, Icon, message } from 'antd'
+import { addImgBlock } from './customEditor'
 export const BlockQuote = ({ attributes, children, element }) => {
     return (
         <blockquote {...attributes}
@@ -62,6 +63,7 @@ export const NumberedList = ({ attributes, children, element }) => {
 }
 
 export const Image = ({ attributes, children, element }) => {
+    console.log(555)
     const { style } = element
     return (
         <div {...attributes}>
@@ -144,12 +146,13 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
     )
 }
 
-
-export const UploadImg = ({ attributes, children, element }) => {
+//上传图片的按钮
+export const UploadImg = ({ attributes, children, element, editor }) => {
     const { Dragger } = Upload;
     const props = {
         name: 'file',
-        multiple: true,
+        multiple: false,
+        showUploadList: false,
         action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
         onChange(info) {
             const { status } = info.file;
@@ -161,9 +164,42 @@ export const UploadImg = ({ attributes, children, element }) => {
             } else if (status === 'error') {
                 message.error(`上传失败`)
             }
+        },
+        customRequest(info) {
+            //上传之前对图片的类型大小做判断
+            let { file } = info
+            let { size, type } = file
+            let reg = new RegExp(/jpeg|jpg|png$/, 'i')
+            if(!reg.test(type)) {
+                message.error('文件类型错误')
+                return
+            }
+            if(size > 10 * 1024 * 1024) {
+                message.error('文件过大')
+                return
+            }
+            /**
+             * 一系列的上传操作,省略
+             */
+            let fr = new FileReader()
+            fr.readAsDataURL(file)
+            fr.onload = function() {
+                let url = fr.result
+                addImgBlock(editor, url)
+            }
         }
     }
     return (
-        <div>aaa</div>
+        <div>
+            <Dragger {...props}>
+                <p className="ant-upload-drag-icon">
+                <Icon type="inbox" />
+                </p>
+                <p className="ant-upload-text">点击上传图片</p>
+                <p className="ant-upload-hint">
+                大小不超过10MB
+                </p>
+            </Dragger>
+        </div>
     )
 }

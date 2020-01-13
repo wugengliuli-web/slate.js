@@ -36,3 +36,12 @@ export const fontBackgroundColor = [
     '#cb99c5',
     '#000000'
 ]
+
+//缩进
+export const fontIndent = [
+    '0px',
+    '28px',
+    '56px',
+    '84px',
+    '112px'
+]

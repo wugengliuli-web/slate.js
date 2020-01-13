@@ -1,9 +1,14 @@
 import React from 'react'
 import { css } from 'emotion'
-import { Button, Menu, Dropdown, Tag } from 'antd'
+import { Button, Menu, Dropdown } from 'antd'
 import { Editor, Transforms, Text } from 'slate'
-import { addImgBlock } from '../lib/customEditor'
-import { fontColor, fontSize, fontLineHeight, fontBackgroundColor } from '../lib/fontStyle'
+import { 
+    fontColor, 
+    fontSize, 
+    fontLineHeight, 
+    fontBackgroundColor,
+    fontIndent 
+} from '../lib/fontStyle'
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const isMarkActive = (editor, format) => {
     const marks = Editor.marks(editor)
@@ -64,14 +69,36 @@ const BlockButton = ({ editor, text, format, icon }) => {
     )
 }
 
+const isBlockStyleActive = (editor, style) => {
+    const [match] = Editor.nodes(editor, {
+      match: n => n.style && style in n.style
+    })
+    return !!match
+}
 
 const toggleBlockStyle = (editor, changeStyle) => {
-    Transforms.setNodes(editor, {
-        style: changeStyle
-    })
+    const isActive = isBlockStyleActive(editor, Object.keys(changeStyle)[0])
+    if(isActive) {
+        Transforms.setNodes(editor, {
+            style: {}
+        })
+    } else {
+        Transforms.setNodes(editor, {
+            style: changeStyle
+        })
+    }
 }
 
 const StyleBlockButton = ({ editor, text, changeStyle, icon }) => {
+    return (
+        <Button
+            icon={icon}
+            onClick={e => setBlockStyle(editor, changeStyle)}
+        >{text}</Button>
+    )
+}
+
+const StyleBlockButtonToggle = ({ editor, text, changeStyle, icon }) => {
     return (
         <Button
             icon={icon}
@@ -105,8 +132,13 @@ const StyleMarkButton = ({ color, editor, changeStyle}) => {
 
 
 const setBlockStyle = (editor, changeStyle) => {
+    let [,nodes] = Editor.nodes(editor)
+    let style = nodes[0].style || {}
     Transforms.setNodes(editor, {
-        style: changeStyle
+        style: {
+            ...style,
+            ...changeStyle
+        }
     })
 }
 
@@ -187,7 +219,7 @@ const createMenuFontBGcolor = editor => {
                             editor={editor}
                             color={item}
                             changeStyle={{
-                                bgColor: item
+                                background: item
                             }}
                         />
                     </Menu.Item>
@@ -197,6 +229,30 @@ const createMenuFontBGcolor = editor => {
         </Menu>
     )
 } 
+
+const createMenuFontIndent = editor => {
+    return (
+        <Menu>
+            {
+                fontIndent.map((item, index) => (
+                    <Menu.Item key={index}>
+                        <div
+                            className={css`
+                                text-align: center;
+                                height: 20px;
+                                line-height: 20px;
+                                font-size: 16px;
+                            `}
+                            onClick={e => setBlockStyle(editor, { paddingLeft: item })}
+                        >{item}</div>
+                    </Menu.Item>
+                ))        
+            }
+            
+        </Menu>
+    )
+} 
+
 
 const ToolBar = ({editor}) => {
     return (
@@ -258,14 +314,11 @@ const ToolBar = ({editor}) => {
                 editor={editor}
                 format="check-list-item"
             />
-            <StyleBlockButton
-                icon="menu-unfold"
-                text="缩进"
-                editor={editor}
-                changeStyle={{
-                    textIndent: '2em'
-                }}
-            />
+            <Dropdown
+                overlay={createMenuFontIndent(editor)} 
+            >
+                <Button icon="menu-unfold">文字缩进</Button>
+            </Dropdown>
             <StyleBlockButton 
                 icon="align-center"
                 text="文字居中"

@@ -29,6 +29,8 @@ const EditorContainer = ({state, setState}) => {
                             > 
                                 {
                                     state.map((item, index) => {
+                                        let { content } = item
+                                        let type = content[0].type
                                         return (
                                             <div key={item.id}>
                                                 {item.isShowToolBar ? <ToolBar editor={item.editor} /> : null}
@@ -39,6 +41,7 @@ const EditorContainer = ({state, setState}) => {
                                                 >
                                                     {
                                                         (providedDraggable, snapshotDraggable) => {
+                                                            console.log(snapshot.isDraggingOver, type)
                                                             return (
                                                                 <div
                                                                     className={css`

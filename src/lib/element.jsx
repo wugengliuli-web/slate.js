@@ -8,7 +8,8 @@ import {
 	NumberedList,
 	Image,
 	DefaultEl,
-	CheckListItemElement
+	CheckListItemElement,
+	UploadImg
 } from './el'
 
 
@@ -31,6 +32,10 @@ export const Element = props => {
 			return <Image {...props} />
 		case 'check-list-item':
 			return <CheckListItemElement {...props} />
+		case 'addImage':
+			return <UploadImg {...props} />
+		case 'img':
+			return <Image {...props} />
 		default:
 			return <DefaultEl {...props} />
 	}
