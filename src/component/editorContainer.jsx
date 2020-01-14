@@ -6,6 +6,7 @@ import { Icon } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ToolBar from './toolBar'
 import { UploadImg } from '../lib/el'
+import { ReactEditor } from 'slate-react'
 const EditorContainer = ({ state, setState }) => {
     return (
         <div className={css`
@@ -75,13 +76,10 @@ const EditorContainer = ({ state, setState }) => {
                                                                                 className={css`
                                                                                 width: 716px;
                                                                                 box-sizing: border-box;
-                                                                                transition: all 0.3s;
+                                                                                transition: all 0.15s;
                                                                                 margin: 5px 0;
                                                                                 padding: 5px;
-                                                                                border: 1px solid rgb(255,255,255,0);
-                                                                                &:hover {
-                                                                                    border: ${snapshot.isDraggingOver ? 'border: 1px solid rgb(255,255,255,0);' : '1px solid #bee1c7'};
-                                                                                }
+                                                                                box-shadow: ${ReactEditor.isFocused(item.editor) ? '0 0 0 1px #bee1c7' : 'none'};
                                                                             `}
                                                                             >
                                                                                 <UploadImg editor={item.editor} state={state} index={index} setState={setState} />

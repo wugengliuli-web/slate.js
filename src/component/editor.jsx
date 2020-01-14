@@ -16,13 +16,10 @@ const Editor = ({value, setValue, readOnly, editor}) => {
             className={css`
                 width: 716px;
                 box-sizing: border-box;
-                transition: all 0.3s;
+                transition: all 0.15s;
                 margin: 5px 0;
                 padding: 5px;
-                border: 1px solid rgb(255,255,255,0);
-                &:hover {
-                    border: ${readOnly ? 'border: 1px solid rgb(255,255,255,0);' : '1px solid #bee1c7'};
-                }
+                box-shadow: ${ReactEditor.isFocused(editor) ? '0 0 0 1px #bee1c7' : 'none'};
             `}
             
         >

@@ -9,7 +9,7 @@ import {
 } from 'slate-react'
 import { Transforms } from 'slate'
 import { Checkbox, Upload, Icon, message } from 'antd'
-import { addImgBlock, reImgSize } from './customEditor'
+import { addImgBlock, reImgSize, startReImgSize, endReImgSize } from './customEditor'
 export const BlockQuote = ({ attributes, children, element }) => {
     return (
         <blockquote {...attributes}
@@ -65,20 +65,29 @@ export const NumberedList = ({ attributes, children, element }) => {
 }
 
 export const Image = ({ attributes, children, element, editor }) => {
-    const selected = useSelected()
     const focused = useFocused()
-    const { style } = element
+    const { style, directionInfo } = element
     const { textAlign, width } = style
     return (
-        <div {...attributes} contentEditable={false}>
+        <div
+        className={css`
+            z-index: 999;
+        `} 
+        onMouseUp={e => endReImgSize(editor)}
+        onMouseMove={e => reImgSize(e, editor, style, directionInfo)}
+        {...attributes} 
+        contentEditable={false}
+        >
             <div 
                 className={css`
+                    z-index: 999;
                     padding: 5px;
                     text-align: ${textAlign};
                 `}
                 contentEditable={false}
             >
-                <div className={css`
+                <div 
+                className={css`
                     position: relative;
                     display: inline-block;
                     max-width: 100%;
@@ -89,40 +98,52 @@ export const Image = ({ attributes, children, element, editor }) => {
                         z-index: 10;
                         border-radius: 50%;
                         background: #2981f8;
-                        opacity: ${selected && focused ? '1' : '0'}
+                        opacity: ${focused ? '1' : '0'}
                     }
                 `}>
                     <img
                         draggable={false}
                         className={css`
                             user-select: none;
-                            box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
+                            box-shadow: ${focused ? '0 0 0 3px #B4D5FF' : 'none'};
                             max-width: 100%;
                             ${width ? 'width:' + width + 'px' : ''}
                         `}
                         alt=""
                         src={element.url}
                     />
-                    <div className={css`
+                    <div 
+                    className={css`
                         top: -5px;
                         left: -5px;
                         cursor: nw-resize;
-                    `} onMouseDown={e => reImgSize(e, editor, style, 'top-left')} />
-                    <div className={css`
+                    `} 
+                    onMouseDown={e => startReImgSize(e, editor, 'top-left')}
+                    />
+                    <div 
+                    className={css`
                         top: -5px;
                         right: -5px;
                         cursor: ne-resize;
-                    `}/>
-                    <div className={css`
+                    `}
+                    onMouseDown={e => startReImgSize(e, editor, 'top-right')} 
+                    />
+                    <div 
+                    className={css`
                         bottom: -3px;
                         left: -5px;
                         cursor: sw-resize;
-                    `}/>
-                    <div className={css`
+                    `}
+                    onMouseDown={e => startReImgSize(e, editor, 'bottom-left')} 
+                    />
+                    <div 
+                    className={css`
                         bottom: -3px;
                         right: -5px;
                         cursor: se-resize;
-                    `}/>
+                    `}
+                    onMouseDown={e => startReImgSize(e, editor, 'bottom-right')} 
+                    />
                     </div>
             </div>
             {children}
