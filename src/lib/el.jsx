@@ -9,7 +9,7 @@ import {
 } from 'slate-react'
 import { Transforms } from 'slate'
 import { Checkbox, Upload, Icon, message } from 'antd'
-import { addImgBlock } from './customEditor'
+import { addImgBlock, reImgSize } from './customEditor'
 export const BlockQuote = ({ attributes, children, element }) => {
     return (
         <blockquote {...attributes}
@@ -64,28 +64,66 @@ export const NumberedList = ({ attributes, children, element }) => {
     return <ol {...attributes}>{children}</ol>
 }
 
-export const Image = ({ attributes, children, element }) => {
+export const Image = ({ attributes, children, element, editor }) => {
     const selected = useSelected()
     const focused = useFocused()
+    const { style } = element
+    const { textAlign, width } = style
     return (
-        <div {...attributes}>
+        <div {...attributes} contentEditable={false}>
             <div 
                 className={css`
                     padding: 5px;
+                    text-align: ${textAlign};
                 `}
                 contentEditable={false}
             >
-                <img
-                    className={css`
-                        box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
-                        margin: 0 auto;
-                        display: block;
-                        max-width: 100%;
-                        max-height: 20rem;
-                    `}
-                    alt=""
-                    src={element.url}
-                />
+                <div className={css`
+                    position: relative;
+                    display: inline-block;
+                    max-width: 100%;
+                    & > div {
+                        position: absolute;
+                        width: 8px;
+                        height: 8px;
+                        z-index: 10;
+                        border-radius: 50%;
+                        background: #2981f8;
+                        opacity: ${selected && focused ? '1' : '0'}
+                    }
+                `}>
+                    <img
+                        draggable={false}
+                        className={css`
+                            user-select: none;
+                            box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
+                            max-width: 100%;
+                            ${width ? 'width:' + width + 'px' : ''}
+                        `}
+                        alt=""
+                        src={element.url}
+                    />
+                    <div className={css`
+                        top: -5px;
+                        left: -5px;
+                        cursor: nw-resize;
+                    `} onMouseDown={e => reImgSize(e, editor, style, 'top-left')} />
+                    <div className={css`
+                        top: -5px;
+                        right: -5px;
+                        cursor: ne-resize;
+                    `}/>
+                    <div className={css`
+                        bottom: -3px;
+                        left: -5px;
+                        cursor: sw-resize;
+                    `}/>
+                    <div className={css`
+                        bottom: -3px;
+                        right: -5px;
+                        cursor: se-resize;
+                    `}/>
+                    </div>
             </div>
             {children}
         </div>

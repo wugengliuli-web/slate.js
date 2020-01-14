@@ -1,5 +1,11 @@
 import { addImgBlock } from './customEditor'
 import { Editor, Point, Transforms, Range } from 'slate'
+
+const withDelAll = editor => {
+    
+    return editor
+}
+
 const withCheckList = editor => {
     const { deleteBackward } = editor
     //一个一个删除

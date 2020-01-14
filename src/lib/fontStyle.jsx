@@ -21,9 +21,9 @@ export const fontSize = [
 //字体行高
 export const fontLineHeight = [
     '1.0',
-    '1.15',
     '1.5',
-    '2.0'
+    '2.0',
+    '3.0'
 ]
 
 //字体背景色

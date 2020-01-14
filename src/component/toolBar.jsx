@@ -9,6 +9,7 @@ import {
     fontBackgroundColor,
     fontIndent 
 } from '../lib/fontStyle'
+import { ReactEditor } from 'slate-react'
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const isMarkActive = (editor, format) => {
     const marks = Editor.marks(editor)
@@ -23,6 +24,7 @@ const isBlockActive = (editor, format) => {
 }
 
 const toggleMark = (editor, format) => {
+    ReactEditor.focus(editor)
     const isActive = isMarkActive(editor, format)
     if (isActive) {
         Editor.removeMark(editor, format)
@@ -32,6 +34,7 @@ const toggleMark = (editor, format) => {
 }
 
 const toggleBlock = (editor, format) => {
+    ReactEditor.focus(editor)
     const isActive = isBlockActive(editor, format)
     const isList = LIST_TYPES.includes(format)
   
@@ -77,6 +80,7 @@ const isBlockStyleActive = (editor, style) => {
 }
 
 const toggleBlockStyle = (editor, changeStyle) => {
+    ReactEditor.focus(editor)
     const isActive = isBlockStyleActive(editor, Object.keys(changeStyle)[0])
     if(isActive) {
         Transforms.setNodes(editor, {
@@ -108,6 +112,7 @@ const StyleBlockButtonToggle = ({ editor, text, changeStyle, icon }) => {
 }
 
 const setMarkStyle = (editor, changeStyle) => {
+    ReactEditor.focus(editor)
     Transforms.setNodes(
         editor, 
         { ...changeStyle },
@@ -132,6 +137,7 @@ const StyleMarkButton = ({ color, editor, changeStyle}) => {
 
 
 const setBlockStyle = (editor, changeStyle) => {
+    ReactEditor.focus(editor)
     let [,nodes] = Editor.nodes(editor)
     let style = nodes[0].style || {}
     Transforms.setNodes(editor, {

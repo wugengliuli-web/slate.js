@@ -39,7 +39,7 @@ const App = props =>  {
                 $splice: [[index, 0, {
                     editor,
                     id: uniqueId(),
-                    isShowToolBar: false,
+                    showToolbar: false,
                     content: [{
                         type: draggableId,
                         children: [{ text: '' }]

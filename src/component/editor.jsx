@@ -30,8 +30,11 @@ const Editor = ({value, setValue, readOnly, editor}) => {
                 editor={editor}
                 value={value}
                 onChange={value => {
-                    setValue(value)
-                    ReactEditor.focus(editor)
+                    if(ReactEditor.isFocused(editor)) {
+                        setValue(value, true)
+                    } else {
+                        setValue(value, false)
+                    }
                 }}
             >
                 <Editable
