@@ -6,7 +6,7 @@ import {
 	HeadingTwo,
 	ListLtem,
 	NumberedList,
-	Image,
+	Img,
 	DefaultEl,
 	CheckListItemElement,
 	UploadImg
@@ -28,14 +28,12 @@ export const Element = props => {
 			return <ListLtem {...props} />
 		case 'numbered-list':
 			return <NumberedList {...props} />
-		case 'image':
-			return <Image {...props} />
 		case 'check-list-item':
 			return <CheckListItemElement {...props} />
 		case 'addImage':
 			return <UploadImg {...props} />
 		case 'img':
-			return <Image {...props} />
+			return <Img {...props} />
 		default:
 			return <DefaultEl {...props} />
 	}

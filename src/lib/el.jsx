@@ -4,7 +4,6 @@ import {
     useEditor,
     useReadOnly,
     ReactEditor,
-    useSelected,
     useFocused
 } from 'slate-react'
 import { Transforms } from 'slate'
@@ -64,7 +63,7 @@ export const NumberedList = ({ attributes, children, element }) => {
     return <ol {...attributes}>{children}</ol>
 }
 
-export const Image = ({ attributes, children, element, editor }) => {
+export const Img = ({ attributes, children, element, editor }) => {
     const focused = useFocused()
     const { style, directionInfo } = element
     const { textAlign, width } = style
@@ -73,7 +72,7 @@ export const Image = ({ attributes, children, element, editor }) => {
         className={css`
             z-index: 999;
         `} 
-        onMouseUp={e => endReImgSize(editor)}
+        onMouseUp={e => endReImgSize(editor)} 
         onMouseMove={e => reImgSize(e, editor, style, directionInfo)}
         {...attributes} 
         contentEditable={false}
@@ -104,10 +103,11 @@ export const Image = ({ attributes, children, element, editor }) => {
                     <img
                         draggable={false}
                         className={css`
+                            transition: width 0.15s;
                             user-select: none;
                             box-shadow: ${focused ? '0 0 0 3px #B4D5FF' : 'none'};
                             max-width: 100%;
-                            ${width ? 'width:' + width + 'px' : ''}
+                            width: ${width}px;
                         `}
                         alt=""
                         src={element.url}
@@ -252,7 +252,15 @@ export const UploadImg = ({ setState, index, state, editor }) => {
             fr.readAsDataURL(file)
             fr.onload = function() {
                 let url = fr.result
-                addImgBlock(setState, index, url, state, editor)
+                let img = new Image()
+                img.src = url
+                img.onload = function() {
+                    let width = img.width
+                    if(width > 696) {
+                        width = 696
+                    }
+                    addImgBlock(setState, index, url, state, editor, width)
+                }
             }
         }
     }
