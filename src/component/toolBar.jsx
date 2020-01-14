@@ -254,7 +254,7 @@ const createMenuFontIndent = editor => {
 } 
 
 
-const ToolBar = ({editor}) => {
+const ToolBar = ({editor, state, setState}) => {
     return (
         <div className={css`
             width: calc(100% - 300px);

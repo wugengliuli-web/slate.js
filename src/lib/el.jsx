@@ -3,7 +3,9 @@ import { css } from 'emotion'
 import {
     useEditor,
     useReadOnly,
-    ReactEditor
+    ReactEditor,
+    useSelected,
+    useFocused
 } from 'slate-react'
 import { Transforms } from 'slate'
 import { Checkbox, Upload, Icon, message } from 'antd'
@@ -63,16 +65,23 @@ export const NumberedList = ({ attributes, children, element }) => {
 }
 
 export const Image = ({ attributes, children, element }) => {
-    console.log(555)
-    const { style } = element
+    const selected = useSelected()
+    const focused = useFocused()
     return (
         <div {...attributes}>
-            <div className={css`
-                ${style}
-            `}>
+            <div 
+                className={css`
+                    padding: 5px;
+                `}
+                contentEditable={false}
+            >
                 <img
                     className={css`
+                        box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
+                        margin: 0 auto;
+                        display: block;
                         max-width: 100%;
+                        max-height: 20rem;
                     `}
                     alt=""
                     src={element.url}
@@ -147,13 +156,12 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
 }
 
 //上传图片的按钮
-export const UploadImg = ({ attributes, children, element, editor }) => {
+export const UploadImg = ({ setState, index, state, editor }) => {
     const { Dragger } = Upload;
     const props = {
         name: 'file',
         multiple: false,
         showUploadList: false,
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
         onChange(info) {
             const { status } = info.file;
             if (status !== 'uploading') {
@@ -185,21 +193,17 @@ export const UploadImg = ({ attributes, children, element, editor }) => {
             fr.readAsDataURL(file)
             fr.onload = function() {
                 let url = fr.result
-                addImgBlock(editor, url)
+                addImgBlock(setState, index, url, state, editor)
             }
         }
     }
     return (
-        <div>
-            <Dragger {...props}>
-                <p className="ant-upload-drag-icon">
+        <Dragger {...props}>
+            <p className="ant-upload-drag-icon">
                 <Icon type="inbox" />
-                </p>
-                <p className="ant-upload-text">点击上传图片</p>
-                <p className="ant-upload-hint">
-                大小不超过10MB
-                </p>
-            </Dragger>
-        </div>
+            </p>
+            <p className="ant-upload-text">点击上传图片</p>
+            <p className="ant-upload-hint">大小不超过10MB </p>
+        </Dragger>
     )
 }

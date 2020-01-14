@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react'
-import { Slate, Editable } from 'slate-react'
+import { Slate, Editable, ReactEditor } from 'slate-react'
 import { css } from 'emotion'
 import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
@@ -9,6 +9,7 @@ const Editor = ({value, setValue, readOnly, editor}) => {
     const onDOMBeforeInput = e => {
         
     }
+
     return (
         <div
             ref={el}
@@ -18,9 +19,9 @@ const Editor = ({value, setValue, readOnly, editor}) => {
                 transition: all 0.3s;
                 margin: 5px 0;
                 padding: 5px;
-                border: 1px solid #fff;
+                border: 1px solid rgb(255,255,255,0);
                 &:hover {
-                    border: ${readOnly ? 'border: 1px solid #fff;' : '1px solid #bee1c7'};
+                    border: ${readOnly ? 'border: 1px solid rgb(255,255,255,0);' : '1px solid #bee1c7'};
                 }
             `}
             
@@ -29,12 +30,8 @@ const Editor = ({value, setValue, readOnly, editor}) => {
                 editor={editor}
                 value={value}
                 onChange={value => {
-                    let dom = el.current.firstChild
-                    if(document.activeElement === dom) {
-                        setValue(value, true)
-                    } else {
-                        setValue(value, false)
-                    }
+                    setValue(value)
+                    ReactEditor.focus(editor)
                 }}
             >
                 <Editable

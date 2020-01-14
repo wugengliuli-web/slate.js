@@ -32,7 +32,7 @@ const withCheckList = editor => {
 const withImage = editor => {
     const { insertData, isVoid, isInline } = editor
     editor.isVoid = el => {
-        return el.type === 'image' ? true : isVoid(el)
+        return el.type === 'img' ? true : isVoid(el)
     }
 
     editor.isInline = el => {
