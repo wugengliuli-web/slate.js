@@ -2,7 +2,6 @@
 import uniqueId from 'lodash/uniqueId'
 import update from 'immutability-helper'
 import { Transforms } from 'slate'
-import { ReactEditor } from 'slate-react'
 import throttle from './throttle'
 export const addImgBlock = (setState, index, url, state, editor, width) => {
     //将添加图片替换为图片元素
@@ -41,7 +40,6 @@ export const startReImgSize = (e, editor, style, direction) => {
     dom.onmouseup = function (e) {
         endReImgSize(editor)
     }
-    ReactEditor.focus(editor)
 }
 
 export const endReImgSize = (editor) => {

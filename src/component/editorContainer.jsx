@@ -7,7 +7,9 @@ import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ToolBar from './toolBar'
 import { UploadImg } from '../lib/el'
 import { ReactEditor } from 'slate-react'
-const EditorContainer = ({ state, setState }) => {
+import { CSSTransition } from 'react-transition-group'
+import Tool from './tool'
+const EditorContainer = ({ copyEl, state, setState }) => {
     let el = useRef(null)
     return (
         <div
@@ -17,15 +19,33 @@ const EditorContainer = ({ state, setState }) => {
                 height: 100%;
                 background: #efedec;
                 overflow: auto;
+                &::-webkit-scrollbar {
+                    width: 6px;
+                    height: 6px;
+                    background: transparent;
+                }
+                
+                &::-webkit-scrollbar-thumb {
+                    background: transparent;
+                    border-radius: 4px;
+                }
+                
+                &:hover::-webkit-scrollbar-thumb {
+                    background: hsla(0, 0%, 53%, 0.4);
+                }
+                
+                &:hover::-webkit-scrollbar-track {
+                    background: hsla(0, 0%, 53%, 0.1);
+                }
             `}
         >
             {
                 el.current ?
-                <BackTop style={{
-                    right: '360px'
-                }} target={() => el.current} visibilityHeight={200} />
-                :
-                null
+                    <BackTop style={{
+                        right: '360px'
+                    }} target={() => el.current} visibilityHeight={200} />
+                    :
+                    null
             }
             <Droppable droppableId="editor">
                 {
@@ -49,10 +69,10 @@ const EditorContainer = ({ state, setState }) => {
                                         return (
                                             <div key={item.id}>
                                                 {
-                                                    item.showToolbar ?
-                                                    <ToolBar editor={item.editor} />
-                                                    :
-                                                    null
+                                                    item.showToolbar && !snapshot.isDraggingOver ?
+                                                        <ToolBar editor={item.editor} />
+                                                        :
+                                                        null
                                                 }
                                                 <Draggable
                                                     key={index}
@@ -66,6 +86,7 @@ const EditorContainer = ({ state, setState }) => {
                                                                     className={css`
                                                                         display: flex;
                                                                         justify-content: center;
+                                                                        position: relative;
                                                                         &:hover > span {
                                                                             opacity: ${snapshot.isDraggingOver ? '0' : '1'}
                                                                         }
@@ -74,6 +95,25 @@ const EditorContainer = ({ state, setState }) => {
                                                                     ref={providedDraggable.innerRef}
                                                                     {...providedDraggable.draggableProps}
                                                                 >
+                                                                    <CSSTransition
+                                                                        appear={true}
+                                                                        in={item.showToolbar && !snapshot.isDraggingOver}
+                                                                        timeout={{
+                                                                            appear: 200,
+                                                                            enter: 200,
+                                                                            exit: 150
+                                                                        }}
+                                                                        classNames="tool"
+                                                                        unmountOnExit
+                                                                    >
+                                                                        <Tool
+                                                                            state={state}
+                                                                            setState={setState}
+                                                                            editor={item.editor}
+                                                                            copyEl={copyEl}
+                                                                            index={index}
+                                                                        />
+                                                                    </CSSTransition>
                                                                     <span
                                                                         className={css`
                                                                             margin-right: 10px;

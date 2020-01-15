@@ -10,6 +10,7 @@ import { createEditor } from 'slate'
 import { withReact } from 'slate-react'
 import { withWrapper } from './lib/with'
 import uniqueId from 'lodash/uniqueId'
+import { ReactEditor } from 'slate-react'
 const App = props =>  {
     let editor = useMemo(() => withReact(withWrapper(createEditor())))
     let [state, setState] = useState([])
@@ -48,7 +49,17 @@ const App = props =>  {
             }))
         }
     }
-
+    let copyEl = (oldEditor, index) => {
+        let newEditor = Object.assign({}, state[index])
+        newEditor.id = uniqueId()
+        newEditor.editor = editor
+        newEditor.content = JSON.parse(JSON.stringify(state[index].content))
+        newEditor.showToolbar = false
+        setState(updata(state, {
+            $splice: [[index, 0, newEditor]]
+        }))
+        ReactEditor.focus(oldEditor)
+    }
     return (
         <div className={css`
             width: 100%;
@@ -75,6 +86,7 @@ const App = props =>  {
                         <EditorContainer
                             state={state}
                             setState={setState}
+                            copyEl={copyEl}
                         />
                     </div>
                     <div className={css`

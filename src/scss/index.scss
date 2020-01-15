@@ -9,3 +9,43 @@ p, h1, h2, h3, h4, h5, h6 {
 body {
     z-index: 9999;
 }
+
+.tool {
+    transition: all 100ms ease-in;
+    padding: 2px;
+    border-radius: 4px;
+    background: #414247;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.15);
+}
+.tool-enter, .tool-appear{
+    transition: all 100ms ease-in;
+    opacity: 0;
+    transform: translateY(-60%)
+}
+
+.tool-enter-active, .tool-appear-active {
+    opacity: 1;
+    transform: translateY(-120%)
+}
+
+.tool-enter-done, .tool-appear-done {
+    transition: all 100ms ease-in;
+    opacity: 1;
+    transform: translateY(-120%);
+}
+
+.tool-exit {
+    transition: all 100ms ease-in;
+    opacity: 1;
+    transform: translateY(-120%)
+}
+.tool-exit-active {
+    opacity: 0;
+    transform: translateY(-120%);
+}
+
+.tool-exit-done {
+    opacity: 0;
+    transform: translateY(-120%);
+    display: none;
+}

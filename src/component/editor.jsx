@@ -21,7 +21,6 @@ const Editor = ({value, setValue, readOnly, editor}) => {
                 padding: 5px;
                 box-shadow: ${ReactEditor.isFocused(editor) ? '0 0 0 1px #bee1c7' : 'none'};
             `}
-            
         >
             <Slate
                 editor={editor}

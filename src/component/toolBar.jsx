@@ -136,7 +136,7 @@ const StyleMarkButton = ({ color, editor, changeStyle}) => {
 }
 
 
-const setBlockStyle = (editor, changeStyle) => {
+export const setBlockStyle = (editor, changeStyle) => {
     ReactEditor.focus(editor)
     let [,nodes] = Editor.nodes(editor)
     let style = nodes[0].style || {}
