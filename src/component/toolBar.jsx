@@ -263,6 +263,8 @@ const createMenuFontIndent = editor => {
 const ToolBar = ({editor, state, setState}) => {
     return (
         <div className={css`
+            z-index: 999;
+            background: #efedec;
             width: calc(100% - 300px);
             height: 50px;
             overflow: auto;

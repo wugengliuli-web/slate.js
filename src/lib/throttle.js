@@ -11,7 +11,7 @@ export default function(fn, wait) {
     return function() {
         let arg = arguments
         let e = arguments[0]
-        e.persist()
+        e.persist && e.persist()
         let context = this
         if(!timer) {
             timer = setTimeout(function() {

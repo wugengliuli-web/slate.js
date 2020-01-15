@@ -1,20 +1,32 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { css } from 'emotion'
 import Editor from './editor'
 import update from 'immutability-helper'
-import { Icon } from 'antd';
+import { Icon, BackTop } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ToolBar from './toolBar'
 import { UploadImg } from '../lib/el'
 import { ReactEditor } from 'slate-react'
 const EditorContainer = ({ state, setState }) => {
+    let el = useRef(null)
     return (
-        <div className={css`
-            width: 100%;
-            height: 100%;
-            background: #efedec;
-            overflow: auto;
-        `}>
+        <div
+            ref={el}
+            className={css`
+                width: 100%;
+                height: 100%;
+                background: #efedec;
+                overflow: auto;
+            `}
+        >
+            {
+                el.current ?
+                <BackTop style={{
+                    right: '360px'
+                }} target={() => el.current} visibilityHeight={200} />
+                :
+                null
+            }
             <Droppable droppableId="editor">
                 {
                     (provided, snapshot) => {

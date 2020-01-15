@@ -8,7 +8,7 @@ import {
 } from 'slate-react'
 import { Transforms } from 'slate'
 import { Checkbox, Upload, Icon, message } from 'antd'
-import { addImgBlock, reImgSize, startReImgSize, endReImgSize } from './customEditor'
+import { addImgBlock, startReImgSize } from './customEditor'
 export const BlockQuote = ({ attributes, children, element }) => {
     return (
         <blockquote {...attributes}
@@ -65,27 +65,22 @@ export const NumberedList = ({ attributes, children, element }) => {
 
 export const Img = ({ attributes, children, element, editor }) => {
     const focused = useFocused()
-    const { style, directionInfo } = element
+    const { style } = element
     const { textAlign, width } = style
     return (
         <div
-        className={css`
-            z-index: 999;
-        `} 
-        onMouseUp={e => endReImgSize(editor)} 
-        onMouseMove={e => reImgSize(e, editor, style, directionInfo)}
         {...attributes} 
         contentEditable={false}
         >
             <div 
                 className={css`
-                    z-index: 999;
                     padding: 5px;
                     text-align: ${textAlign};
                 `}
                 contentEditable={false}
             >
-                <div 
+                <div
+                draggable={false} 
                 className={css`
                     position: relative;
                     display: inline-block;
@@ -94,7 +89,6 @@ export const Img = ({ attributes, children, element, editor }) => {
                         position: absolute;
                         width: 8px;
                         height: 8px;
-                        z-index: 10;
                         border-radius: 50%;
                         background: #2981f8;
                         opacity: ${focused ? '1' : '0'}
@@ -103,12 +97,14 @@ export const Img = ({ attributes, children, element, editor }) => {
                     <img
                         draggable={false}
                         className={css`
-                            transition: width 0.15s;
+                            transition: width 0.05s ease-in;
                             user-select: none;
                             box-shadow: ${focused ? '0 0 0 3px #B4D5FF' : 'none'};
                             max-width: 100%;
-                            width: ${width}px;
                         `}
+                        style={{
+                            width: `${width}px`
+                        }}
                         alt=""
                         src={element.url}
                     />
@@ -118,7 +114,7 @@ export const Img = ({ attributes, children, element, editor }) => {
                         left: -5px;
                         cursor: nw-resize;
                     `} 
-                    onMouseDown={e => startReImgSize(e, editor, 'top-left')}
+                    onMouseDown={e => startReImgSize(e, editor, style, 'top-left')}
                     />
                     <div 
                     className={css`
@@ -126,7 +122,7 @@ export const Img = ({ attributes, children, element, editor }) => {
                         right: -5px;
                         cursor: ne-resize;
                     `}
-                    onMouseDown={e => startReImgSize(e, editor, 'top-right')} 
+                    onMouseDown={e => startReImgSize(e, editor, style, 'top-right')} 
                     />
                     <div 
                     className={css`
@@ -134,7 +130,7 @@ export const Img = ({ attributes, children, element, editor }) => {
                         left: -5px;
                         cursor: sw-resize;
                     `}
-                    onMouseDown={e => startReImgSize(e, editor, 'bottom-left')} 
+                    onMouseDown={e => startReImgSize(e, editor, style, 'bottom-left')} 
                     />
                     <div 
                     className={css`
@@ -142,7 +138,7 @@ export const Img = ({ attributes, children, element, editor }) => {
                         right: -5px;
                         cursor: se-resize;
                     `}
-                    onMouseDown={e => startReImgSize(e, editor, 'bottom-right')} 
+                    onMouseDown={e => startReImgSize(e, editor, style, 'bottom-right')} 
                     />
                     </div>
             </div>

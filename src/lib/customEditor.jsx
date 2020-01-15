@@ -18,7 +18,8 @@ export const addImgBlock = (setState, index, url, state, editor, width) => {
                     url,
                     style: {
                         'textAlign': 'center',
-                        width
+                        width,
+                        initWidth: width
                     }
                 }]
             }
@@ -26,48 +27,72 @@ export const addImgBlock = (setState, index, url, state, editor, width) => {
     }))
 }
 
-export const startReImgSize = (e, editor, direction) => {
-    Transforms.setNodes(
-        editor,
-        {
-            directionInfo: {
-                direction,
-                left: e.pageX,
-                top: e.pageY
-            }
-        },
-        { match: n => n.type === 'img' }
-    )
+export const startReImgSize = (e, editor, style, direction) => {
+    let dom = document.querySelector('#wrapper')
+    let directionInfo = {
+        direction,
+        left: e.pageX,
+        top: e.pageY
+    }
+    dom.onmousemove = function (e) {
+        e.preventDefault()
+        reImgSize(e, editor, style, directionInfo)
+    }
+    dom.onmouseup = function (e) {
+        endReImgSize(editor)
+    }
     ReactEditor.focus(editor)
 }
 
 export const endReImgSize = (editor) => {
+    let dom = document.querySelector('#wrapper')
+    dom.onmousemove = null
+    dom.onmouseup = null
+    let { style } = editor.children[0]
+    let { width } = style
     Transforms.setNodes(
         editor,
-        { directionInfo: null },
+        { style: { ...style, initWidth: width, width } },
         { match: n => n.type === 'img' }
     )
-    ReactEditor.focus(editor)
 }
 
 
-export const reImgSize = throttle(function() {
+export const reImgSize = throttle(function () {
     let [e, editor, style, directionInfo] = Array.from(arguments[0])
     if (!directionInfo) return
     let { direction, left, top } = directionInfo
-    let { width } = style
+    let { initWidth } = style
+    let newLeft, newTop, sum, endWidth
+    newLeft = e.pageX
+    newTop = e.pageY
     if (direction === 'top-left') {
         /**
-         * 左上角 向左上 右上 左下为变大 右下变小
+         * 如果是点击左上角 向左 上 变大 下 右变小
          * 
          */
-        let newLeft = e.pageX
-        let newTop = e.pageY
-        let sum = (newLeft - left) + (newTop - top)
-        Transforms.setNodes(
-            editor,
-            { style: { ...style, width: sum } },
-            { match: n => n.type === 'img' }
-        )
+        sum = ((-(newLeft - left)) + (-(newTop - top)))  + initWidth
+    } else if (direction === 'top-right') {
+        /**
+         * 如果是点击右上角 上 右 变大 左 下变小
+         */
+        sum = ((newLeft - left) + (-(newTop - top)))  + initWidth
+    } else if (direction === 'bottom-left') {
+        /**
+         * 如果是点击左下角 下 左 变大 右 上 变小
+         */
+        sum = ((-(newLeft - left)) + (newTop - top))  + initWidth
+    } else {
+        /**
+         * 如果是点击右下角 右 下 变大 左 上 变小
+         */
+        sum = ((newLeft - left) + (newTop - top))  + initWidth
     }
-}, 100)
+    endWidth = sum < 34 ? 34 : sum
+    endWidth = endWidth > 696 ? 696 : endWidth
+    Transforms.setNodes(
+        editor,
+        { style: { ...style, width: endWidth } },
+        { match: n => n.type === 'img' }
+    )
+}, 50)
