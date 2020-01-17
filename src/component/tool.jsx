@@ -14,9 +14,12 @@ const Tool = ({editor, copyEl, index, state, setState}) => {
         title: '删除',
         icon: 'delete',
         click: e => {
-            setState(update(state, {
-                $splice: [[index, 1]]
-            }))
+            //删除滞后
+            setTimeout(_ => {
+                setState(update(state, {
+                    $splice: [[index, 1]]
+                }))
+            }, 100)
         }
     }, {
         title: '左对齐',

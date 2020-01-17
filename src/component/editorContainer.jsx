@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { css } from 'emotion'
 import Editor from './editor'
 import update from 'immutability-helper'
@@ -11,6 +11,7 @@ import { CSSTransition } from 'react-transition-group'
 import Tool from './tool'
 const EditorContainer = ({ copyEl, state, setState }) => {
     let el = useRef(null)
+
     return (
         <div
             ref={el}
@@ -105,6 +106,7 @@ const EditorContainer = ({ copyEl, state, setState }) => {
                                                                         }}
                                                                         classNames="tool"
                                                                         unmountOnExit
+                                                                        exit={false}
                                                                     >
                                                                         <Tool
                                                                             state={state}
@@ -153,6 +155,7 @@ const EditorContainer = ({ copyEl, state, setState }) => {
                                                                                             }
                                                                                         }
                                                                                     }))
+                                                                                    
                                                                                 }}
                                                                             />
                                                                     }

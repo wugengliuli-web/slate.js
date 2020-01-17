@@ -4,7 +4,8 @@ import {
     useEditor,
     useReadOnly,
     ReactEditor,
-    useFocused
+    useFocused,
+    useSelected
 } from 'slate-react'
 import { Transforms } from 'slate'
 import { Checkbox, Upload, Icon, message } from 'antd'
@@ -36,7 +37,8 @@ export const HeadingOne = ({ attributes, children, element }) => {
     return (
         <h1 {...attributes} className={css`
             ${style}
-        `}>{children}</h1>
+        `}>{children}
+        </h1>
     )
 }
 
@@ -65,6 +67,7 @@ export const NumberedList = ({ attributes, children, element }) => {
 
 export const Img = ({ attributes, children, element, editor }) => {
     const focused = useFocused()
+    const selected = useSelected()
     const { style } = element
     const { textAlign, width } = style
     return (
@@ -91,7 +94,7 @@ export const Img = ({ attributes, children, element, editor }) => {
                         height: 8px;
                         border-radius: 50%;
                         background: #2981f8;
-                        opacity: ${focused ? '1' : '0'}
+                        opacity: ${selected && focused ? '1' : '0'}
                     }
                 `}>
                     <img
@@ -99,7 +102,7 @@ export const Img = ({ attributes, children, element, editor }) => {
                         className={css`
                             transition: width 0.05s ease-in;
                             user-select: none;
-                            box-shadow: ${focused ? '0 0 0 3px #B4D5FF' : 'none'};
+                            box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
                             max-width: 100%;
                         `}
                         style={{

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import EditorContainer from './component/editorContainer'
 import ToolMoveBar from './component/toolMoveBar'
 import { css } from 'emotion'
@@ -14,41 +14,44 @@ import { ReactEditor } from 'slate-react'
 const App = props =>  {
     let editor = useMemo(() => withReact(withWrapper(createEditor())))
     let [state, setState] = useState([])
-    let onDragEnd = info => {
-        const { source, destination } = info
-        if (!destination) {
-            return;
-        }
-        //如果是在编辑区域的拖动
-        if(destination.droppableId === 'editor' && source.droppableId === 'editor') {
-            let newIndex = destination.index
-            let oldIndex = source.index
-            /**
-             * 先提取出原本位置的元素
-             * 后插入新的位置
-             */
-            //提取原本位置的元素
-            let newState = Array.from(state)
-            let [oldEl] = newState.splice(oldIndex, 1)
-            newState.splice(newIndex, 0, oldEl)
-            setState(newState)
-        } else {
-            //如果是拖动块状产生编辑器的
-            let { draggableId } = info
-            let { index } = destination
-            setState(updata(state, {
-                $splice: [[index, 0, {
-                    editor,
-                    id: uniqueId(),
-                    showToolbar: false,
-                    content: [{
-                        type: draggableId,
-                        children: [{ text: '' }]
-                    }]
-                }]]
-            }))
-        }
-    }
+    let onDragEnd = useCallback(
+        info => {
+            const { source, destination } = info
+            if (!destination) {
+                return;
+            }
+            //如果是在编辑区域的拖动
+            if(destination.droppableId === 'editor' && source.droppableId === 'editor') {
+                let newIndex = destination.index
+                let oldIndex = source.index
+                /**
+                 * 先提取出原本位置的元素
+                 * 后插入新的位置
+                 */
+                //提取原本位置的元素
+                let newState = Array.from(state)
+                let [oldEl] = newState.splice(oldIndex, 1)
+                newState.splice(newIndex, 0, oldEl)
+                setState(newState)
+            } else {
+                //如果是拖动块状产生编辑器的
+                let { draggableId } = info
+                let { index } = destination
+                setState(updata(state, {
+                    $splice: [[index, 0, {
+                        editor,
+                        id: uniqueId(),
+                        showToolbar: false,
+                        content: [{
+                            type: draggableId,
+                            children: [{ text: '' }]
+                        }]
+                    }]]
+                }))
+            }
+        },
+        [state],
+    )
     let copyEl = (oldEditor, index) => {
         let newEditor = Object.assign({}, state[index])
         newEditor.id = uniqueId()
