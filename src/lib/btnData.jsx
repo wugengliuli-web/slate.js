@@ -18,4 +18,8 @@ export default [{
     text: 'Quote',
     attrs: {},
     format: 'block-quote'
+}, {
+    text: 'Table',
+    attrs: {},
+    format: 'table'
 }]

@@ -41,11 +41,11 @@ body {
 }
 .tool-exit-active {
     opacity: 0;
-    transform: translateY(-120%);
+    transform: translateY(-100%);
 }
 
 .tool-exit-done {
     opacity: 0;
-    transform: translateY(-120%);
+    transform: translateY(-100%);
     display: none;
 }

@@ -9,7 +9,11 @@ import {
 	Img,
 	DefaultEl,
 	CheckListItemElement,
-	UploadImg
+	UploadImg,
+	TableContainer,
+	TableRow,
+	TableCell,
+	TableContent
 } from './el'
 
 
@@ -34,6 +38,14 @@ export const Element = props => {
 			return <UploadImg {...props} />
 		case 'img':
 			return <Img {...props} />
+		case 'table':
+			return <TableContainer {...props} />
+		case 'table-row':
+			return <TableRow {...props} />
+		case 'table-cell':
+			return <TableCell {...props} />
+		case 'table-content':
+			return <TableContent {...props} />
 		default:
 			return <DefaultEl {...props} />
 	}

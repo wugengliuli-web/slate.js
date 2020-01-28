@@ -10,6 +10,7 @@ import {
 import { Transforms } from 'slate'
 import { Checkbox, Upload, Icon, message } from 'antd'
 import { addImgBlock, startReImgSize } from './customEditor'
+import { Resizable } from 'react-resizable';
 export const BlockQuote = ({ attributes, children, element }) => {
     return (
         <blockquote {...attributes}
@@ -165,7 +166,6 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
     const { checked } = element
     return (
         <div
-
             className={css`
                 flex-direction: row;
                 align-items: center;
@@ -272,4 +272,73 @@ export const UploadImg = ({ setState, index, state, editor }) => {
             <p className="ant-upload-hint">大小不超过10MB </p>
         </Dragger>
     )
+}
+
+const Resizeable = props => {
+    const { onResize, width, ...restProps } = props
+    if(!width) return <th {...restProps} />
+    return (
+        <Resizable
+            width={width}
+            height={0}
+            onResize={onResize}
+            draggableOpts={{ enableUserSelectHack: false }}
+        >
+            <th {...restProps} />
+        </Resizable>
+    )
+}
+
+export const TableContainer = ({ attributes, children, element }) => {
+    const { 
+        border="1px",
+        cellPadding="7px"
+    } = element
+    return (
+        <div {...attributes}>
+            <table 
+                border={border} 
+                cellPadding={cellPadding}
+                className={css`
+                    width: 100%;
+                    table-layout: fixed;
+                `}
+            >
+                <tbody>
+                    {children}
+                </tbody>
+            </table>
+        </div>
+    )
+}
+
+export const TableRow = ({ editor, attributes, children, element }) => {
+    return (
+        <tr
+            {...attributes}
+        >{children}</tr>
+    )
+}
+
+export const TableCell = ({ attributes, children, element }) => {
+    let { style } = element
+    return (
+        <td 
+            className={css`
+                word-break: break-all;
+                min-width: 352px;
+                white-space: normal;
+                word-wrap: break-word;
+                vertical-align: top;
+                ${style}
+            `}
+            {...attributes}
+        >
+            {children}
+        </td>
+    )
+}
+
+export const TableContent = ({ attributes, children, element }) => {
+    return <p {...attributes}>{children}</p>
 }

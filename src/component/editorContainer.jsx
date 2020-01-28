@@ -9,6 +9,7 @@ import { UploadImg } from '../lib/el'
 import { ReactEditor } from 'slate-react'
 import { CSSTransition } from 'react-transition-group'
 import Tool from './tool'
+import TableTool from './tableTool'
 const EditorContainer = ({ copyEl, state, setState }) => {
     let el = useRef(null)
 
@@ -102,19 +103,29 @@ const EditorContainer = ({ copyEl, state, setState }) => {
                                                                         timeout={{
                                                                             appear: 200,
                                                                             enter: 200,
-                                                                            exit: 150
+                                                                            exit: 200
                                                                         }}
                                                                         classNames="tool"
                                                                         unmountOnExit
-                                                                        exit={false}
                                                                     >
-                                                                        <Tool
-                                                                            state={state}
-                                                                            setState={setState}
-                                                                            editor={item.editor}
-                                                                            copyEl={copyEl}
-                                                                            index={index}
-                                                                        />
+                                                                        {
+                                                                            type !== 'table' ?
+                                                                            <Tool
+                                                                                state={state}
+                                                                                setState={setState}
+                                                                                editor={item.editor}
+                                                                                copyEl={copyEl}
+                                                                                index={index}
+                                                                            />
+                                                                            :
+                                                                            <TableTool
+                                                                                state={state}
+                                                                                setState={setState}
+                                                                                editor={item.editor}
+                                                                                copyEl={copyEl}
+                                                                                index={index}
+                                                                            />
+                                                                        }
                                                                     </CSSTransition>
                                                                     <span
                                                                         className={css`
@@ -155,7 +166,6 @@ const EditorContainer = ({ copyEl, state, setState }) => {
                                                                                             }
                                                                                         }
                                                                                     }))
-                                                                                    
                                                                                 }}
                                                                             />
                                                                     }

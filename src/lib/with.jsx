@@ -1,4 +1,3 @@
-import { addImgBlock } from './customEditor'
 import { Editor, Point, Transforms, Range } from 'slate'
 
 const withDelAll = editor => {
@@ -45,28 +44,29 @@ const withImage = editor => {
         return el.type === 'image' ? true : isInline(el)
     }
 
-    editor.insertData = data => {
-        const { files } = data
-        if (files && files.length > 0) {
-            for (const file of files) {
-                const reader = new FileReader()
-                const [mime] = file.type.split('/')
+    // editor.insertData = data => {
+    //     const { files } = data
+    //     if (files && files.length > 0) {
+    //         for (const file of files) {
+    //             const reader = new FileReader()
+    //             const [mime] = file.type.split('/')
 
-                if (mime === 'image') {
-                    reader.addEventListener('load', () => {
-                        const url = reader.result
-                        addImgBlock(editor, url)
-                    })
-                    reader.readAsDataURL(file)
-                }
-            }
-        } else {
-            insertData(data)
-        }
-    }
+    //             if (mime === 'image') {
+    //                 reader.addEventListener('load', () => {
+    //                     const url = reader.result
+    //                     addImgBlock(editor, url)
+    //                 })
+    //                 reader.readAsDataURL(file)
+    //             }
+    //         }
+    //     } else {
+    //         insertData(data)
+    //     }
+    // }
     return editor
 }
 
 export const withWrapper = editor => {
+    // return withTable(withCheckList(withImage(editor)))
     return withCheckList(withImage(editor))
 }

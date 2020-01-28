@@ -151,10 +151,18 @@
         {
           "legacy": true
         }
+      ],
+      [
+        "import",
+        {
+          "libraryName": "antd",
+          "style": "css"
+        }
       ]
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.7.7"
+    "@babel/preset-env": "^7.7.7",
+    "babel-plugin-import": "^1.13.0"
   }
 }

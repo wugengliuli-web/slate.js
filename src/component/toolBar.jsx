@@ -2,12 +2,12 @@ import React from 'react'
 import { css } from 'emotion'
 import { Button, Menu, Dropdown } from 'antd'
 import { Editor, Transforms, Text } from 'slate'
-import { 
-    fontColor, 
-    fontSize, 
-    fontLineHeight, 
+import {
+    fontColor,
+    fontSize,
+    fontLineHeight,
     fontBackgroundColor,
-    fontIndent 
+    fontIndent
 } from '../lib/fontStyle'
 import { ReactEditor } from 'slate-react'
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
@@ -18,7 +18,7 @@ const isMarkActive = (editor, format) => {
 
 const isBlockActive = (editor, format) => {
     const [match] = Editor.nodes(editor, {
-      match: n => n.type === format
+        match: n => n.type === format
     })
     return !!match
 }
@@ -37,20 +37,20 @@ const toggleBlock = (editor, format) => {
     ReactEditor.focus(editor)
     const isActive = isBlockActive(editor, format)
     const isList = LIST_TYPES.includes(format)
-  
+
     Transforms.unwrapNodes(editor, {
-      match: n => LIST_TYPES.includes(n.type),
-      split: true,
+        match: n => LIST_TYPES.includes(n.type),
+        split: true,
     })
     Transforms.setNodes(editor, {
-      type: isActive ? 'paragraph' : isList ? 'list-item' : format,
-      checked: format === 'check-list-item' ? true : false,
-      style: JSON.stringify({})
+        type: isActive ? 'paragraph' : isList ? 'list-item' : format,
+        checked: format === 'check-list-item' ? true : false,
+        style: JSON.stringify({})
     })
-  
+
     if (!isActive && isList) {
-      const block = { type: format, children: [] }
-      Transforms.wrapNodes(editor, block)
+        const block = { type: format, children: [] }
+        Transforms.wrapNodes(editor, block)
     }
 }
 
@@ -74,7 +74,7 @@ const BlockButton = ({ editor, text, format, icon }) => {
 
 const isBlockStyleActive = (editor, style) => {
     const [match] = Editor.nodes(editor, {
-      match: n => n.style && style in n.style
+        match: n => n.style && style in n.style
     })
     return !!match
 }
@@ -82,7 +82,7 @@ const isBlockStyleActive = (editor, style) => {
 const toggleBlockStyle = (editor, changeStyle) => {
     ReactEditor.focus(editor)
     const isActive = isBlockStyleActive(editor, Object.keys(changeStyle)[0])
-    if(isActive) {
+    if (isActive) {
         Transforms.setNodes(editor, {
             style: {}
         })
@@ -114,13 +114,13 @@ const StyleBlockButtonToggle = ({ editor, text, changeStyle, icon }) => {
 const setMarkStyle = (editor, changeStyle) => {
     ReactEditor.focus(editor)
     Transforms.setNodes(
-        editor, 
+        editor,
         { ...changeStyle },
         { match: n => Text.isText(n), split: true }
     )
 }
 
-const StyleMarkButton = ({ color, editor, changeStyle}) => {
+const StyleMarkButton = ({ color, editor, changeStyle }) => {
     return (
         <div
             className={css`
@@ -138,7 +138,7 @@ const StyleMarkButton = ({ color, editor, changeStyle}) => {
 
 export const setBlockStyle = (editor, changeStyle) => {
     ReactEditor.focus(editor)
-    let [,nodes] = Editor.nodes(editor)
+    let [, nodes] = Editor.nodes(editor)
     let style = nodes[0].style || {}
     Transforms.setNodes(editor, {
         style: {
@@ -162,12 +162,12 @@ const createMenuFontColor = editor => {
                             }}
                         />
                     </Menu.Item>
-                ))        
+                ))
             }
-            
+
         </Menu>
     )
-} 
+}
 
 const createMenuFontSize = editor => {
     return (
@@ -229,12 +229,12 @@ const createMenuFontBGcolor = editor => {
                             }}
                         />
                     </Menu.Item>
-                ))        
+                ))
             }
-            
+
         </Menu>
     )
-} 
+}
 
 const createMenuFontIndent = editor => {
     return (
@@ -252,15 +252,15 @@ const createMenuFontIndent = editor => {
                             onClick={e => setBlockStyle(editor, { paddingLeft: item })}
                         >{item}</div>
                     </Menu.Item>
-                ))        
+                ))
             }
-            
+
         </Menu>
     )
-} 
+}
 
 
-const ToolBar = ({editor, state, setState}) => {
+const ToolBar = ({ editor, state, setState }) => {
     return (
         <div className={css`
             z-index: 999;
@@ -323,11 +323,11 @@ const ToolBar = ({editor, state, setState}) => {
                 format="check-list-item"
             />
             <Dropdown
-                overlay={createMenuFontIndent(editor)} 
+                overlay={createMenuFontIndent(editor)}
             >
                 <Button icon="menu-unfold">文字缩进</Button>
             </Dropdown>
-            <StyleBlockButton 
+            <StyleBlockButton
                 icon="align-center"
                 text="文字居中"
                 editor={editor}
@@ -335,7 +335,7 @@ const ToolBar = ({editor, state, setState}) => {
                     textAlign: 'center'
                 }}
             />
-            <StyleBlockButton 
+            <StyleBlockButton
                 icon="align-right"
                 text="文字靠右"
                 editor={editor}
@@ -343,7 +343,7 @@ const ToolBar = ({editor, state, setState}) => {
                     textAlign: 'right'
                 }}
             />
-            <StyleBlockButton 
+            <StyleBlockButton
                 icon="align-left"
                 text="文字靠左"
                 editor={editor}
@@ -359,17 +359,17 @@ const ToolBar = ({editor, state, setState}) => {
                         flex-wrap: wrap;
                     }
                 `}
-                overlay={createMenuFontColor(editor)} 
+                overlay={createMenuFontColor(editor)}
             >
                 <Button icon="font-colors">文字颜色</Button>
             </Dropdown>
             <Dropdown
-                overlay={createMenuFontSize(editor)} 
+                overlay={createMenuFontSize(editor)}
             >
                 <Button icon="font-size">文字大小</Button>
             </Dropdown>
             <Dropdown
-                overlay={createMenuFontLineHeight(editor)} 
+                overlay={createMenuFontLineHeight(editor)}
             >
                 <Button icon="line-height">文字行高</Button>
             </Dropdown>
@@ -381,7 +381,7 @@ const ToolBar = ({editor, state, setState}) => {
                         flex-wrap: wrap;
                     }
                 `}
-                overlay={createMenuFontBGcolor(editor)} 
+                overlay={createMenuFontBGcolor(editor)}
             >
                 <Button icon="bg-colors">文字背景颜色</Button>
             </Dropdown>
