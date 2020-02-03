@@ -174,10 +174,39 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             }))
         }
     }, {
+        title: '删除行',
+        icon: 'column-width',
+        click: e => {
+            let { focus = null } = editor.selection
+            if(!focus) return
+            let [, row, column] = editor.selection.focus.path
+            
+            setState(update(state, {
+                [index]: {
+                    content: {
+                        [0]: {
+                            children: {
+                                $splice: [[row, 1]]
+                            }
+                        }
+                    }
+                }
+            }))
+        }
+    }, {
         title: '左边合并',
         icon: 'double-left',
         click: e => {
-            
+            /**
+             * 向左合并代表合并列
+             * 步骤:
+             *  1. 取出原本的合并列的数字
+             *  2. 基础上+1
+             */
+            let { focus = null } = editor.selection
+            if(!focus) return
+            let [, row, column] = editor.selection.focus.path
+            let colspan = state[index].content[0].children
         }
     }]
 
