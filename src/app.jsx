@@ -57,7 +57,7 @@ const App = props => {
 													children: [{ text: '' }]
 												}],
 												style: {
-													width: '60%'
+													width: '50%'
 												}
 											},
 											{
@@ -67,7 +67,7 @@ const App = props => {
 													children: [{ text: '' }]
 												}],
 												style: {
-													width: '40%'
+													width: '50%'
 												}
 											}
 										]
@@ -80,20 +80,14 @@ const App = props => {
 												children: [{ 
 													type: 'table-content',
 													children: [{ text: '' }]
-												}],
-												style: {
-													width: '60%'
-												}
+												}]
 											},
 											{
 												type: 'table-cell',
 												children: [{ 
 													type: 'table-content',
 													children: [{ text: '' }]
-												}],
-												style: {
-													width: '40%'
-												}
+												}]
 											}
 										]
 									}
