@@ -173,6 +173,12 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                 }
             }))
         }
+    }, {
+        title: '左边合并',
+        icon: 'double-left',
+        click: e => {
+            
+        }
     }]
 
     return (
