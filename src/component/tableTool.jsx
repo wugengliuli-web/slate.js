@@ -180,18 +180,26 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             let { focus = null } = editor.selection
             if(!focus) return
             let [, row, column] = editor.selection.focus.path
-            
-            setState(update(state, {
-                [index]: {
-                    content: {
-                        [0]: {
-                            children: {
-                                $splice: [[row, 1]]
+            /**
+             * 删除的时候去判断是不是只剩下一行，如果只剩下一行 就删除全部
+             */
+            if(state[index].content[0].children.length === 1) {
+                setState(update(state, {
+                    $splice: [[index, 1]]
+                }))
+            } else {
+                setState(update(state, {
+                    [index]: {
+                        content: {
+                            [0]: {
+                                children: {
+                                    $splice: [[row, 1]]
+                                }
                             }
                         }
                     }
-                }
-            }))
+                }))
+            }
         }
     }, {
         title: '左边合并',
