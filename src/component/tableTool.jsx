@@ -30,7 +30,8 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         icon: 'left-square',
         click: e => {
             //如果报错 就不执行
-            if(!editor.selection && !editor.selection.focus) return
+            let { focus = null } = editor.selection
+            if(!focus) return
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children).map(item => {
                 item = JSON.parse(JSON.stringify(item))
@@ -64,7 +65,8 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         icon: 'right-square',
         click: e => {
             //如果报错 就不执行
-            if(!editor.selection && !editor.selection.focus) return
+            let { focus = null } = editor.selection
+            if(!focus) return
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children).map(item => {
                 item = JSON.parse(JSON.stringify(item))
@@ -97,8 +99,9 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         title: '上边插入',
         icon: 'up-square',
         click: e => {
-            if(!editor.selection && !editor.selection.focus) return
-            let len = editor.children[0].children[0].children.length      
+            let { focus = null } = editor.selection
+            if(!focus) return
+            let len = editor.children[0].children[0].children.length  
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children)
             let child = []
@@ -135,7 +138,8 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         title: '下边插入',
         icon: 'down-square',
         click: e => {
-            if(!editor.selection && !editor.selection.focus) return
+            let { focus = null } = editor.selection
+            if(!focus) return
             let len = editor.children[0].children[0].children.length      
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children)
