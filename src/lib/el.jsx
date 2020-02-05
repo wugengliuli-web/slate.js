@@ -315,17 +315,16 @@ export const TableContainer = ({ attributes, children, element }) => {
 export const TableRow = ({ editor, attributes, children, element }) => {
     return (
         <tr
-            readOnly
             {...attributes}
         >{children}</tr>
     )
 }
 
 export const TableCell = ({ attributes, children, element }) => {
-    let { style } = element
+    let { style, colspan = 1 } = element
     return (
         <td 
-            readOnly
+            colSpan={colspan}
             className={css`
                 word-break: break-all;
                 min-width: 352px;

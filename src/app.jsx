@@ -57,7 +57,7 @@ const App = props => {
 													children: [{ text: '' }]
 												}],
 												style: {
-													width: '50%'
+													
 												}
 											},
 											{
@@ -67,7 +67,7 @@ const App = props => {
 													children: [{ text: '' }]
 												}],
 												style: {
-													width: '50%'
+													
 												}
 											}
 										]

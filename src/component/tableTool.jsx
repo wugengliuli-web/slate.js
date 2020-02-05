@@ -30,7 +30,9 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         icon: 'left-square',
         click: e => {
             //如果报错 就不执行
-            let { focus = null } = editor.selection
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
             if(!focus) return
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children).map(item => {
@@ -42,7 +44,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                         children: [{ text: '' }]
                     }],
                     style: {
-                        width: '50%'
+                        
                     }
                 })
                 return item
@@ -65,7 +67,9 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         icon: 'right-square',
         click: e => {
             //如果报错 就不执行
-            let { focus = null } = editor.selection
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
             if(!focus) return
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children).map(item => {
@@ -77,7 +81,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                         children: [{ text: '' }]
                     }],
                     style: {
-                        width: '50%'
+                        
                     }
                 })
                 return item
@@ -99,9 +103,13 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         title: '上边插入',
         icon: 'up-square',
         click: e => {
-            let { focus = null } = editor.selection
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
             if(!focus) return
-            let len = editor.children[0].children[0].children.length  
+            let len = state[index].content[0].children[0].children.reduce((prve, next) => {   
+                return next.colspan ? prve +  Number.parseInt(next.colspan) : prve + 1 
+            }, 0)
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children)
             let child = []
@@ -113,7 +121,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                         children: [{ text: '' }]
                     }],
                     style: {
-                        width: '50%'
+                        
                     }
                 })
             }
@@ -138,9 +146,13 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         title: '下边插入',
         icon: 'down-square',
         click: e => {
-            let { focus = null } = editor.selection
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
             if(!focus) return
-            let len = editor.children[0].children[0].children.length      
+            let len = state[index].content[0].children[0].children.reduce((prve, next) => {   
+                return next.colspan ? prve +  Number.parseInt(next.colspan) : prve + 1 
+            }, 0)
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children)
             let child = []
@@ -152,7 +164,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                         children: [{ text: '' }]
                     }],
                     style: {
-                        width: '50%'
+                        
                     }
                 })
             }
@@ -174,19 +186,23 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             }))
         }
     }, {
-        title: '删除行',
+        title: '删除选中行',
         icon: 'column-width',
         click: e => {
-            let { focus = null } = editor.selection
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
             if(!focus) return
             let [, row, column] = editor.selection.focus.path
             /**
              * 删除的时候去判断是不是只剩下一行，如果只剩下一行 就删除全部
              */
             if(state[index].content[0].children.length === 1) {
-                setState(update(state, {
-                    $splice: [[index, 1]]
-                }))
+                setTimeout(() => {
+                    setState(update(state, {
+                        $splice: [[index, 1]]
+                    }))
+                }, 100)
             } else {
                 setState(update(state, {
                     [index]: {
@@ -202,19 +218,178 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             }
         }
     }, {
+        title: '删除选中列',
+        icon: 'column-height',
+        click: e => {
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
+            if(!focus) return
+            let [, row, column] = editor.selection.focus.path
+            /**
+             * 删除的时候去判断是不是只剩下一列，如果只剩下一列 就删除全部
+             * 删除时先获取所有行的最大列长度，之后判断如果存在行列数不够就补上去
+             */
+            if(state[index].content[0].children[0].children.length === 1) {
+                setTimeout(() => {
+                    setState(update(state, {
+                        $splice: [[index, 1]]
+                    }))
+                }, 100)
+            } else {
+                let maxLen = state[index].content[0].children.reduce((prve, next) => {
+                    let len = next.children.reduce((prv, nex) => {
+                        return nex.colspan ? prv + Number.parseInt(nex.colspan) : prv + 1
+                    }, 0)
+                    return prve > len ? prve : len
+                }, 0)
+                //减去删除的列
+                maxLen--
+                
+                let children = Array.from(state[index].content[0].children).map(item => {
+                    item = JSON.parse(JSON.stringify(item))
+                    item.children.splice(column, 1)
+                    //如果缺少列就补上
+                    while(item.children.reduce((prve, next) => {
+                        return next.colspan ? prve + Number.parseInt(next.colspan) : prve + 1
+                    }, 0) < maxLen) {
+                        item.children.push({
+                            type: 'table-cell',
+                            children: [{ 
+                                type: 'table-content',
+                                children: [{ text: '' }]
+                            }]
+                        })
+                    }      
+                    return item
+                })    
+                setState(update(state, {
+                    [index]: {
+                        content: {
+                            [0]: {
+                                children: {
+                                    $set: children
+                                }
+                            }
+                        }
+                    }
+                }))
+            }
+        }
+    }, {
         title: '左边合并',
         icon: 'double-left',
         click: e => {
             /**
-             * 向左合并代表合并列
+             * 向左合并列
              * 步骤:
-             *  1. 取出原本的合并列的数字
-             *  2. 基础上+1
+             *  1. 取出前面一个和当前的合并列数
+             *  2. 相加放在前面一个上
+             *  3. 删除选中的元素
              */
-            let { focus = null } = editor.selection
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
             if(!focus) return
             let [, row, column] = editor.selection.focus.path
-            let colspan = state[index].content[0].children
+            //如果是第一列就不进行操作
+            if(column === 0) return
+            let leftCol = state[index].content[0].children[row].children[column - 1].colspan || 1
+            let nowCol = state[index].content[0].children[row].children[column].colspan || 1
+            let colspan = Number.parseInt(nowCol) + Number.parseInt(leftCol)
+            let newState = update(state, {
+                [index]: {
+                    content: {
+                        [0]: {
+                            children: {
+                                [row]: {
+                                    children: {
+                                        [column - 1]: { 
+                                            colspan: {
+                                                $set: colspan
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            newState = update(newState, {
+                [index]: {
+                    content: {
+                        [0]: {
+                            children: {
+                                [row]: {
+                                    children: {
+                                        $splice: [[column, 1]]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            setState(newState)
+        }
+    }, {
+        title: '右边合并',
+        icon: 'double-right',
+        click: e => {
+             /**
+             * 向右合并列
+             * 步骤:
+             *  1. 取出后面一个和当前的合并列数
+             *  2. 相加放在后面一个上
+             *  3. 删除选中的元素
+             */
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
+            if(!focus) return
+            let [, row, column] = editor.selection.focus.path
+            let len = state[index].content[0].children[row].children.length - 1
+            //如果是最后一列就不进行操作
+            if(column === len) return
+            let rightCol = state[index].content[0].children[row].children[column + 1].colspan || 1
+            let nowCol = state[index].content[0].children[row].children[column].colspan || 1
+            let colspan = Number.parseInt(nowCol) + Number.parseInt(rightCol)
+            let newState = update(state, {
+                [index]: {
+                    content: {
+                        [0]: {
+                            children: {
+                                [row]: {
+                                    children: {
+                                        [column + 1]: { 
+                                            colspan: {
+                                                $set: colspan
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            newState = update(newState, {
+                [index]: {
+                    content: {
+                        [0]: {
+                            children: {
+                                [row]: {
+                                    children: {
+                                        $splice: [[column, 1]]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            setState(newState)
         }
     }]
 
