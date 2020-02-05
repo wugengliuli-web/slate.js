@@ -321,9 +321,10 @@ export const TableRow = ({ editor, attributes, children, element }) => {
 }
 
 export const TableCell = ({ attributes, children, element }) => {
-    let { style, colspan = 1 } = element
+    let { style, colspan = 1, rowspan= 1 } = element
     return (
         <td 
+            rowSpan={rowspan}
             colSpan={colspan}
             className={css`
                 word-break: break-all;

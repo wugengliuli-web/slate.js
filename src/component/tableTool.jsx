@@ -3,6 +3,7 @@ import { css } from 'emotion'
 import { Icon } from 'antd'
 import update from 'immutability-helper'
 import { Transforms, Editor } from 'slate'
+import { ReactEditor } from 'slate-react'
 /**
  * 表格的工具栏
  */
@@ -277,15 +278,15 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             }
         }
     }, {
-        title: '左边合并',
+        title: '向左合并',
         icon: 'double-left',
         click: e => {
             /**
              * 向左合并列
              * 步骤:
              *  1. 取出前面一个和当前的合并列数
-             *  2. 相加放在前面一个上
-             *  3. 删除选中的元素
+             *  2. 相加放在当前这个元素上
+             *  3. 删除上的元素
              */
             let { selection } = editor
             if(!selection) return
@@ -304,7 +305,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                             children: {
                                 [row]: {
                                     children: {
-                                        [column - 1]: { 
+                                        [column]: { 
                                             colspan: {
                                                 $set: colspan
                                             }
@@ -323,7 +324,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                             children: {
                                 [row]: {
                                     children: {
-                                        $splice: [[column, 1]]
+                                        $splice: [[column - 1, 1]]
                                     }
                                 }
                             }
@@ -334,15 +335,15 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             setState(newState)
         }
     }, {
-        title: '右边合并',
+        title: '向右合并',
         icon: 'double-right',
         click: e => {
              /**
              * 向右合并列
              * 步骤:
              *  1. 取出后面一个和当前的合并列数
-             *  2. 相加放在后面一个上
-             *  3. 删除选中的元素
+             *  2. 相加放在当前元素
+             *  3. 删除下一个的元素
              */
             let { selection } = editor
             if(!selection) return
@@ -362,7 +363,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                             children: {
                                 [row]: {
                                     children: {
-                                        [column + 1]: { 
+                                        [column]: { 
                                             colspan: {
                                                 $set: colspan
                                             }
@@ -381,7 +382,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                             children: {
                                 [row]: {
                                     children: {
-                                        $splice: [[column, 1]]
+                                        $splice: [[column + 1, 1]]
                                     }
                                 }
                             }
@@ -390,6 +391,18 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                 }
             })
             setState(newState)
+        }
+    }, {
+        title: '向下合并',
+        icon: 'vertical-align-bottom',
+        click: e => {
+            /**
+             * 向下合并
+             * 步骤:
+             *  1. 取出后面一个和当前的合并列数
+             *  2. 相加放在当前元素
+             *  3. 删除下一个的元素
+             */
         }
     }]
 
@@ -401,8 +414,8 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         `}>
             <div className="tool">
                 {
-                    tool.map((item, index) => (
-                        <span className={css`
+                    tool.map((item, index) => {
+                        return <span className={css`
                             margin: 1px 2px;
                             cursor: pointer;
                             font-size: 16px;
@@ -416,7 +429,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                         `} onClick={item.click} key={index} title={item.title}>
                             <Icon type={item.icon} />
                         </span>
-                    ))
+                    })
                 }
             </div>
         </div>
