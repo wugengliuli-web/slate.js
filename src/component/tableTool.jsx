@@ -403,6 +403,83 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
              *  2. 相加放在当前元素
              *  3. 删除下一个的元素
              */
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
+            if(!focus) return
+            let [, row, column] = editor.selection.focus.path
+            state[index].content[0].children[row].children.forEach(item => {
+                let { rowspan = 1, colspan = 1} = item
+                column = column - (~~colspan - 1) - (~~rowspan - 1)
+            })
+            let len = state[index].content[0].children.length
+            //如果是最后一行 不进行操作
+            if(row === len - 1) return
+            //如果选中单元格已经进行了行合并就不允许进行列合并
+            var { colspan = 1 } = state[index].content[0].children[row].children[column]
+            if(~~colspan > 1) {
+                return
+            }
+            var { colspan = 1 } = state[index].content[0].children[row + 1].children[column]
+            //如果下一行已经进行了行合并就不允许进行列合并
+            if(~~colspan > 1) {
+                return
+            }
+            let { rowspan = 1 } = state[index].content[0].children[row].children[column]
+            let downRowspan = ~~state[index].content[0].children[row + 1].children[column].rowspan || 1
+            rowspan = ~~rowspan + downRowspan
+            //修改rowspan
+            let newState = update(state, {
+                [index]: {
+                    content: {
+                        [0]: {
+                            children: {
+                                [row]: {
+                                    children: {
+                                        [column]: {
+                                            rowspan: {
+                                                $set: rowspan
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            
+            //删除下一行的当前列，如果下一行只剩下一列，就删除全部
+            if(state[index].content[0].children[row + 1].children.length === 1) {
+                newState = update(newState, {
+                    [index]: {
+                        content: {
+                            [0]: {
+                                children: {
+                                    $splice: [[row + 1, 1]]
+                                }
+                            }
+                        }
+                    }
+                })
+            } else {
+                newState = update(newState, {
+                    [index]: {
+                        content: {
+                            [0]: {
+                                children: {
+                                    [row + 1]: {
+                                        children: {
+                                            $splice: [[column, 1]]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+            setState(newState)
         }
     }]
 

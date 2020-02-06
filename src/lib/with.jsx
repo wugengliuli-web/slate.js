@@ -1,7 +1,23 @@
 import { Editor, Point, Transforms, Range } from 'slate'
 
 const withDelAll = editor => {
-    
+    let { deleteBackward, deleteForward, deleteFragment } = editor
+    editor.deleteBackward = () => {
+        let { selection } = editor
+        console.log(selection);
+        
+        deleteBackward()
+    }
+
+    editor.deleteForward = () => {
+        deleteForward()
+        console.log('deleteForward')
+    }
+
+    editor.deleteFragment = () => {
+        deleteFragment()
+        console.log('deleteFragment')
+    }
     return editor
 }
 
@@ -68,5 +84,5 @@ const withImage = editor => {
 
 export const withWrapper = editor => {
     // return withTable(withCheckList(withImage(editor)))
-    return withCheckList(withImage(editor))
+    return withDelAll(withCheckList(withImage(editor)))
 }
