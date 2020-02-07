@@ -139,12 +139,19 @@ const StyleMarkButton = ({ color, editor, changeStyle }) => {
 export const setBlockStyle = (editor, changeStyle) => {
     ReactEditor.focus(editor)
     let [, nodes] = Editor.nodes(editor)
+    let { type } = editor.children[0]
+    let format = ''
+    if(type === 'table') {
+        format = 'table-cell'
+    }
     let style = nodes[0].style || {}
     Transforms.setNodes(editor, {
         style: {
             ...style,
             ...changeStyle
         }
+    }, { 
+        match: format ? n => n.type === format : null
     })
 }
 
