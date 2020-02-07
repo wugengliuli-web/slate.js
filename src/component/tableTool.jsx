@@ -2,8 +2,8 @@ import React from 'react'
 import { css } from 'emotion'
 import { Icon } from 'antd'
 import update from 'immutability-helper'
-import { Transforms, Editor } from 'slate'
-import { ReactEditor } from 'slate-react'
+// import { Transforms, Editor } from 'slate'
+// import { ReactEditor } from 'slate-react'
 import { setBlockStyle } from './toolBar'
 /**
  * 表格的工具栏
