@@ -338,7 +338,7 @@ export const TableCell = ({ attributes, children, element, editor }) => {
     return (
         <>
             <td 
-                contentEditable={false}
+                
                 rowSpan={rowspan}
                 colSpan={colspan}
                 className={css`
