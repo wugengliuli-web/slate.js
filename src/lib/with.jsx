@@ -30,6 +30,27 @@ const withDelAll = editor => {
     return editor
 }
 
+// const withInsert = editor => {
+//     let { insertData, insertFragment, insertNode, insertText } = editor
+
+//     editor.insertFragment = fragment => {
+//         console.log('insertFragment->', fragment);
+//         insertFragment(fragment)
+//     }
+
+//     editor.insertNode = node => {
+//         console.log('insertNode', node);
+//         insertNode(node)
+//     }
+
+//     editor.insertText = text => {
+//         console.log('insertText->', text)
+//         insertText(text)
+//     }
+
+//     return editor
+// }
+
 const withCheckList = editor => {
     const { deleteBackward } = editor
     //一个一个删除

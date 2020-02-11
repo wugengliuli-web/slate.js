@@ -290,14 +290,18 @@ const Resizeable = props => {
 }
 
 export const TableContainer = ({ attributes, children, element }) => {
+    
     const { 
-        border="1px",
         cellPadding="7px"
     } = element
     return (
-        <div {...attributes}>
+        <div 
+            {...attributes}
+            className={css`
+                position: relative;
+            `}
+        >
             <table 
-                border={border} 
                 cellPadding={cellPadding}
                 className={css`
                     width: 100%;
@@ -320,24 +324,38 @@ export const TableRow = ({ editor, attributes, children, element }) => {
     )
 }
 
-export const TableCell = ({ attributes, children, element }) => {
+export const TableCell = ({ attributes, children, element, editor }) => {
     let { style, colspan = 1, rowspan= 1 } = element
+    const focused = useFocused()
+    const selected = useSelected()
+    let { ref: { current } } = attributes
+    let left = 0,top = 0
+    if(focused && selected && current) {
+        left = current.offsetLeft
+        top = current.offsetTop
+    }
+    
     return (
-        <td 
-            rowSpan={rowspan}
-            colSpan={colspan}
-            className={css`
-                word-break: break-all;
-                min-width: 352px;
-                white-space: normal;
-                word-wrap: break-word;
-                vertical-align: top;
-                ${style}
-            `}
-            {...attributes}
-        >
-            {children}
-        </td>
+        <>
+            <td 
+                contentEditable={false}
+                rowSpan={rowspan}
+                colSpan={colspan}
+                className={css`
+                    position: relative;
+                    border: 1px solid #d9d9d9;
+                    word-break: break-all;
+                    min-width: 352px;
+                    white-space: normal;
+                    word-wrap: break-word;
+                    vertical-align: top;
+                    ${style}
+                `}
+                {...attributes}
+            >
+                {children}
+            </td>
+        </>
     )
 }
 
