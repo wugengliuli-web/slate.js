@@ -46,6 +46,8 @@ const App = props => {
 							showToolbar: false,
 							content: [{
 								type: draggableId,
+								row: 2,
+								column: 2,
 								children: [
 									{
 										type: 'table-row',

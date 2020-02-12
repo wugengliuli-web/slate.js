@@ -60,7 +60,10 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             if(!selection) return
             let { focus = null } = selection
             if(!focus) return
+            //row 行
+            //column 列
             let [, row, column] = editor.selection.focus.path
+            let newColumn = state[index].content[0].column + 1
             let children = Array.from(state[index].content[0].children).map(item => {
                 item = JSON.parse(JSON.stringify(item))
                 item.children.splice(column, 0, {
@@ -68,18 +71,18 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                     children: [{ 
                         type: 'table-content',
                         children: [{ text: '' }]
-                    }],
-                    style: {
-                        
-                    }
+                    }]
                 })
                 return item
-            })          
-
+            })
+            
             setState(update(state, {
                 [index]: {
                     content: {
                         [0]: {
+                            column: {
+                                $set: newColumn,
+                            },
                             children: {
                                 $set: children
                             }
@@ -106,17 +109,17 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                         type: 'table-content',
                         children: [{ text: '' }]
                     }],
-                    style: {
-                        
-                    }
                 })
                 return item
             })          
-
+            let newColumn = state[index].content[0].column + 1
             setState(update(state, {
                 [index]: {
                     content: {
                         [0]: {
+                            column: {
+                                $set: newColumn,
+                            },
                             children: {
                                 $set: children
                             }
@@ -133,22 +136,18 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             if(!selection) return
             let { focus = null } = selection
             if(!focus) return
-            let len = state[index].content[0].children[0].children.reduce((prve, next) => {   
-                return next.colspan ? prve +  Number.parseInt(next.colspan) : prve + 1 
-            }, 0)
+            let newRow = state[index].content[0].row + 1
+            let oldColumn = state[index].content[0].column
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children)
             let child = []
-            for(let i=0;i<len;i++) {
+            for(let i=0;i<oldColumn;i++) {
                 child.push({
                     type: 'table-cell',
                     children: [{ 
                         type: 'table-content',
                         children: [{ text: '' }]
-                    }],
-                    style: {
-                        
-                    }
+                    }]
                 })
             }
             children.splice(row, 0, {
@@ -160,6 +159,9 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                 [index]: {
                     content: {
                         [0]: {
+                            row: {
+                                $set: newRow,
+                            },
                             children: {
                                 $set: children
                             }
@@ -176,22 +178,18 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             if(!selection) return
             let { focus = null } = selection
             if(!focus) return
-            let len = state[index].content[0].children[0].children.reduce((prve, next) => {   
-                return next.colspan ? prve +  Number.parseInt(next.colspan) : prve + 1 
-            }, 0)
+            let newRow = state[index].content[0].row + 1
+            let oldColumn = state[index].content[0].column
             let [, row, column] = editor.selection.focus.path
             let children = Array.from(state[index].content[0].children)
             let child = []
-            for(let i=0;i<len;i++) {
+            for(let i=0;i<oldColumn;i++) {
                 child.push({
                     type: 'table-cell',
                     children: [{ 
                         type: 'table-content',
                         children: [{ text: '' }]
-                    }],
-                    style: {
-                        
-                    }
+                    }]
                 })
             }
             children.splice(row + 1, 0, {
@@ -203,6 +201,9 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                 [index]: {
                     content: {
                         [0]: {
+                            row: {
+                                $set: newRow,
+                            },
                             children: {
                                 $set: children
                             }
@@ -223,7 +224,8 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             /**
              * 删除的时候去判断是不是只剩下一行，如果只剩下一行 就删除全部
              */
-            if(state[index].content[0].children.length === 1) {
+            let newRow = state[index].content[0].row - 1
+            if(newRow === 0) {
                 setTimeout(() => {
                     setState(update(state, {
                         $splice: [[index, 1]]
@@ -234,6 +236,9 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                     [index]: {
                         content: {
                             [0]: {
+                                row: {
+                                    $set: newRow,
+                                },
                                 children: {
                                     $splice: [[row, 1]]
                                 }
@@ -252,25 +257,18 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             let { focus = null } = selection
             if(!focus) return
             let [, row, column] = editor.selection.focus.path
+            let newColumn = state[index].content[0].column - 1
             /**
              * 删除的时候去判断是不是只剩下一列，如果只剩下一列 就删除全部
              * 删除时先获取所有行的最大列长度，之后判断如果存在行列数不够就补上去
              */
-            if(state[index].content[0].children[0].children.length === 1) {
+            if(newColumn === 0) {
                 setTimeout(() => {
                     setState(update(state, {
                         $splice: [[index, 1]]
                     }))
                 }, 100)
             } else {
-                let maxLen = state[index].content[0].children.reduce((prve, next) => {
-                    let len = next.children.reduce((prv, nex) => {
-                        return nex.colspan ? prv + Number.parseInt(nex.colspan) : prv + 1
-                    }, 0)
-                    return prve > len ? prve : len
-                }, 0)
-                //减去删除的列
-                maxLen--
                 
                 let children = Array.from(state[index].content[0].children).map(item => {
                     item = JSON.parse(JSON.stringify(item))
@@ -278,7 +276,7 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                     //如果缺少列就补上
                     while(item.children.reduce((prve, next) => {
                         return next.colspan ? prve + Number.parseInt(next.colspan) : prve + 1
-                    }, 0) < maxLen) {
+                    }, 0) < newColumn) {
                         item.children.push({
                             type: 'table-cell',
                             children: [{ 
@@ -293,6 +291,9 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
                     [index]: {
                         content: {
                             [0]: {
+                                column: {
+                                    $set: newColumn
+                                },
                                 children: {
                                     $set: children
                                 }
@@ -421,7 +422,21 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
         title: '向下合并',
         icon: 'vertical-align-bottom',
         click: e => {
+            console.log(state[index].content[0]);
             
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
+            if(!focus) return
+            let [, row, column] = editor.selection.focus.path
+            console.log(row, column);
+            
+            let oldColumn = state[index].content[0].column
+            let oldRow = state[index].content[0].row
+            let len = state[index].content[0].children.length
+            //如果是最后一行就不进行操作
+            if(row === len - 1) return
+
         }
     }]
     return (
