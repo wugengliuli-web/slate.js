@@ -336,26 +336,23 @@ export const TableCell = ({ attributes, children, element, editor }) => {
     }
     
     return (
-        <>
-            <td 
-                
-                rowSpan={rowspan}
-                colSpan={colspan}
-                className={css`
-                    position: relative;
-                    border: 1px solid #d9d9d9;
-                    word-break: break-all;
-                    min-width: 352px;
-                    white-space: normal;
-                    word-wrap: break-word;
-                    vertical-align: top;
-                    ${style}
-                `}
-                {...attributes}
-            >
-                {children}
-            </td>
-        </>
+        <td 
+            rowSpan={rowspan}
+            colSpan={colspan}
+            className={css`
+                position: relative;
+                border: 1px solid #d9d9d9;
+                word-break: break-all;
+                min-width: 352px;
+                white-space: normal;
+                word-wrap: break-word;
+                vertical-align: top;
+                ${style}
+            `}
+            {...attributes}
+        >
+            {children}
+        </td>
     )
 }
 

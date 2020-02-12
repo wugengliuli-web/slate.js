@@ -417,6 +417,12 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             })
             setState(newState)
         }
+    }, {
+        title: '向下合并',
+        icon: 'vertical-align-bottom',
+        click: e => {
+            
+        }
     }]
     return (
         <div className={css`

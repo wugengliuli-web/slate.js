@@ -2,19 +2,20 @@ import { Editor, Point, Transforms, Range } from 'slate'
 
 const withDelAll = editor => {
     let { deleteBackward, deleteForward, deleteFragment } = editor
-    editor.deleteBackward = () => {
+    editor.deleteBackward = (...args) => {
         //一个一个删除时触发
         let { type } = editor.children[0]
         if(type === 'table') {
             //如果是表格
             //不允许删除表格的td 
             let { selection } = editor
-            let { focus: { offset } } = selection
+            let { focus: { offset, path } } = selection
+            let [,,,low] = path
             //如果偏移为0就不允许继续删除
-            if(offset === 0) return
+            if(offset === 0 && low === 0) return
             
         }
-        deleteBackward()
+        deleteBackward(...args)
     }
 
     editor.deleteForward = () => {
