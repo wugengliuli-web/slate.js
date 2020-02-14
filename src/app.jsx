@@ -10,7 +10,7 @@ import { withReact } from 'slate-react'
 import { withWrapper } from './lib/with'
 import uniqueId from 'lodash/uniqueId'
 import { ReactEditor } from 'slate-react'
-
+import UploadFile from './component/uploadFile'
 const App = props => {
 	let editor = useMemo(() => withReact(withWrapper(createEditor())))
 	let [state, setState] = useState([])
@@ -162,6 +162,19 @@ const App = props => {
                         top: 0px;
                     `}>
 						<ToolMoveBar />
+						<UploadFile setState={arr => {
+							arr = arr.map(item => {
+								// let editor = useMemo(() => withReact(withWrapper(createEditor())))
+								return {
+									editor,
+									id: uniqueId(),
+									showToolbar: false,
+									content: [item]
+								}
+							})
+							console.log(arr)
+							// setState([arr[0]])
+						}} />
 					</div>
 				</div>
 			</DragDropContext>

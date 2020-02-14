@@ -12,6 +12,7 @@ import { Checkbox, Upload, Icon, message } from 'antd'
 import { addImgBlock, startReImgSize } from './customEditor'
 import { Resizable } from 'react-resizable';
 export const BlockQuote = ({ attributes, children, element }) => {
+    const { style } = element
     return (
         <blockquote {...attributes}
             className={css`
@@ -22,14 +23,16 @@ export const BlockQuote = ({ attributes, children, element }) => {
             color: #aaa;
             font-style: italic;
             margin: 0;
+            ${style}
         `}
         >{children}</blockquote>
     )
 }
 
 export const BulletedList = ({ attributes, children, element }) => {
+    const { style } = element
     return (
-        <ul {...attributes}>{children}</ul>
+        <ul {...attributes} className={css`${style}`}>{children}</ul>
     )
 }
 
@@ -105,10 +108,9 @@ export const Img = ({ attributes, children, element, editor }) => {
                             user-select: none;
                             box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
                             max-width: 100%;
+                            width: ${width}px;
+                            ${style}
                         `}
-                        style={{
-                            width: `${width}px`
-                        }}
                         alt=""
                         src={element.url}
                     />
@@ -161,6 +163,7 @@ export const DefaultEl = ({ attributes, children, element }) => {
 }
 
 export const CheckListItemElement = ({ attributes, children, element }) => {
+    const { style } = element
     const editor = useEditor()
     const readOnly = useReadOnly()
     const { checked } = element
@@ -169,9 +172,10 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
             className={css`
                 flex-direction: row;
                 align-items: center;
+                ${style};
                 & + & {
                     margin-top: 0;
-                }
+                } 
             `}
         >
             <span
@@ -326,15 +330,6 @@ export const TableRow = ({ editor, attributes, children, element }) => {
 
 export const TableCell = ({ attributes, children, element, editor }) => {
     let { style, colspan = 1, rowspan= 1 } = element
-    const focused = useFocused()
-    const selected = useSelected()
-    let { ref: { current } } = attributes
-    let left = 0,top = 0
-    if(focused && selected && current) {
-        left = current.offsetLeft
-        top = current.offsetTop
-    }
-    
     return (
         <td 
             rowSpan={rowspan}
