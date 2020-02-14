@@ -418,26 +418,6 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
             })
             setState(newState)
         }
-    }, {
-        title: '向下合并',
-        icon: 'vertical-align-bottom',
-        click: e => {
-            console.log(state[index].content[0]);
-            
-            let { selection } = editor
-            if(!selection) return
-            let { focus = null } = selection
-            if(!focus) return
-            let [, row, column] = editor.selection.focus.path
-            console.log(row, column);
-            
-            let oldColumn = state[index].content[0].column
-            let oldRow = state[index].content[0].row
-            let len = state[index].content[0].children.length
-            //如果是最后一行就不进行操作
-            if(row === len - 1) return
-
-        }
     }]
     return (
         <div className={css`
