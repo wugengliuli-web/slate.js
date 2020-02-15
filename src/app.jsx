@@ -54,22 +54,22 @@ const App = props => {
 										children: [
 											{
 												type: 'table-cell',
-												children: [{ 
+												children: [{
 													type: 'table-content',
 													children: [{ text: '' }]
 												}],
 												style: {
-													
+
 												}
 											},
 											{
 												type: 'table-cell',
-												children: [{ 
+												children: [{
 													type: 'table-content',
 													children: [{ text: '' }]
 												}],
 												style: {
-													
+
 												}
 											}
 										]
@@ -79,14 +79,14 @@ const App = props => {
 										children: [
 											{
 												type: 'table-cell',
-												children: [{ 
+												children: [{
 													type: 'table-content',
 													children: [{ text: '' }]
 												}]
 											},
 											{
 												type: 'table-cell',
-												children: [{ 
+												children: [{
 													type: 'table-content',
 													children: [{ text: '' }]
 												}]
@@ -113,6 +113,21 @@ const App = props => {
 			}
 		},
 		[state],
+	)
+	let upload = useCallback(
+		arr => {
+			arr = arr.map(item => {
+				return {
+					editor,
+					id: uniqueId(),
+					showToolbar: false,
+					content: [item]
+				}
+			})
+			console.log(arr);
+			setState(arr)
+		},
+		[]
 	)
 	let copyEl = (oldEditor, index) => {
 		let newEditor = Object.assign({}, state[index])
@@ -162,19 +177,7 @@ const App = props => {
                         top: 0px;
                     `}>
 						<ToolMoveBar />
-						<UploadFile setState={arr => {
-							arr = arr.map(item => {
-								// let editor = useMemo(() => withReact(withWrapper(createEditor())))
-								return {
-									editor,
-									id: uniqueId(),
-									showToolbar: false,
-									content: [item]
-								}
-							})
-							console.log(arr)
-							// setState([arr[0]])
-						}} />
+						<UploadFile setState={upload} />
 					</div>
 				</div>
 			</DragDropContext>

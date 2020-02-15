@@ -3,7 +3,6 @@ import { Upload, Icon, message } from 'antd';
 import { css } from 'emotion'
 import axios from 'axios'
 import htmlTOJSON from '../lib/htmlTOJSON'
-
 import html from '../test/docx'
 const { Dragger } = Upload;
 
@@ -39,9 +38,9 @@ const UploadFile = ({ setState }) => {
             // }).then(res => {
             //     console.log(res);
             // })
-            let ans = htmlTOJSON(html).reduce((prve, next) => prve.concat(next.children), [])
+            let ans = htmlTOJSON(html)
             console.log(ans);
-            
+             
             setState(ans)
             
             

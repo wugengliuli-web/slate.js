@@ -23,9 +23,11 @@ const withDelAll = editor => {
         console.log('deleteForward')
     }
 
-    editor.deleteFragment = () => {
+    editor.deleteFragment = (...arg) => {
+        console.log(...arg);
+        
         //选择后删除触发
-        deleteFragment()
+        deleteFragment(...arg)
         console.log('deleteFragment')
     }
     return editor

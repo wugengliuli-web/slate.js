@@ -73,7 +73,7 @@ export const Img = ({ attributes, children, element, editor }) => {
     const focused = useFocused()
     const selected = useSelected()
     const { style } = element
-    const { textAlign, width } = style
+    const { textAlign='center', width } = style
     return (
         <div
         {...attributes} 
@@ -109,7 +109,7 @@ export const Img = ({ attributes, children, element, editor }) => {
                             box-shadow: ${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'};
                             max-width: 100%;
                             width: ${width}px;
-                            ${style}
+                            height: auto;
                         `}
                         alt=""
                         src={element.url}
@@ -158,6 +158,7 @@ export const DefaultEl = ({ attributes, children, element }) => {
     return (
         <p {...attributes} className={css`
             ${style}
+            margin: 0;
         `}>{children}</p>
     )
 }
@@ -335,6 +336,7 @@ export const TableCell = ({ attributes, children, element, editor }) => {
             rowSpan={rowspan}
             colSpan={colspan}
             className={css`
+                ${style}
                 position: relative;
                 border: 1px solid #d9d9d9;
                 word-break: break-all;
@@ -342,7 +344,6 @@ export const TableCell = ({ attributes, children, element, editor }) => {
                 white-space: normal;
                 word-wrap: break-word;
                 vertical-align: top;
-                ${style}
             `}
             {...attributes}
         >
