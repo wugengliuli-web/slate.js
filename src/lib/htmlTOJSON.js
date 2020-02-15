@@ -31,6 +31,12 @@ const styleStrToObj = style => {
     return obj
 }
 
+
+const setSpanStyle = (text, style) => {
+    style['text'] = text
+    return style
+}
+
 const deserialize = el => {
     
     if (el.nodeType === 3) {
@@ -100,7 +106,7 @@ const deserialize = el => {
         //         children
         //     )
         default:
-            return el.textContent
+            return setSpanStyle(el.textContent, style)
     }
 }
 

@@ -196,7 +196,7 @@ const createMenuFontSize = editor => {
                                 line-height: 20px;
                                 font-size: 16px;
                             `}
-                            onClick={e => setBlockStyle(editor, { fontSize: item })}
+                            onClick={e => setMarkStyle(editor, { fontSize: item })}
                         >{item}</div>
                     </Menu.Item>
                 ))

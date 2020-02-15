@@ -39,7 +39,6 @@ const UploadFile = ({ setState }) => {
             //     console.log(res);
             // })
             let ans = htmlTOJSON(html)
-            console.log(ans);
              
             setState(ans)
             

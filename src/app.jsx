@@ -117,6 +117,7 @@ const App = props => {
 	let upload = useCallback(
 		arr => {
 			arr = arr.map(item => {
+				let editor = withReact(withWrapper(createEditor()))
 				return {
 					editor,
 					id: uniqueId(),
@@ -124,7 +125,6 @@ const App = props => {
 					content: [item]
 				}
 			})
-			console.log(arr);
 			setState(arr)
 		},
 		[]
