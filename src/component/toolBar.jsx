@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { css } from 'emotion'
 import { Button, Menu, Dropdown } from 'antd'
 import { Editor, Transforms, Text } from 'slate'
@@ -403,4 +403,4 @@ const ToolBar = ({ editor, state, setState }) => {
     )
 }
 
-export default ToolBar
+export default memo(ToolBar)

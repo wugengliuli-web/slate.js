@@ -12,7 +12,7 @@ import uniqueId from 'lodash/uniqueId'
 import { ReactEditor } from 'slate-react'
 import UploadFile from './component/uploadFile'
 const App = props => {
-	let editor = useMemo(() => withReact(withWrapper(createEditor())))
+	// let editor = useMemo(() => withReact(withWrapper(createEditor())))
 	let [state, setState] = useState([])
 	let onDragEnd = useCallback(
 		info => {
@@ -34,6 +34,7 @@ const App = props => {
 				newState.splice(newIndex, 0, oldEl)
 				setState(newState)
 			} else {
+				let editor = withReact(withWrapper(createEditor()))
 				//如果是拖动块状产生编辑器的
 				let { draggableId } = info
 				let { index } = destination
@@ -130,6 +131,7 @@ const App = props => {
 		[]
 	)
 	let copyEl = (oldEditor, index) => {
+		let editor = withReact(withWrapper(createEditor()))
 		let newEditor = Object.assign({}, state[index])
 		newEditor.id = uniqueId()
 		newEditor.editor = editor

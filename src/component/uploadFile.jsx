@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Upload, Icon, message } from 'antd';
 import { css } from 'emotion'
 import axios from 'axios'
 import htmlTOJSON from '../lib/htmlTOJSON'
-import html from '../test/docx'
+// import html from '../test/docx'
 const { Dragger } = Upload;
 
 
@@ -28,19 +28,15 @@ const UploadFile = ({ setState }) => {
         },
         customRequest(info) {
             let { file } = info
-            // axios.post('http://112.44.251.136:8090/doc', {
-            //     headers: {
-            //         contentType: 'multipart/form-data'
-            //     },
-            //     data: {
-            //         docFile: file
-            //     }
-            // }).then(res => {
-            //     console.log(res);
-            // })
-            let ans = htmlTOJSON(html)
-             
-            setState(ans)
+            axios.get('./static/Test-02.html').then(res => {
+                
+                let ans = htmlTOJSON(res.data)
+                console.log(ans);
+                
+                setState(ans)
+                
+            })
+            
             
             
         },
@@ -76,4 +72,4 @@ const UploadFile = ({ setState }) => {
     )
 }
 
-export default UploadFile
+export default memo(UploadFile)

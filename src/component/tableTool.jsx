@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { css } from 'emotion'
 import { Icon } from 'antd'
 import update from 'immutability-helper'
@@ -449,7 +449,10 @@ const TableTool = ({editor, copyEl, index, state, setState}) => {
     )
 }
 
-export default TableTool
+export default memo(TableTool, (prve, next) => {
+    if(prve.editor !== next.editor || prve.index !== next.index) return false
+    else return true
+})
 
 
 // {

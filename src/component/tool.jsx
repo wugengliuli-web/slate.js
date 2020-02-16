@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { css } from 'emotion'
 import { Icon } from 'antd'
 import update from 'immutability-helper'
@@ -76,4 +76,7 @@ const Tool = ({editor, copyEl, index, state, setState}) => {
     )
 }
 
-export default Tool
+export default memo(Tool, (prve, next) => {
+    if(prve.editor !== next.editor || prve.index !== next.index) return false
+    else return true
+})

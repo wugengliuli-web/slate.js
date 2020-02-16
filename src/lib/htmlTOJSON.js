@@ -76,13 +76,13 @@ const deserialize = el => {
         case 'TR':
             return jsx(
                 'element',
-                { type: 'table-row', style, rowspan: el.getAttribute('rowspan'), colspan: el.getAttribute('rowspan') },
+                { type: 'table-row', style },
                 children
             )
         case 'TD':
             return jsx(
                 'element',
-                { type: 'table-cell', style },
+                { type: 'table-cell', style, rowspan: el.getAttribute('rowspan'), colspan: el.getAttribute('colspan') },
                 children
             )
         case 'BODY':

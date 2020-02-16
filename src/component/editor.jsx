@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, memo } from 'react'
 import { Slate, Editable, ReactEditor } from 'slate-react'
 import { css } from 'emotion'
 import { Element } from '../lib/element'
@@ -45,4 +45,4 @@ const Editor = ({value, setValue, readOnly, editor}) => {
     )
 }
 
-export default Editor
+export default memo(Editor)

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, memo } from 'react'
 import { css } from 'emotion'
 import Editor from './editor'
 import update from 'immutability-helper'
@@ -12,7 +12,6 @@ import Tool from './tool'
 import TableTool from './tableTool'
 const EditorContainer = ({ copyEl, state, setState }) => {
     let el = useRef(null)
-
     return (
         <div
             ref={el}
@@ -77,8 +76,7 @@ const EditorContainer = ({ copyEl, state, setState }) => {
                                                         null
                                                 }
                                                 <Draggable
-                                                    key={index}
-                                                    draggableId={index + ''}
+                                                    draggableId={item.id}
                                                     index={index}
                                                 >
                                                     {
@@ -156,6 +154,17 @@ const EditorContainer = ({ copyEl, state, setState }) => {
                                                                                 value={item.content}
                                                                                 //修改编辑器的内容函数 
                                                                                 setValue={(data, showToolbar) => {
+                                                                                    let a = update(state, {
+                                                                                        [index]: {
+                                                                                            content: {
+                                                                                                $set: data
+                                                                                            },
+                                                                                            showToolbar: {
+                                                                                                $set: showToolbar
+                                                                                            }
+                                                                                        }
+                                                                                    })
+                                                                                    console.log(state[1] === a[1], state[1].id, a[1].id)
                                                                                     setState(update(state, {
                                                                                         [index]: {
                                                                                             content: {
@@ -187,4 +196,4 @@ const EditorContainer = ({ copyEl, state, setState }) => {
         </div>
     )
 }
-export default EditorContainer
+export default memo(EditorContainer)

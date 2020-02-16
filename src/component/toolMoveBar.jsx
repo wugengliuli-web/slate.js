@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import { css } from 'emotion'
 import SourceBtn from './sourceBtn'
 import btnData from '../lib/btnData'
@@ -77,4 +77,4 @@ const ToolMoveBar = props => {
     )
 }
 
-export default ToolMoveBar
+export default memo(ToolMoveBar)
