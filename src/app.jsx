@@ -130,7 +130,7 @@ const App = props => {
 		},
 		[]
 	)
-	let copyEl = (oldEditor, index) => {
+	let copyEl = useCallback((oldEditor, index) => {
 		let editor = withReact(withWrapper(createEditor()))
 		let newEditor = Object.assign({}, state[index])
 		newEditor.id = uniqueId()
@@ -141,7 +141,7 @@ const App = props => {
 			$splice: [[index, 0, newEditor]]
 		}))
 		ReactEditor.focus(oldEditor)
-	}
+	}, [state])
 	return (
 		<div className={css`
             width: 100%;

@@ -8,8 +8,8 @@ import ToolBar from './toolBar'
 import { UploadImg } from '../lib/el'
 import { ReactEditor } from 'slate-react'
 import { CSSTransition } from 'react-transition-group'
-import Tool from './tool'
-import TableTool from './tableTool'
+import Tool from '../component/tool'
+import TableTool from '../component/tableTool'
 const EditorContainer = ({ copyEl, state, setState }) => {
     let el = useRef(null)
     return (
@@ -154,17 +154,6 @@ const EditorContainer = ({ copyEl, state, setState }) => {
                                                                                 value={item.content}
                                                                                 //修改编辑器的内容函数 
                                                                                 setValue={(data, showToolbar) => {
-                                                                                    let a = update(state, {
-                                                                                        [index]: {
-                                                                                            content: {
-                                                                                                $set: data
-                                                                                            },
-                                                                                            showToolbar: {
-                                                                                                $set: showToolbar
-                                                                                            }
-                                                                                        }
-                                                                                    })
-                                                                                    console.log(state[1] === a[1], state[1].id, a[1].id)
                                                                                     setState(update(state, {
                                                                                         [index]: {
                                                                                             content: {

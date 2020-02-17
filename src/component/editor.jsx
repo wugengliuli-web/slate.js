@@ -6,10 +6,6 @@ import { renderLeaf } from '../lib/leaf'
 const Editor = ({value, setValue, readOnly, editor}) => {
     let el = useRef(null)
     const renderElement = useCallback(props => <Element editor={editor} {...props} />, [])
-    const onDOMBeforeInput = e => {
-        
-    }
-
     return (
         <div
             ref={el}
@@ -34,7 +30,6 @@ const Editor = ({value, setValue, readOnly, editor}) => {
                 }}
             >
                 <Editable
-                    onDOMBeforeInput={onDOMBeforeInput}
                     readOnly={readOnly}
                     placeholder="在此编辑内容"
                     renderElement={renderElement}
