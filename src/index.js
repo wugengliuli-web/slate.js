@@ -1,4 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './app.jsx'
-ReactDOM.render(<App></App>, document.querySelector('#root'))
+import { StoreContext } from 'redux-react-hook';
+import store from './store/index'
+ReactDOM.render(
+    <StoreContext.Provider value={store}>
+        <App />
+	</StoreContext.Provider>
+,document.querySelector('#root'))
