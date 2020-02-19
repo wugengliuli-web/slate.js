@@ -11,8 +11,12 @@ import { withWrapper } from './lib/with'
 import uniqueId from 'lodash/uniqueId'
 import { ReactEditor } from 'slate-react'
 import UploadFile from './component/uploadFile'
+import { Pagination } from 'antd';
 const App = props => {
 	// let editor = useMemo(() => withReact(withWrapper(createEditor())))
+	let pages = []
+	let pageIndex = 0
+	let [pageLen, setPageLen] = useState(0)
 	let [state, setState] = useState([])
 	let onDragEnd = useCallback(
 		info => {
@@ -117,16 +121,21 @@ const App = props => {
 	)
 	let upload = useCallback(
 		arr => {
-			arr = arr.map(item => {
-				let editor = withReact(withWrapper(createEditor()))
-				return {
-					editor,
-					id: uniqueId(),
-					showToolbar: false,
-					content: [item]
-				}
+			arr = arr.map(items => {
+				return items.map(item => {
+					let editor = withReact(withWrapper(createEditor()))
+					return {
+						editor,
+						id: uniqueId(),
+						showToolbar: false,
+						content: [item]
+					}
+				})
 			})
-			setState(arr)
+			pages = arr
+			pageIndex = 0
+			setState(pages[pageIndex])
+			setPageLen(pages.length)
 		},
 		[]
 	)
@@ -142,6 +151,10 @@ const App = props => {
 		}))
 		ReactEditor.focus(oldEditor)
 	}, [state])
+	let onChangePage = useCallback(e => {
+		pageIndex = e - 1
+		setState(pages[pageIndex])
+	}, [])
 	return (
 		<div className={css`
             width: 100%;
@@ -180,6 +193,11 @@ const App = props => {
                     `}>
 						<ToolMoveBar />
 						<UploadFile setState={upload} />
+						<Pagination className={css`
+							margin-top: 20px;
+							display: flex;
+							justify-content: center;
+						`} defaultCurrent={1} onChange={onChangePage} total={pageLen * 10} />
 					</div>
 				</div>
 			</DragDropContext>

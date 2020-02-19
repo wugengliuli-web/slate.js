@@ -28,10 +28,9 @@ const UploadFile = ({ setState }) => {
         },
         customRequest(info) {
             let { file } = info
-            axios.get('./static/Test-02.html').then(res => {
+            axios.get('./static/str.html').then(res => {
                 
                 let ans = htmlTOJSON(res.data)
-                console.log(ans);
                 
                 setState(ans)
                 
