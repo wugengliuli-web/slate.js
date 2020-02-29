@@ -38,7 +38,6 @@ const setSpanStyle = (text, style) => {
 }
 
 const deserialize = el => {
-    
     if (el.nodeType === 3) {
         return el.textContent
     } else if (el.nodeType !== 1) {
@@ -134,24 +133,31 @@ const add = node => {
 export default function (html) {
     const document = new DOMParser().parseFromString(html, 'text/html')
     
-    let res = deserialize(document.body).reduce((prve, next) => prve.concat(next.children), [])
-    let ans = []
-    res.forEach(item => {
-        if(isEnter(item)) {
-            //对表格进行一些额外的处理
-            if(item.type === 'table') {
-                //去掉tbody层
-                item.children = item.children[0].children
-                //如果出现空了的td 就添加空字符串
-                add(item)
+    let res = deserialize(document.body)
+    console.log(res)
+    res = res.filter(item => item.type === 'page').map(item => item.children)
+    let ans = [];
+    res.forEach((items, index) => {
+        ans[index] = []
+        items.forEach((item, a) => {
+            if(!item.children) return
+            if(isEnter(item)) {
+                if(item.type === 'table') {
+                    //去掉tbody层
+                    item.children = item.children.filter(item => item.type)
+                    item.children = item.children[0].children
+                    item.children = item.children.filter(item => item.type)
+                    //如果出现空了的td 就添加空字符串
+                    add(item)
+                }
+                if(item.children[0].type === 'img') {
+                    item = item.children[0]
+                    item.style.width =  item.style.width.substring(0, item.style.width.length - 2)
+                    item.style.initWidth = ~~item.style.width
+                }
+                ans[index].push(item)
             }
-            if(item.children[0].type === 'img') {
-                item = item.children[0]
-                item.style.width =  item.style.width.substring(0, item.style.width.length - 2)
-                item.style.initWidth = ~~item.style.width
-            }
-            ans.push(item)
-        }
+        })
     })
     return ans
 }

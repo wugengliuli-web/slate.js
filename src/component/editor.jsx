@@ -3,8 +3,12 @@ import { Slate, Editable, ReactEditor } from 'slate-react'
 import { css } from 'emotion'
 import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
-const Editor = ({value, setValue, readOnly, editor}) => {
+import { useDispatch } from 'redux-react-hook';
+import { changeEditorValueAction } from '../store/action'
+const Editor = ({pageIndex, index, readOnly, editor, value}) => {
+    // console.log(pageIndex + '页' + index + '个正在更新')
     let el = useRef(null)
+    const dispatch = useDispatch()
     const renderElement = useCallback(props => <Element editor={editor} {...props} />, [])
     return (
         <div
@@ -22,11 +26,8 @@ const Editor = ({value, setValue, readOnly, editor}) => {
                 editor={editor}
                 value={value}
                 onChange={value => {
-                    if(ReactEditor.isFocused(editor)) {
-                        setValue(value, true)
-                    } else {
-                        setValue(value, false)
-                    }
+                    const action = changeEditorValueAction(pageIndex, index, value)
+                    dispatch(action)
                 }}
             >
                 <Editable

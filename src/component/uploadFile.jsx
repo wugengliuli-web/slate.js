@@ -1,13 +1,19 @@
-import React, { memo } from 'react'
-import { Upload, Icon, message } from 'antd';
+import React, { memo, useCallback } from 'react'
+import { Upload, Icon, message, Button } from 'antd';
 import { css } from 'emotion'
 import axios from 'axios'
 import htmlTOJSON from '../lib/htmlTOJSON'
-// import html from '../test/docx'
+import { addPageAction } from '../store/action'
+import { useDispatch } from 'redux-react-hook';
+
+
 const { Dragger } = Upload;
-
-
 const UploadFile = ({ setState }) => {
+    let dispatch = useDispatch()
+    let addPage = useCallback(() => {
+        const action = addPageAction()
+        dispatch(action)
+    }, [])
 
     const props = {
         name: 'file',
@@ -28,10 +34,9 @@ const UploadFile = ({ setState }) => {
         },
         customRequest(info) {
             let { file } = info
-            axios.get('./static/Test-02.html').then(res => {
+            axios.get('./static/str.html').then(res => {
                 
                 let ans = htmlTOJSON(res.data)
-                console.log(ans);
                 
                 setState(ans)
                 
@@ -68,6 +73,11 @@ const UploadFile = ({ setState }) => {
                     支持word文件
                 </p>
             </Dragger>
+            <Button 
+            onClick={addPage}
+            className={css`
+                margin-top:  20px;
+            `}>添加一页</Button>
         </div>
     )
 }
