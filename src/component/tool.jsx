@@ -1,24 +1,33 @@
 import React, { memo } from 'react'
 import { css } from 'emotion'
 import { Icon } from 'antd'
-import update from 'immutability-helper'
 import { setBlockStyle } from './toolBar'
-const Tool = ({editor, copyEl, index, state, setState}) => {
+import { useDispatch } from 'redux-react-hook';
+import {
+    copyElAction,
+    delAction
+} from '../store/action'
+
+import { createEditor } from 'slate'
+import { withReact } from 'slate-react'
+import { withWrapper } from '../lib/with'
+const Tool = ({pageIndex, index, editor}) => {
+    const dispatch = useDispatch()
     const tool = [{
         title: '复制',
         icon: 'file-add',
         click: e => {
-            copyEl(editor, index)
+            let newEditor = withReact(withWrapper(createEditor()))
+            const action = copyElAction(pageIndex, index, newEditor)
+            dispatch(action)
         }
     }, {
         title: '删除',
         icon: 'delete',
         click: e => {
-            //删除滞后
-            setTimeout(_ => {
-                setState(update(state, {
-                    $splice: [[index, 1]]
-                }))
+            const action = delAction(pageIndex, index)
+            setTimeout(function() {
+                dispatch(action)
             }, 100)
         }
     }, {

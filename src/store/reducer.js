@@ -3,8 +3,13 @@ import {
     changeEditorValue,
     addPage,
     addEditor,
-    exchangeEditor
+    exchangeEditor,
+    setImg,
+    copyEl,
+    delEl
 } from './actionType'
+import uniqueId from 'lodash/uniqueId'
+
 const initState = {
     state: []  //数据
 }
@@ -14,11 +19,14 @@ const reducer = (state = initState, action) => {
     let { type } = action
     switch(type) {
         case changeEditorValue:
-            const { pageIndex, index, value } = action
+            const { pageIndex, index, value, isFocus } = action
             return updata(state, {
                 state: {
                     [pageIndex]: {
                         [index]: {
+                            showToolbar: {
+                                $set: isFocus
+                            },
                             content: {
                                 $set: value
                             }
@@ -50,6 +58,67 @@ const reducer = (state = initState, action) => {
                 state: {
                     [page1]: {
                         $splice: [[index1, 0, source]]
+                    }
+                }
+            })
+        case setImg:
+            const { 
+                pageIndex: imgPageIndex,
+                index: imgIndex,
+                url: imgUrl,
+                editor: imgEditor,
+                width: imgWidth 
+            } = action
+            return updata(state, {
+                state: {
+                    [imgPageIndex]: {
+                        [imgIndex]: {
+                            $set: {
+                                editor: imgEditor,
+                                id: uniqueId(),
+                                content: [{
+                                    type: 'img',
+                                    showToolbar: false,
+                                    children: [{ text: '' }],
+                                    url: imgUrl,
+                                    style: {
+                                        'textAlign': 'center',
+                                        width: imgWidth,
+                                        initWidth: imgWidth
+                                    }
+                                }]
+                            }
+                        }
+                    }
+                }
+            })
+        case copyEl:
+            const {
+                editor: copyEditor,
+                pageIndex: copyPageIndex,
+                index: copyIndex
+            } = action
+            let newEditor = Object.assign({}, state.state[copyPageIndex][copyIndex])
+            newEditor.id = uniqueId()
+            newEditor.editor = copyEditor
+            newEditor.content = JSON.parse(JSON.stringify(state.state[copyPageIndex][copyIndex].content))
+            newEditor.showToolbar = false
+            return updata(state, {
+                state: {
+                    [copyPageIndex]: {
+                        $splice: [[copyIndex, 0, newEditor]]
+                    }
+                }
+            })
+        case delEl:
+            const {
+                pageIndex: delPageIndex,
+                index: delIndex
+            } = action
+            return updata(state, {
+                state: {
+                    [delPageIndex]: {
+                        $splice: [[delIndex, 1]]
                     }
                 }
             })

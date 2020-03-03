@@ -52,6 +52,7 @@ const App = props => {
 				value = {
 					editor,
 					id: uniqueId(),
+					showToolbar: false,
 					content: [{
 						type: draggableId,
 						row: 2,
@@ -108,6 +109,7 @@ const App = props => {
 				value =  {
 					editor,
 					id: uniqueId(),
+					showToolbar: false,
 					content: [{
 						type: draggableId,
 						children: [{ text: '' }]

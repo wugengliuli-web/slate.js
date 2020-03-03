@@ -6,7 +6,6 @@ import { renderLeaf } from '../lib/leaf'
 import { useDispatch } from 'redux-react-hook';
 import { changeEditorValueAction } from '../store/action'
 const Editor = ({pageIndex, index, readOnly, editor, value}) => {
-    // console.log(pageIndex + '页' + index + '个正在更新')
     let el = useRef(null)
     const dispatch = useDispatch()
     const renderElement = useCallback(props => <Element editor={editor} {...props} />, [])
@@ -26,7 +25,7 @@ const Editor = ({pageIndex, index, readOnly, editor, value}) => {
                 editor={editor}
                 value={value}
                 onChange={value => {
-                    const action = changeEditorValueAction(pageIndex, index, value)
+                    const action = changeEditorValueAction(pageIndex, index, value, ReactEditor.isFocused(editor))
                     dispatch(action)
                 }}
             >

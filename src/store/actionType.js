@@ -10,3 +10,15 @@ export const addEditor = 'ADD_EDITOR'
 
 //交换块状
 export const exchangeEditor = 'EXCHANGE_EDITOR'
+
+
+//设置图片
+export const setImg = 'SET_IMG'
+
+//复制
+export const copyEl = 'COPY_EL'
+
+
+//删除
+
+export const delEl = 'DEL_EL'

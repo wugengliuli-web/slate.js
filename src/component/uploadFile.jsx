@@ -23,8 +23,6 @@ const UploadFile = ({ setState }) => {
         beforeUpload(file) {
             if(!file) return
             let { type } = file
-            console.log(file);
-            
             if(/(document|doc|docx)$/i.test(type)) {
                 return Promise.resolve(file)
             } else {
@@ -32,18 +30,19 @@ const UploadFile = ({ setState }) => {
                 return Promise.reject('error')
             }
         },
-        customRequest(info) {
+        async customRequest(info) {
             let { file } = info
-            axios.get('./static/str.html').then(res => {
-                
-                let ans = htmlTOJSON(res.data)
-                
-                setState(ans)
-                
+            let fd = new FormData()
+            fd.append('docFile', file)
+            let res = await axios({
+                url: 'http://112.44.251.136:8090/doc/conversionPage',
+                method: 'POST',
+                data: fd,
+                headers: {
+                    'Content-Type': 'mutipart/form-data'
+                }
             })
-            
-            
-            
+            console.log(res)
         },
         onChange(info) {
             const { status } = info.file;

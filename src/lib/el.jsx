@@ -219,7 +219,7 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
 }
 
 //上传图片的按钮
-export const UploadImg = ({ setState, index, state, editor }) => {
+export const UploadImg = ({ dispatch, pageIndex, index, editor }) => {
     const { Dragger } = Upload;
     const props = {
         name: 'file',
@@ -263,7 +263,7 @@ export const UploadImg = ({ setState, index, state, editor }) => {
                     if(width > 696) {
                         width = 696
                     }
-                    addImgBlock(setState, index, url, state, editor, width)
+                    addImgBlock(dispatch, pageIndex, index, url, editor, width)
                 }
             }
         }

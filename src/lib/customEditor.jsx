@@ -1,29 +1,13 @@
 
-import uniqueId from 'lodash/uniqueId'
+
 import update from 'immutability-helper'
 import { Transforms } from 'slate'
 import throttle from './throttle'
-export const addImgBlock = (setState, index, url, state, editor, width) => {
-    //将添加图片替换为图片元素
-    setState(update(state, {
-        [index]: {
-            $set: {
-                editor,
-                id: uniqueId(),
-                content: [{
-                    type: 'img',
-                    showToolbar: false,
-                    children: [{ text: '' }],
-                    url,
-                    style: {
-                        'textAlign': 'center',
-                        width,
-                        initWidth: width
-                    }
-                }]
-            }
-        }
-    }))
+import { setImgAction } from '../store/action'
+export const addImgBlock = (dispatch, pageIndex, index, url, editor, width) => {
+
+    const action = setImgAction(pageIndex, index, url, editor, width)
+    dispatch(action)
 }
 
 export const startReImgSize = (e, editor, style, direction) => {

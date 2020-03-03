@@ -2,14 +2,19 @@ import {
     changeEditorValue,
     addPage,
     addEditor,
-    exchangeEditor
+    exchangeEditor,
+    setImg,
+    copyEl,
+    delEl
  } from './actionType'
-export const changeEditorValueAction = (pageIndex, index, value) => {
+import { DefaultElement } from 'slate-react'
+export const changeEditorValueAction = (pageIndex, index, value, isFocus) => {
     return {
         type: changeEditorValue,
         pageIndex,  //第几页
         index,  //第几页的第几块
-        value
+        value,
+        isFocus
     }
 }
 
@@ -33,5 +38,34 @@ export const exchangeEditorAction = (sourceInfo, destinationInfo) => {
         type: exchangeEditor,
         sourceInfo, //源
         destinationInfo  //目标
+    }
+}
+
+export const setImgAction = (pageIndex, index, url, editor, width) => {
+    return {
+        type: setImg,
+        pageIndex,
+        index,
+        url,
+        editor,
+        width
+    }
+}
+
+export const copyElAction = (pageIndex, index, editor) => {
+    return {
+        type: copyEl,
+        pageIndex,
+        index,
+        editor
+    }
+}
+
+
+export const delAction = (pageIndex, index) => {
+    return {
+        type: delEl,
+        pageIndex,
+        index
     }
 }
