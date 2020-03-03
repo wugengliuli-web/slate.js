@@ -5,7 +5,7 @@ import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
 import { useDispatch } from 'redux-react-hook';
 import { changeEditorValueAction } from '../store/action'
-const Editor = ({pageIndex, index, readOnly, editor, value}) => {
+const Editor = ({pageIndex, index, readOnly, editor, value, isFocused}) => {
     let el = useRef(null)
     const dispatch = useDispatch()
     const renderElement = useCallback(props => <Element editor={editor} {...props} />, [])
@@ -18,7 +18,7 @@ const Editor = ({pageIndex, index, readOnly, editor, value}) => {
                 transition: all 0.1s;
                 margin: 5px 0;
                 padding: 5px;
-                box-shadow: ${ReactEditor.isFocused(editor) ? '0 0 0 1px #bee1c7' : 'none'};
+                box-shadow: ${isFocused ? '0 0 0 1px #bee1c7' : 'none'};
             `}
         >
             <Slate

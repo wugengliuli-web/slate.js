@@ -145,7 +145,7 @@ const EditorContainer = props => {
                                                                                         transition: all 0.15s;
                                                                                         margin: 5px 0;
                                                                                         padding: 5px;
-                                                                                        box-shadow: ${ReactEditor.isFocused(item.editor) ? '0 0 0 1px #bee1c7' : 'none'};
+                                                                                        box-shadow: ${item.showToolbar && !snapshot.isDraggingOver ? '0 0 0 1px #bee1c7' : 'none'};
                                                                                     `}
                                                                                     >
                                                                                         <UploadImg dispatch={dispatch} editor={item.editor} pageIndex={pageIndex} index={index} />
@@ -157,6 +157,7 @@ const EditorContainer = props => {
                                                                                         value={item.content}
                                                                                         index={index}
                                                                                         pageIndex={pageIndex}
+                                                                                        isFocused={item.showToolbar && !snapshot.isDraggingOver}
                                                                                     />
                                                                             }
                                                                         </div>
