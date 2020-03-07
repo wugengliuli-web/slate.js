@@ -5,7 +5,8 @@ import {
     exchangeEditor,
     setImg,
     copyEl,
-    delEl
+    delEl,
+    setVal
  } from './actionType'
 import { DefaultElement } from 'slate-react'
 export const changeEditorValueAction = (pageIndex, index, value, isFocus) => {
@@ -67,5 +68,12 @@ export const delAction = (pageIndex, index) => {
         type: delEl,
         pageIndex,
         index
+    }
+}
+
+export const setValAction = val => {
+    return {
+        type: setVal,
+        val
     }
 }

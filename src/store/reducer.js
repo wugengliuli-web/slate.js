@@ -6,7 +6,8 @@ import {
     exchangeEditor,
     setImg,
     copyEl,
-    delEl
+    delEl,
+    setVal
 } from './actionType'
 import uniqueId from 'lodash/uniqueId'
 
@@ -16,6 +17,13 @@ const initState = {
 
 
 const reducer = (state = initState, action) => {
+    // let a = state.state.map(item => {
+    //     return item.map(item => {
+    //         return item.content
+    //     })
+    // })
+    // console.log('json->',JSON.stringify(a))
+    console.log(state)
     let { type } = action
     switch(type) {
         case changeEditorValue:
@@ -76,9 +84,9 @@ const reducer = (state = initState, action) => {
                             $set: {
                                 editor: imgEditor,
                                 id: uniqueId(),
+                                showToolbar: false,
                                 content: [{
                                     type: 'img',
-                                    showToolbar: false,
                                     children: [{ text: '' }],
                                     url: imgUrl,
                                     style: {
@@ -122,6 +130,11 @@ const reducer = (state = initState, action) => {
                     }
                 }
             })
+        case setVal:
+            const { val } = action
+            return {
+                state: val
+            }
         default:
             return state
     }

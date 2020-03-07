@@ -56,6 +56,16 @@ export const HeadingTwo = ({ attributes, children, element }) => {
     )
 }
 
+
+export const HeadingThree = ({ attributes, children, element }) => {
+    const { style } = element
+    return (
+        <h3 {...attributes} className={css`
+            ${style}
+        `}>{children}</h3>
+    )
+}
+
 export const ListLtem = ({ attributes, children, element }) => {
     const { style } = element
     return (

@@ -20,5 +20,7 @@ export const copyEl = 'COPY_EL'
 
 
 //删除
-
 export const delEl = 'DEL_EL'
+
+//修改内容
+export const setVal = 'SET_VAL'
