@@ -1,7 +1,6 @@
-import React, { useRef, memo, us } from 'react'
+import React, { useRef, memo } from 'react'
 import { css } from 'emotion'
 import Editor from './editor'
-import update from 'immutability-helper'
 import { Icon, BackTop } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ToolBar from './toolBar'
@@ -12,9 +11,11 @@ import Tool from '../component/tool'
 import TableTool from '../component/tableTool'
 import { useMappedState } from 'redux-react-hook';
 import uniqueId from 'lodash/uniqueId';
+import { useDispatch } from 'redux-react-hook';
 const EditorContainer = props => {
     let el = useRef(null)
     let state = useMappedState(state => state.state)
+    const dispatch = useDispatch()
     return (
         <div
             ref={el}
@@ -75,12 +76,12 @@ const EditorContainer = props => {
                                                 let type = content[0].type
                                                 return (
                                                     <div key={item.id}>
-                                                        {/* {
+                                                        {
                                                             item.showToolbar && !snapshot.isDraggingOver ?
                                                                 <ToolBar editor={item.editor} />
                                                                 :
                                                                 null
-                                                        } */}
+                                                        }
                                                         <Draggable
                                                             draggableId={item.id}
                                                             index={index}
@@ -115,11 +116,13 @@ const EditorContainer = props => {
                                                                                 {
                                                                                     type !== 'table' ?
                                                                                     <Tool
+                                                                                        pageIndex={pageIndex}
                                                                                         editor={item.editor}
                                                                                         index={index}
                                                                                     />
                                                                                     :
                                                                                     <TableTool
+                                                                                        pageIndex={pageIndex}
                                                                                         editor={item.editor}
                                                                                         index={index}
                                                                                     />
@@ -142,10 +145,10 @@ const EditorContainer = props => {
                                                                                         transition: all 0.15s;
                                                                                         margin: 5px 0;
                                                                                         padding: 5px;
-                                                                                        box-shadow: ${ReactEditor.isFocused(item.editor) ? '0 0 0 1px #bee1c7' : 'none'};
+                                                                                        box-shadow: ${item.showToolbar && !snapshot.isDraggingOver ? '0 0 0 1px #bee1c7' : 'none'};
                                                                                     `}
                                                                                     >
-                                                                                        <UploadImg editor={item.editor} pageIndex={pageIndex} index={index} />
+                                                                                        <UploadImg dispatch={dispatch} editor={item.editor} pageIndex={pageIndex} index={index} />
                                                                                     </div>
                                                                                     :
                                                                                     <Editor
@@ -154,6 +157,7 @@ const EditorContainer = props => {
                                                                                         value={item.content}
                                                                                         index={index}
                                                                                         pageIndex={pageIndex}
+                                                                                        isFocused={item.showToolbar && !snapshot.isDraggingOver}
                                                                                     />
                                                                             }
                                                                         </div>

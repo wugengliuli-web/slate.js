@@ -1,15 +1,19 @@
-import React, { useCallback, useRef, memo } from 'react'
+import React, { useCallback, useRef, memo, useMemo } from 'react'
 import { Slate, Editable, ReactEditor } from 'slate-react'
 import { css } from 'emotion'
 import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'redux-react-hook'
 import { changeEditorValueAction } from '../store/action'
-const Editor = ({pageIndex, index, readOnly, editor, value}) => {
-    // console.log(pageIndex + '页' + index + '个正在更新')
+const Editor = ({pageIndex, index, readOnly, editor, value, isFocused}) => {
+    // editor = useMemo(() => editor, [])
     let el = useRef(null)
     const dispatch = useDispatch()
     const renderElement = useCallback(props => <Element editor={editor} {...props} />, [])
+    const changeVal = useCallback(val => {
+        const action = changeEditorValueAction(pageIndex, index, val, ReactEditor.isFocused(editor))
+        dispatch(action)
+    }, [pageIndex, index])
     return (
         <div
             ref={el}
@@ -19,16 +23,13 @@ const Editor = ({pageIndex, index, readOnly, editor, value}) => {
                 transition: all 0.1s;
                 margin: 5px 0;
                 padding: 5px;
-                box-shadow: ${ReactEditor.isFocused(editor) ? '0 0 0 1px #bee1c7' : 'none'};
+                box-shadow: ${isFocused ? '0 0 0 1px #bee1c7' : 'none'};
             `}
         >
             <Slate
                 editor={editor}
                 value={value}
-                onChange={value => {
-                    const action = changeEditorValueAction(pageIndex, index, value)
-                    dispatch(action)
-                }}
+                onChange={changeVal}
             >
                 <Editable
                     readOnly={readOnly}

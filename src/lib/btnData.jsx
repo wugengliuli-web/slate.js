@@ -7,6 +7,10 @@ export default [{
     attrs: {},
     format: 'heading-two'
 }, {
+    text: 'h3',
+    attrs: {},
+    format: 'heading-three'
+}, {
     text: 'Text',
     attrs: {},
     format: 'paragraph'

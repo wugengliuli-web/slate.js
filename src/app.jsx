@@ -3,13 +3,13 @@ import EditorContainer from './component/editorContainer'
 import ToolMoveBar from './component/toolMoveBar'
 import { css } from 'emotion'
 import { DragDropContext } from 'react-beautiful-dnd';
-import updata from 'immutability-helper'
+// import updata from 'immutability-helper'
 import './scss/index.scss'
 import { createEditor } from 'slate'
 import { withReact } from 'slate-react'
 import { withWrapper } from './lib/with'
 import uniqueId from 'lodash/uniqueId'
-import { ReactEditor } from 'slate-react'
+// import { ReactEditor } from 'slate-react'
 import UploadFile from './component/uploadFile'
 import { addEditorAction, exchangeEditorAction } from './store/action'
 import { useDispatch } from 'redux-react-hook';
@@ -52,6 +52,7 @@ const App = props => {
 				value = {
 					editor,
 					id: uniqueId(),
+					showToolbar: false,
 					content: [{
 						type: draggableId,
 						row: 2,
@@ -108,6 +109,7 @@ const App = props => {
 				value =  {
 					editor,
 					id: uniqueId(),
+					showToolbar: false,
 					content: [{
 						type: draggableId,
 						children: [{ text: '' }]

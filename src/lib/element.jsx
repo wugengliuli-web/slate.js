@@ -4,6 +4,7 @@ import {
 	BulletedList,
 	HeadingOne,
 	HeadingTwo,
+	HeadingThree,
 	ListLtem,
 	NumberedList,
 	Img,
@@ -28,6 +29,8 @@ export const Element = props => {
 			return <HeadingOne {...props} />
 		case 'heading-two':
 			return <HeadingTwo {...props} />
+		case 'heading-three':
+			return <HeadingThree {...props} />
 		case 'list-item':
 			return <ListLtem {...props} />
 		case 'numbered-list':
