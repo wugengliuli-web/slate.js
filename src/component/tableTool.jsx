@@ -4,6 +4,10 @@ import { Icon } from 'antd'
 import update from 'immutability-helper'
 import {
     copyElAction,
+    delRowAction,
+    delColAction,
+    mergeLeftAction,
+    mergeRightAction,
     delAction
 } from '../store/action'
 import { setBlockStyle } from './toolBar'
@@ -86,25 +90,41 @@ const TableTool = ({pageIndex, index, editor}) => {
         title: '删除选中行',
         icon: 'column-width',
         click: e => {
-            
+            let editortest = JSON.parse(JSON.stringify(editor));
+            const action = delRowAction(pageIndex, index, editortest)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '删除选中列',
         icon: 'column-height',
         click: e => {
-            
+            let editortest = JSON.parse(JSON.stringify(editor));
+            const action = delColAction(pageIndex, index, editortest)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '向左合并',
         icon: 'double-left',
         click: e => {
-            
+            let editortest = JSON.parse(JSON.stringify(editor));
+            const action = mergeLeftAction(pageIndex, index, editortest)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '向右合并',
         icon: 'double-right',
         click: e => {
-             
+            let editortest = JSON.parse(JSON.stringify(editor));
+            const action = mergeRightAction(pageIndex, index, editortest)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }]
     return (
