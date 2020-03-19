@@ -183,7 +183,7 @@ const reducer = (state = initState, action) => {
                         }
                     }
                 })
-            }else{
+            } else {
                 let children = Array.from(state.state[delColPageIndex][delColIndex].content[0].children).map(item => {
                     item = JSON.parse(JSON.stringify(item))
                     item.children.splice(delColPosition, 1)

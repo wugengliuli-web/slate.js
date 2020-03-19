@@ -33,7 +33,7 @@ const Editor = ({pageIndex, index, readOnly, editor, value, isFocused}) => {
             >
                 <Editable
                     readOnly={readOnly}
-                    placeholder="在此编辑内容"
+                    placeholder="Edit here"
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                 />
