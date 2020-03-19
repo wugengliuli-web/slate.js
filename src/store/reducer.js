@@ -23,7 +23,7 @@ const reducer = (state = initState, action) => {
     //     })
     // })
     // console.log('json->',JSON.stringify(a))
-    console.log(state)
+    // console.log(state)
     let { type } = action
     switch(type) {
         case changeEditorValue:

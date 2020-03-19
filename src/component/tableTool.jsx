@@ -8,7 +8,7 @@ import {
 } from '../store/action'
 import { setBlockStyle } from './toolBar'
 import { useDispatch } from 'redux-react-hook';
-import { createEditor } from 'slate'
+import { createEditor, Editor } from 'slate'
 import { withReact } from 'slate-react'
 import { withWrapper } from '../lib/with'
 
@@ -62,6 +62,12 @@ const TableTool = ({pageIndex, index, editor}) => {
         title: '左边插入',
         icon: 'left-square',
         click: e => {
+            let { selection } = editor
+            if(!selection) return
+            let { focus = null } = selection
+            if(!focus) return
+            let { path } = focus
+            let a = Editor.node(editor, path)
             
         }
     }, {
