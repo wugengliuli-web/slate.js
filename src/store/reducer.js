@@ -442,7 +442,7 @@ const reducer = (state = initState, action) => {
                 pageIndex: focusPreRawPageIndex,
                 index: focusPreRawIndex
             } = action
-            let addPreRow = state.state[focusPreRawPageIndex][focusPreRawIndex].content[0].row + 1;
+            let addNewPreRow = state.state[focusPreRawPageIndex][focusPreRawIndex].content[0].row + 1;
             let oldColumn = state.state[focusPreRawPageIndex][focusPreRawIndex].content[0].column
             let afterAddPreRow = Array.from(state.state[focusPreRawPageIndex][focusPreRawIndex].content[0].children)
             let insertPreRow = []
@@ -467,7 +467,7 @@ const reducer = (state = initState, action) => {
                             content: {
                                 [0]: {
                                     row: {
-                                        $set: addPreRow,
+                                        $set: addNewPreRow,
                                     },
                                     children: {
                                         $set: afterAddPreRow
@@ -484,7 +484,7 @@ const reducer = (state = initState, action) => {
                 pageIndex: focusNextRawPageIndex,
                 index: focusNextRawIndex
             } = action
-            let addNextRow = state.state[focusNextRawPageIndex][focusNextRawIndex].content[0].row + 1;
+            let addNewNextRow = state.state[focusNextRawPageIndex][focusNextRawIndex].content[0].row + 1;
             let afterAddNextRaw = Array.from(state.state[focusNextRawPageIndex][focusNextRawIndex].content[0].children)
             let insertNextRow = {
                 type: 'table-row',
@@ -507,7 +507,7 @@ const reducer = (state = initState, action) => {
                             content: {
                                 [0]: {
                                     row: {
-                                        $set: addNextRow,
+                                        $set: addNewNextRow,
                                     },
                                     children: {
                                         $set: afterAddNextRaw
