@@ -34,7 +34,6 @@ const Tool = ({pageIndex, index, editor}) => {
         title: '左对齐',
         icon: 'align-left',
         click: e => {
-            e.preventDefault()
             setBlockStyle(editor, {
                 textAlign: 'left'
             })

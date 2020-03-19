@@ -35,3 +35,15 @@ export const delEl = 'DEL_EL'
 
 //修改内容
 export const setVal = 'SET_VAL'
+
+// 左侧添加列
+export const addPreCol = 'ADD_PRE_COL'
+
+// 右侧添加列
+export const addNextCol = 'ADD_NEXT_COL'
+
+// 上方添加行
+export const addPreRow = 'ADD_PRE_RAW'
+
+// 下方添加行
+export const addNextRow = 'ADD_NEXT_RAW'

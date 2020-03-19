@@ -1,4 +1,4 @@
-import { 
+import {
     changeEditorValue,
     addPage,
     addEditor,
@@ -10,14 +10,18 @@ import {
     delCol,
     mergeLeft,
     mergeRight,
-    setVal
- } from './actionType'
+    setVal,
+    addPreCol,
+    addNextCol,
+    addPreRow,
+    addNextRow
+} from './actionType'
 import { DefaultElement } from 'slate-react'
 export const changeEditorValueAction = (pageIndex, index, value, isFocus) => {
     return {
         type: changeEditorValue,
-        pageIndex,  //第几页
-        index,  //第几页的第几块
+        pageIndex, //第几页
+        index, //第几页的第几块
         value,
         isFocus
     }
@@ -32,8 +36,8 @@ export const addPageAction = () => {
 export const addEditorAction = (pageIndex, index, value) => {
     return {
         type: addEditor,
-        pageIndex,  //第几页
-        index,  //第几页的第几块
+        pageIndex, //第几页
+        index, //第几页的第几块
         value
     }
 }
@@ -42,7 +46,7 @@ export const exchangeEditorAction = (sourceInfo, destinationInfo) => {
     return {
         type: exchangeEditor,
         sourceInfo, //源
-        destinationInfo  //目标
+        destinationInfo //目标
     }
 }
 
@@ -115,5 +119,41 @@ export const setValAction = val => {
     return {
         type: setVal,
         val
+    }
+}
+
+export const addPreColAction = (pageIndex, index, column) => {
+    return {
+        type: addPreCol,
+        pageIndex,
+        index,
+        column
+    }
+}
+
+export const addNextColAction = (pageIndex, index, column) => {
+    return {
+        type: addNextCol,
+        pageIndex,
+        index,
+        column
+    }
+}
+
+export const addPreRawAction = (pageIndex, index, row) => {
+    return {
+        type: addPreRow,
+        pageIndex,
+        index,
+        row
+    }
+}
+
+export const addNextRawAction = (pageIndex, index, row) => {
+    return {
+        type: addNextRow,
+        pageIndex,
+        index,
+        row
     }
 }

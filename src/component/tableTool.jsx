@@ -8,7 +8,11 @@ import {
     delColAction,
     mergeLeftAction,
     mergeRightAction,
-    delAction
+    delAction,
+    addPreColAction,
+    addNextColAction,
+    addPreRawAction,
+    addNextRawAction
 } from '../store/action'
 import { setBlockStyle } from './toolBar'
 import { useDispatch } from 'redux-react-hook';
@@ -66,31 +70,49 @@ const TableTool = ({pageIndex, index, editor}) => {
         title: '左边插入',
         icon: 'left-square',
         click: e => {
-            let { selection } = editor
-            if(!selection) return
-            let { focus = null } = selection
-            if(!focus) return
-            let { path } = focus
-            let a = Editor.node(editor, path)
-            
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, , column] = focusCol.path
+            const action = addPreColAction(pageIndex, index, column)
+            dispatch(action)
         }
     }, {
         title: '右边插入',
         icon: 'right-square',
         click: e => {
-            
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, , column] = focusCol.path
+            const action = addNextColAction(pageIndex, index, column)
+            dispatch(action)
         }
     }, {
         title: '上边插入',
         icon: 'up-square',
         click: e => {
-            
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, row] = focusCol.path
+            const action = addPreRawAction(pageIndex, index, row)
+            dispatch(action)
         }
     }, {
         title: '下边插入',
         icon: 'down-square',
         click: e => {
-            
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, row] = focusCol.path
+            const action = addNextRawAction(pageIndex, index, row)
+            dispatch(action)
         }
     }, {
         title: '删除选中行',
