@@ -370,8 +370,8 @@ const reducer = (state = initState, action) => {
                 paseIndex: focusPreColPageIndex,
                 index: focusPreColIndex
             } = action
-            newCol = state.state[focusPreColPageIndex][focusPreColIndex].content[0].column + 1
-            let children = Array.from(state.state[focusPreColPageIndex][focusPreColIndex].content[0].children).map((item, index) => {
+            let preCol = state.state[focusPreColPageIndex][focusPreColIndex].content[0].column + 1
+            let afterAddPreCol = Array.from(state.state[focusPreColPageIndex][focusPreColIndex].content[0].children).map((item, index) => {
                 item = JSON.parse(JSON.stringify(item))
                 for (let i = 0; item.children.length < newCol; i++) {
                     let text
@@ -408,10 +408,10 @@ const reducer = (state = initState, action) => {
                             content: {
                                 [0]: {
                                     column: {
-                                        $set: newCol
+                                        $set: preCol
                                     },
                                     children: {
-                                        $set: children
+                                        $set: afterAddPreCol
                                     }
                                 }
                             }
@@ -426,7 +426,7 @@ const reducer = (state = initState, action) => {
                 index: focusNextColIndex
             } = action
             let nextCol = state.state[focusNextColPageIndex][focusNextColIndex].content[0].column + 1
-            children = Array.from(state.state[focusNextColPageIndex][focusNextColIndex].content[0].children).map((item, index) => {
+            let afterAddNextCol = Array.from(state.state[focusNextColPageIndex][focusNextColIndex].content[0].children).map((item, index) => {
                 item = JSON.parse(JSON.stringify(item))
                 for (let i = 0; item.children.length < nextCol; i++) {
                     let text
@@ -463,10 +463,10 @@ const reducer = (state = initState, action) => {
                             content: {
                                 [0]: {
                                     column: {
-                                        $set: newCol
+                                        $set: nextCol
                                     },
                                     children: {
-                                        $set: children
+                                        $set: afterAddNextCol
                                     }
                                 }
                             }
@@ -480,13 +480,13 @@ const reducer = (state = initState, action) => {
                 pageIndex: focusPreRawPageIndex,
                 index: focusPreRawIndex
             } = action
-            newRow = state.state[focusPreRawPageIndex][focusPreRawIndex].content[0].row + 1;
-            children = Array.from(state.state[focusPreRawPageIndex][focusPreRawIndex].content[0].children).map((item, index) => {
+            let addPreRow = state.state[focusPreRawPageIndex][focusPreRawIndex].content[0].row + 1;
+            let afterAddPreRow = Array.from(state.state[focusPreRawPageIndex][focusPreRawIndex].content[0].children).map((item, index) => {
                 item = JSON.parse(JSON.stringify(item))
             })
-            let insertRaw = {}
-            for (let i = 0; i < children[0].children.length; i++) {
-                insertRaw.children.push({
+            let insertPreRow = {}
+            for (let i = 0; i < afterAddPreRow[0].children.length; i++) {
+                insertPreRow.children.push({
                     type: 'table-cell',
                     children: [{
                         type: 'table-content',
@@ -494,7 +494,7 @@ const reducer = (state = initState, action) => {
                     }]
                 })
             }
-            children.splice(focusPreRow, 0, insertRaw)
+            afterAddPreRow.splice(focusPreRow, 0, insertPreRow)
             return updata(state, {
                 state: {
                     [delRowPageIndex]: {
@@ -502,10 +502,10 @@ const reducer = (state = initState, action) => {
                             content: {
                                 [0]: {
                                     row: {
-                                        $set: newRow,
+                                        $set: addPreRow,
                                     },
                                     children: {
-                                        $set: children
+                                        $set: afterAddPreRow
                                     }
                                 }
                             }
@@ -519,13 +519,13 @@ const reducer = (state = initState, action) => {
                 pageIndex: focusNextRawPageIndex,
                 index: focusNextRawIndex
             } = action
-            newRow = state.state[focusNextRawPageIndex][focusNextRawIndex].content[0].row + 1;
-            children = Array.from(state.state[focusNextRawPageIndex][focusNextRawIndex].content[0].children).map((item, index) => {
+            let addNextRow = state.state[focusNextRawPageIndex][focusNextRawIndex].content[0].row + 1;
+            let afterAddNextRaw = Array.from(state.state[focusNextRawPageIndex][focusNextRawIndex].content[0].children).map((item, index) => {
                 item = JSON.parse(JSON.stringify(item))
             })
-            insertRaw = {}
-            for (let i = 0; i < children[0].children.length; i++) {
-                insertRaw.children.push({
+            let insertNextRow = {}
+            for (let i = 0; i < afterAddNextRaw[0].children.length; i++) {
+                insertNextRow.children.push({
                     type: 'table-cell',
                     children: [{
                         type: 'table-content',
@@ -533,7 +533,7 @@ const reducer = (state = initState, action) => {
                     }]
                 })
             }
-            children.splice(focusNextRow + 1, 0, insertRaw)
+            afterAddNextRaw.splice(focusNextRow + 1, 0, insertNextRow)
             return updata(state, {
                 state: {
                     [delRowPageIndex]: {
@@ -541,10 +541,10 @@ const reducer = (state = initState, action) => {
                             content: {
                                 [0]: {
                                     row: {
-                                        $set: newRow,
+                                        $set: addNextRow,
                                     },
                                     children: {
-                                        $set: children
+                                        $set: afterAddNextRaw
                                     }
                                 }
                             }
