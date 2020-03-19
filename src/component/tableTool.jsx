@@ -4,6 +4,10 @@ import { Icon } from 'antd'
 import update from 'immutability-helper'
 import {
     copyElAction,
+    delRowAction,
+    delColAction,
+    mergeLeftAction,
+    mergeRightAction,
     delAction,
     addPreColAction,
     addNextColAction,
@@ -12,7 +16,7 @@ import {
 } from '../store/action'
 import { setBlockStyle } from './toolBar'
 import { useDispatch } from 'redux-react-hook';
-import { createEditor } from 'slate'
+import { createEditor, Editor } from 'slate'
 import { withReact } from 'slate-react'
 import { withWrapper } from '../lib/with'
 
@@ -66,13 +70,12 @@ const TableTool = ({pageIndex, index, editor}) => {
         title: '左边插入',
         icon: 'left-square',
         click: e => {
-            // console.log(pageIndex,index,editor)
-            // // editor.children[0].row=4
-
-            // console.log(editor)
-            // Transforms.insertNodes(editor,,{})
-            let opeditor = JSON.parse(JSON.stringify(editor));
-            const action = addPreColAction(pageIndex, index, opeditor)
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, , column] = focusCol.path
+            const action = addPreColAction(pageIndex, index, column)
             setTimeout(function () {
                 dispatch(action)
             }, 100)
@@ -81,43 +84,93 @@ const TableTool = ({pageIndex, index, editor}) => {
         title: '右边插入',
         icon: 'right-square',
         click: e => {
-            
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, , column] = focusCol.path
+            const action = addNextColAction(pageIndex, index, column)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '上边插入',
         icon: 'up-square',
         click: e => {
-            
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, raw] = focusCol.path
+            const action = addPreRawAction(pageIndex, index, raw)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '下边插入',
         icon: 'down-square',
         click: e => {
-            
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, raw] = focusCol.path
+            const action = addNextRawAction(pageIndex, index, raw)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '删除选中行',
         icon: 'column-width',
         click: e => {
-            
+            let { selection } = editor
+            if (!selection) return
+            let { focus = null } = selection
+            if (!focus) return
+            let [, row] = focus.path
+            const action = delRowAction(pageIndex, index, row)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '删除选中列',
         icon: 'column-height',
         click: e => {
-            
+            let { selection: selectionCol } = editor
+            if (!selectionCol) return
+            let { focus: focusCol = null } = selectionCol
+            if (!focusCol) return
+            let [, , column] = focusCol.path
+            const action = delColAction(pageIndex, index, column)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '向左合并',
         icon: 'double-left',
         click: e => {
-            
+            let { selection: selectionMergeLeft } = editor
+            if (!selectionMergeLeft) return
+            let { focus: focusMergeLeft = null } = selectionMergeLeft
+            if (!focusMergeLeft) return
+            const action = mergeLeftAction(pageIndex, index, focusMergeLeft.path)
+            dispatch(action)
         }
     }, {
         title: '向右合并',
         icon: 'double-right',
         click: e => {
-             
+            let { selection: selectionMergeRight } = editor
+            if (!selectionMergeRight) return
+            let { focus: focusMergeRight = null } = selectionMergeRight
+            if (!focusMergeRight) return
+            const action = mergeRightAction(pageIndex, index, focusMergeRight.path)
+            dispatch(action)
         }
     }]
     return (

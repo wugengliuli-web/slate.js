@@ -141,6 +141,9 @@ export const setBlockStyle = (editor, changeStyle) => {
     let [, nodes] = Editor.nodes(editor)
     let { type } = editor.children[0]
     let format = ''
+    if(!nodes) {
+        return
+    }
     let style = nodes[0].style || {}
     if(type === 'table') {
         format = 'table-cell'

@@ -18,6 +18,17 @@ export const setImg = 'SET_IMG'
 //复制
 export const copyEl = 'COPY_EL'
 
+// 删除行
+export const delRow = 'DEL_ROW' 
+
+// 删除列
+export const delCol = 'DEL_COL' 
+
+// 表格左合并
+export const mergeLeft = 'MERGE_LEFT' 
+
+// 表格右合并
+export const mergeRight = 'MERGE_RIGHT' 
 
 //删除
 export const delEl = 'DEL_EL'

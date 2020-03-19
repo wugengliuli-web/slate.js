@@ -6,11 +6,15 @@ import {
     setImg,
     copyEl,
     delEl,
+    delRow,
+    delCol,
+    mergeLeft,
+    mergeRight,
     setVal,
     addPreCol,
     addNextCol,
-    addPreRaw,
-    addNextRaw
+    addPreRow,
+    addNextRow
 } from './actionType'
 import { DefaultElement } from 'slate-react'
 export const changeEditorValueAction = (pageIndex, index, value, isFocus) => {
@@ -75,6 +79,42 @@ export const delAction = (pageIndex, index) => {
     }
 }
 
+export const delRowAction = (pageIndex, index, row) => {
+    return {
+        type: delRow,
+        pageIndex,
+        index,
+        row
+    }
+}
+
+export const delColAction = (pageIndex, index, column) => {
+    return {
+        type: delCol,
+        pageIndex,
+        index,
+        column
+    }
+}
+
+export const mergeLeftAction = (pageIndex, index, position) => {
+    return {
+        type: mergeLeft,
+        pageIndex,
+        index,
+        position
+    }
+}
+
+export const mergeRightAction = (pageIndex, index, position) => {
+    return {
+        type: mergeRight,
+        pageIndex,
+        index,
+        position
+    }
+}
+
 export const setValAction = val => {
     return {
         type: setVal,
@@ -82,38 +122,38 @@ export const setValAction = val => {
     }
 }
 
-export const addPreColAction = (pageIndex, index, editor) => {
+export const addPreColAction = (pageIndex, index, column) => {
     return {
         type: addPreCol,
         pageIndex,
         index,
-        editor
+        column
     }
 }
 
-export const addNextColAction = (pageIndex, index, editor) => {
+export const addNextColAction = (pageIndex, index, column) => {
     return {
         type: addNextCol,
         pageIndex,
         index,
-        editor
+        column
     }
 }
 
-export const addPreRawAction = (pageIndex, index, editor) => {
+export const addPreRawAction = (pageIndex, index, raw) => {
     return {
-        type: addPreRaw,
+        type: addPreRow,
         pageIndex,
         index,
-        editor
+        raw
     }
 }
 
-export const addNextRawAction = (pageIndex, index, editor) => {
+export const addNextRawAction = (pageIndex, index, raw) => {
     return {
-        type: addNextRaw,
+        type: addNextRow,
         pageIndex,
         index,
-        editor
+        raw
     }
 }
