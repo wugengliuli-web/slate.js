@@ -4,7 +4,11 @@ import { Icon } from 'antd'
 import update from 'immutability-helper'
 import {
     copyElAction,
-    delAction
+    delAction,
+    addPreColAction,
+    addNextColAction,
+    addPreRawAction,
+    addNextRawAction
 } from '../store/action'
 import { setBlockStyle } from './toolBar'
 import { useDispatch } from 'redux-react-hook';
@@ -62,7 +66,16 @@ const TableTool = ({pageIndex, index, editor}) => {
         title: '左边插入',
         icon: 'left-square',
         click: e => {
-            
+            // console.log(pageIndex,index,editor)
+            // // editor.children[0].row=4
+
+            // console.log(editor)
+            // Transforms.insertNodes(editor,,{})
+            let opeditor = JSON.parse(JSON.stringify(editor));
+            const action = addPreColAction(pageIndex, index, opeditor)
+            setTimeout(function () {
+                dispatch(action)
+            }, 100)
         }
     }, {
         title: '右边插入',
