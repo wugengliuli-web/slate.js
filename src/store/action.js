@@ -6,6 +6,10 @@ import {
     setImg,
     copyEl,
     delEl,
+    delRow,
+    delCol,
+    mergeLeft,
+    mergeRight,
     setVal
  } from './actionType'
 import { DefaultElement } from 'slate-react'
@@ -68,6 +72,42 @@ export const delAction = (pageIndex, index) => {
         type: delEl,
         pageIndex,
         index
+    }
+}
+
+export const delRowAction = (pageIndex, index, row) => {
+    return {
+        type: delRow,
+        pageIndex,
+        index,
+        row
+    }
+}
+
+export const delColAction = (pageIndex, index, column) => {
+    return {
+        type: delCol,
+        pageIndex,
+        index,
+        column
+    }
+}
+
+export const mergeLeftAction = (pageIndex, index, position) => {
+    return {
+        type: mergeLeft,
+        pageIndex,
+        index,
+        position
+    }
+}
+
+export const mergeRightAction = (pageIndex, index, position) => {
+    return {
+        type: mergeRight,
+        pageIndex,
+        index,
+        position
     }
 }
 
