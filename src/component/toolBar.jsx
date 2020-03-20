@@ -141,6 +141,9 @@ export const setBlockStyle = (editor, changeStyle) => {
     let [, nodes] = Editor.nodes(editor)
     let { type } = editor.children[0]
     let format = ''
+    if(!nodes) {
+        return
+    }
     let style = nodes[0].style || {}
     if(type === 'table') {
         format = 'table-cell'
@@ -148,7 +151,7 @@ export const setBlockStyle = (editor, changeStyle) => {
         if(!selection) return
         let { focus = null } = selection
         if(!focus) return
-        let [, row, column] = editor.selection.focus.path
+        let [, row, column] = focus.path
         style = nodes[0].children[row].children[column].style
     }
     
@@ -160,6 +163,7 @@ export const setBlockStyle = (editor, changeStyle) => {
     }, { 
         match: format ? n => n.type === format : null
     })
+    // console.log(nodes)
 }
 
 const createMenuFontColor = editor => {

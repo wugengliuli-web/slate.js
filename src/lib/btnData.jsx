@@ -26,4 +26,8 @@ export default [{
     text: 'Table',
     attrs: {},
     format: 'table'
+},{
+    text: 'Divider',
+    attrs: {},
+    format: 'divider'
 }]

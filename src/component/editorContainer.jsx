@@ -14,7 +14,7 @@ import uniqueId from 'lodash/uniqueId';
 import { useDispatch } from 'redux-react-hook';
 const EditorContainer = props => {
     let el = useRef(null)
-    let state = useMappedState(state => state.state)
+    let state = useMappedState(state => state.state || [])
     const dispatch = useDispatch()
     return (
         <div

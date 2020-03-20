@@ -32,23 +32,17 @@ const UploadFile = ({ setState }) => {
             let { file } = info
             let fd = new FormData()
             fd.append('docFile', file)
-            // let res = await axios({
-            //     url: 'http://112.44.251.136:8090/doc/conversionPage',
-            //     method: 'POST',
-            //     data: fd,
-            //     headers: {
-            //         'Content-Type': 'mutipart/form-data'
-            //     }
-            // })
+            console.log(file)
             let res = await axios({
-                url: './JSON/text.json'
+                url: 'http://112.44.251.136:8090/doc/conversionDocx4j',
+                method: 'POST',
+                data: fd,
+                headers: {
+                    'Content-Type': 'mutipart/form-data'
+                }
             })
-            let { data } = res
-            let { items } = data
-            let json = jsonTomyJson(items)
-            console.log(json)
-            // console.log(json)
-            // data = data.map(item => item.myElementList)
+            let { data: { code, data } } = res
+            let json = jsonTomyJson(data)
             const action = setValAction(json)
             dispatch(action)
         },

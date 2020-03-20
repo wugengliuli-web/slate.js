@@ -84,7 +84,7 @@ const withCheckList = editor => {
 
 
 const withImage = editor => {
-    const { insertData, isVoid, isInline } = editor
+    const { isVoid, isInline } = editor
     editor.isVoid = el => {
         return el.type === 'img' ? true : isVoid(el)
     }
@@ -115,7 +115,18 @@ const withImage = editor => {
     return editor
 }
 
+
+const withDivider = editor => {
+    const { isVoid, isInline } = editor
+    editor.isVoid = el => {
+        return el.type === 'divider' ? true : isVoid(el)
+    }
+
+    editor.isInline = el => {
+        return el.type === 'divider' ? false : isInline(el)
+    }
+    return editor
+}
 export const withWrapper = editor => {
-    // return withTable(withCheckList(withImage(editor)))
-    return withDelAll(withCheckList(withImage(editor)))
+    return withDelAll(withDivider(withCheckList(withImage(editor))))
 }
