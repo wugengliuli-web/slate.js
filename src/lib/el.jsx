@@ -8,7 +8,7 @@ import {
     useSelected
 } from 'slate-react'
 import { Transforms } from 'slate'
-import { Checkbox, Upload, Icon, message } from 'antd'
+import { Checkbox, Upload, Icon, message, Divider } from 'antd'
 import { addImgBlock, startReImgSize } from './customEditor'
 import { Resizable } from 'react-resizable';
 export const BlockQuote = ({ attributes, children, element }) => {
@@ -26,6 +26,13 @@ export const BlockQuote = ({ attributes, children, element }) => {
             ${style}
         `}
         >{children}</blockquote>
+    )
+}
+
+export const DividerEl = ({ attributes, children, element }) => {
+    const { style } = element
+    return (
+        <Divider/>
     )
 }
 

@@ -9,6 +9,7 @@ import {
 	NumberedList,
 	Img,
 	DefaultEl,
+	DividerEl,
 	CheckListItemElement,
 	UploadImg,
 	TableContainer,
@@ -21,6 +22,8 @@ import {
 export const Element = props => {
 	let { element } = props
 	switch (element.type) {
+		case 'divider':
+			return <DividerEl {...props} />
 		case 'block-quote':
 			return <BlockQuote {...props} />
 		case 'bulleted-list':
