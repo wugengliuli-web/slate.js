@@ -8,16 +8,14 @@ import {
     delAction
 } from '../store/action'
 
-import { createEditor } from 'slate'
-import { withReact } from 'slate-react'
-import { withWrapper } from '../lib/with'
+import { createEditorFactory } from '../lib/createEditor'
 const Tool = ({pageIndex, index, editor}) => {
     const dispatch = useDispatch()
     const tool = [{
         title: '复制',
         icon: 'file-add',
         click: e => {
-            let newEditor = withReact(withWrapper(createEditor()))
+            let newEditor = createEditorFactory()
             const action = copyElAction(pageIndex, index, newEditor)
             dispatch(action)
         }

@@ -29,13 +29,6 @@ export const BlockQuote = ({ attributes, children, element }) => {
     )
 }
 
-export const DividerEl = ({ attributes, children, element }) => {
-    const { style } = element
-    return (
-        <Divider/>
-    )
-}
-
 export const BulletedList = ({ attributes, children, element }) => {
     const { style } = element
     return (
@@ -84,6 +77,16 @@ export const ListLtem = ({ attributes, children, element }) => {
 
 export const NumberedList = ({ attributes, children, element }) => {
     return <ol {...attributes}>{children}</ol>
+}
+
+export const DividerEl = ({ attributes, children, element }) => {
+    const { style } = element
+    return (
+        <div className="aaa" {...attributes} contentEditable={false}>
+            <Divider contentEditable={false} />
+            {children}
+        </div>
+    )
 }
 
 export const Img = ({ attributes, children, element, editor }) => {

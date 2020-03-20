@@ -459,7 +459,6 @@ const reducer = (state = initState, action) => {
                 type: 'table-row',
                 children: insertPreRow
             })
-            console.log(focusPreRow, afterAddPreRow, insertPreRow)
             return updata(state, {
                 state: {
                     [focusPreRawPageIndex]: {

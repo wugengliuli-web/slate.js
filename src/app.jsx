@@ -3,16 +3,12 @@ import EditorContainer from './component/editorContainer'
 import ToolMoveBar from './component/toolMoveBar'
 import { css } from 'emotion'
 import { DragDropContext } from 'react-beautiful-dnd';
-// import updata from 'immutability-helper'
 import './scss/index.scss'
-import { createEditor } from 'slate'
-import { withReact } from 'slate-react'
-import { withWrapper } from './lib/with'
 import uniqueId from 'lodash/uniqueId'
-// import { ReactEditor } from 'slate-react'
 import UploadFile from './component/uploadFile'
 import { addEditorAction, exchangeEditorAction } from './store/action'
 import { useDispatch } from 'redux-react-hook';
+import { createEditorFactory } from './lib/createEditor'
 const App = props => {
 	const dispatch = useDispatch()
 	const onDragEnd = useCallback(info => {
@@ -42,7 +38,7 @@ const App = props => {
 			 * 产生一个编辑器
 			 * 先拿到是加在第几页的
 			 */
-			let editor = withReact(withWrapper(createEditor()))
+			let editor = createEditorFactory()
 			let page = ~~destination.droppableId.match(reg)[0]  //第几页
 			let { draggableId } = info  //产生编辑的类型
 			let { index } = destination //第几页的第几个块状

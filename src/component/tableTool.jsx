@@ -16,9 +16,8 @@ import {
 } from '../store/action'
 import { setBlockStyle } from './toolBar'
 import { useDispatch } from 'redux-react-hook';
-import { createEditor, Editor } from 'slate'
-import { withReact } from 'slate-react'
-import { withWrapper } from '../lib/with'
+import { Editor } from 'slate'
+import { createEditorFactory } from '../lib/createEditor'
 
 /**
  * 表格的工具栏
@@ -29,7 +28,7 @@ const TableTool = ({pageIndex, index, editor}) => {
         title: '复制',
         icon: 'file-add',
         click: e => {
-            let newEditor = withReact(withWrapper(createEditor()))
+            let newEditor = createEditorFactory()
             const action = copyElAction(pageIndex, index, newEditor)
             dispatch(action)
         }
