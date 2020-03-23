@@ -5,7 +5,6 @@ import { Transforms } from 'slate'
 import throttle from './throttle'
 import { setImgAction } from '../store/action'
 export const addImgBlock = (dispatch, pageIndex, index, url, editor, width) => {
-
     const action = setImgAction(pageIndex, index, url, editor, width)
     dispatch(action)
 }

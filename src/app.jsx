@@ -1,14 +1,13 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import EditorContainer from './component/editorContainer'
 import ToolMoveBar from './component/toolMoveBar'
 import { css } from 'emotion'
 import { DragDropContext } from 'react-beautiful-dnd';
 import './scss/index.scss'
-import uniqueId from 'lodash/uniqueId'
 import UploadFile from './component/uploadFile'
 import { addEditorAction, exchangeEditorAction } from './store/action'
 import { useDispatch } from 'redux-react-hook';
-import { createEditorFactory } from './lib/createEditor'
+import { createDataFactory } from './lib/createData'
 const App = props => {
 	const dispatch = useDispatch()
 	const onDragEnd = useCallback(info => {
@@ -20,8 +19,8 @@ const App = props => {
 		//如果是编辑区域的拖动 插入位置
 		if (destination.droppableId.includes('editor') && source.droppableId.includes('editor')) {
 			//页
-			let page1 = ~~destination.droppableId.match(reg)[0]
-			let page2 = ~~source.droppableId.match(reg)[0]
+			let page1 = Number(destination.droppableId.match(reg)[0])
+			let page2 = Number(source.droppableId.match(reg)[0])
 			let { index: index1 } = destination
 			let { index: index2 } = source
 			const action = exchangeEditorAction({
@@ -38,80 +37,10 @@ const App = props => {
 			 * 产生一个编辑器
 			 * 先拿到是加在第几页的
 			 */
-			let editor = createEditorFactory()
-			let page = ~~destination.droppableId.match(reg)[0]  //第几页
+			let page = Number(destination.droppableId.match(reg)[0])  //第几页
 			let { draggableId } = info  //产生编辑的类型
 			let { index } = destination //第几页的第几个块状
-			let value;
-			//如果是表格 就默认出现两行两列的表格
-			if(draggableId === 'table') {
-				value = {
-					editor,
-					id: uniqueId(),
-					showToolbar: false,
-					content: [{
-						type: draggableId,
-						row: 2,
-						column: 2,
-						children: [
-							{
-								type: 'table-row',
-								children: [
-									{
-										type: 'table-cell',
-										children: [{
-											type: 'table-content',
-											children: [{ text: '' }]
-										}],
-										style: {
-
-										}
-									},
-									{
-										type: 'table-cell',
-										children: [{
-											type: 'table-content',
-											children: [{ text: '' }]
-										}],
-										style: {
-
-										}
-									}
-								]
-							},
-							{
-								type: 'table-row',
-								children: [
-									{
-										type: 'table-cell',
-										children: [{
-											type: 'table-content',
-											children: [{ text: '' }]
-										}]
-									},
-									{
-										type: 'table-cell',
-										children: [{
-											type: 'table-content',
-											children: [{ text: '' }]
-										}]
-									}
-								]
-							}
-						]
-					}]
-				}
-			} else {
-				value =  {
-					editor,
-					id: uniqueId(),
-					showToolbar: false,
-					content: [{
-						type: draggableId,
-						children: [{ text: '' }]
-					}]
-				}
-			}
+			let value = createDataFactory({format: draggableId})
 			const action = addEditorAction(page, index, value)
 			dispatch(action)
 		}

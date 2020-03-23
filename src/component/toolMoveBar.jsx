@@ -5,7 +5,6 @@ import btnData from '../lib/btnData'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 const ToolMoveBar = props => {
     const [slateItem] = useState(btnData)
-
     return (
         <div
             className={css`
