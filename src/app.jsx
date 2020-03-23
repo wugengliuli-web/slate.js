@@ -40,7 +40,7 @@ const App = props => {
 			let page = Number(destination.droppableId.match(reg)[0])  //第几页
 			let { draggableId } = info  //产生编辑的类型
 			let { index } = destination //第几页的第几个块状
-			let value = createDataFactory({format: draggableId})
+			let value = createDataFactory({ format: draggableId })
 			const action = addEditorAction(page, index, value)
 			dispatch(action)
 		}

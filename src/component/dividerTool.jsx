@@ -7,7 +7,6 @@ import {
     copyElAction,
     delAction
 } from '../store/action'
-
 import { createEditorFactory } from '../lib/createEditor'
 const DividerTool = ({ pageIndex, index, editor }) => {
     const dividerStyle=[
@@ -42,7 +41,7 @@ const DividerTool = ({ pageIndex, index, editor }) => {
             setBlockStyle(editor, dividerStyle[e.key])
         }
     }]
-    const menu =item=> (
+    const menu = item => (
         <Menu onClick={item.click}>
             {dividerStyle.map((value,index) =>
                 <Menu.Item key={index}>
@@ -62,8 +61,8 @@ const DividerTool = ({ pageIndex, index, editor }) => {
                 {
                     tool.map((item, index) => (
                         item.title == '修改样式'?
-                            <Dropdown overlay={menu.bind(this,item)} placement="bottomLeft"
-                                onClick={item.click} key={index} title={item.title}
+                            <Dropdown overlay={() => menu(item)} placement="bottomLeft"
+                                onClick={item.click} key={String(index)} title={item.title}
                                 className={css`
                                 margin: 1px 2px;
                                 cursor: pointer;
