@@ -9,7 +9,7 @@ const Editor = ({pageIndex, index, readOnly, editor, value, isFocused}) => {
     // editor = useMemo(() => editor, [])
     let el = useRef(null)
     const dispatch = useDispatch()
-    const renderElement = useCallback(props => <Element editor={editor} {...props} />, [])
+const renderElement = useCallback(props =>  <Element editor={editor} {...props} />, [])
     const changeVal = useCallback(val => {
         const action = changeEditorValueAction(pageIndex, index, val, ReactEditor.isFocused(editor))
         dispatch(action)

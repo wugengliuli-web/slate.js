@@ -38,6 +38,7 @@ export const BulletedList = ({ attributes, children, element }) => {
 
 export const HeadingOne = ({ attributes, children, element }) => {
     const { style } = element
+    console.log(element)
     return (
         <h1 {...attributes} className={css`
             ${style}
@@ -82,9 +83,8 @@ export const NumberedList = ({ attributes, children, element }) => {
 export const DividerEl = ({ attributes, children, element }) => {
     const { style } = element
     return (
-        <div className="aaa" {...attributes} contentEditable={false}>
-            <Divider contentEditable={false} />
-            {children}
+        <div className={css`padding:20px;`} {...attributes} contentEditable={false} >
+            <div className={css`border-top: 2px solid #000;${style}`} >{children}</div>
         </div>
     )
 }

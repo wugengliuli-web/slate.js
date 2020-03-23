@@ -153,8 +153,7 @@ export const setBlockStyle = (editor, changeStyle) => {
         if(!focus) return
         let [, row, column] = focus.path
         style = nodes[0].children[row].children[column].style
-    }
-    
+    } 
     Transforms.setNodes(editor, {
         style: {
             ...style,
