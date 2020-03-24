@@ -16,7 +16,6 @@ import {
     addPreRow,
     addNextRow
 } from './actionType'
-import { DefaultElement } from 'slate-react'
 export const changeEditorValueAction = (pageIndex, index, value, isFocus) => {
     return {
         type: changeEditorValue,
