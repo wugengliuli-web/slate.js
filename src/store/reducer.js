@@ -31,13 +31,13 @@ function getnewClo(table){
 }
 
 const reducer = (state = initState, action) => {
-    let a = state.state.map(item => {
-        return item.map(item => {
-                console.log(item.content)
-            return item.content
-        })
-    })
-    console.log('json->',JSON.stringify(a))
+    // let a = state.state.map(item => {
+    //     return item.map(item => {
+    //             console.log(item.content)
+    //         return item.content
+    //     })
+    // })
+    // console.log('json->',JSON.stringify(a))
     let { type } = action
     switch (type) {
         case changeEditorValue:
