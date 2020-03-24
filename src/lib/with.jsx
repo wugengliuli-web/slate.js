@@ -13,7 +13,6 @@ const withDelAll = editor => {
             let [,,,low] = path
             //如果偏移为0就不允许继续删除
             if(offset === 0 && low === 0) return
-            
         }
         deleteBackward(...args)
     }
@@ -92,26 +91,6 @@ const withImage = editor => {
     editor.isInline = el => {
         return el.type === 'image' ? true : isInline(el)
     }
-
-    // editor.insertData = data => {
-    //     const { files } = data
-    //     if (files && files.length > 0) {
-    //         for (const file of files) {
-    //             const reader = new FileReader()
-    //             const [mime] = file.type.split('/')
-
-    //             if (mime === 'image') {
-    //                 reader.addEventListener('load', () => {
-    //                     const url = reader.result
-    //                     addImgBlock(editor, url)
-    //                 })
-    //                 reader.readAsDataURL(file)
-    //             }
-    //         }
-    //     } else {
-    //         insertData(data)
-    //     }
-    // }
     return editor
 }
 

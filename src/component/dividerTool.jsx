@@ -10,7 +10,7 @@ import {
 import { createEditorFactory } from '../lib/createEditor'
 const DividerTool = ({ pageIndex, index, editor }) => {
     const dividerStyle=[
-        { 'borderTop': '1px solid #000'},
+        { 'borderTop': '1px solid #000' },
         { 'borderTop': '2px solid #000' },
         { 'borderTop': '5px solid #000' },
         { 'borderTop': '2px dotted #000' },

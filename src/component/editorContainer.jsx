@@ -118,13 +118,13 @@ const EditorContainer = props => {
                                                                                     type !== 'table' ?
                                                                                     (
                                                                                         type !== 'divider'?
-                                                                                        < Tool
+                                                                                        <Tool
                                                                                             pageIndex={pageIndex}
                                                                                             editor={item.editor}
                                                                                             index={index}
                                                                                         />
                                                                                         :
-                                                                                        < DividerTool
+                                                                                        <DividerTool
                                                                                             pageIndex={pageIndex}
                                                                                             editor={item.editor}
                                                                                             index={index}
@@ -150,13 +150,13 @@ const EditorContainer = props => {
                                                                                 type === 'addImage' ?
                                                                                     <div
                                                                                         className={css`
-                                                                                        width: 716px;
-                                                                                        box-sizing: border-box;
-                                                                                        transition: all 0.15s;
-                                                                                        margin: 5px 0;
-                                                                                        padding: 5px;
-                                                                                        box-shadow: ${item.showToolbar && !snapshot.isDraggingOver ? '0 0 0 1px #bee1c7' : 'none'};
-                                                                                    `}
+                                                                                            width: 716px;
+                                                                                            box-sizing: border-box;
+                                                                                            transition: all 0.15s;
+                                                                                            margin: 5px 0;
+                                                                                            padding: 5px;
+                                                                                            box-shadow: ${item.showToolbar && !snapshot.isDraggingOver ? '0 0 0 1px #bee1c7' : 'none'};
+                                                                                        `}
                                                                                     >
                                                                                         <UploadImg dispatch={dispatch} editor={item.editor} pageIndex={pageIndex} index={index} />
                                                                                     </div>

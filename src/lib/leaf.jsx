@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 import { css } from 'emotion'
 export const renderLeaf = ({ attributes, children, leaf }) => {
 	if (leaf.bold) {

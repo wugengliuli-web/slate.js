@@ -1,6 +1,3 @@
-
-
-import update from 'immutability-helper'
 import { Transforms } from 'slate'
 import throttle from './throttle'
 import { setImgAction } from '../store/action'
@@ -71,8 +68,6 @@ export const reImgSize = throttle(function () {
     }
     endWidth = sum < 34 ? 34 : sum
     endWidth = endWidth > 696 ? 696 : endWidth
-    
-    
     Transforms.setNodes(
         editor,
         { style: { ...style, width: endWidth } },
