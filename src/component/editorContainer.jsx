@@ -1,22 +1,12 @@
 import React, { useRef, memo } from 'react'
 import { css } from 'emotion'
-import Editor from './editor'
-import { Icon, BackTop } from 'antd';
-import { Draggable, Droppable } from 'react-beautiful-dnd'
-import ToolBar from './toolBar'
-import { UploadImg } from '../lib/el'
-import { ReactEditor } from 'slate-react'
-import { CSSTransition } from 'react-transition-group'
-import Tool from '../component/tool'    
-import DividerTool from '../component/dividerTool'
-import TableTool from '../component/tableTool'
+import { BackTop } from 'antd';
+import { Droppable } from 'react-beautiful-dnd'
 import { useMappedState } from 'redux-react-hook';
-import uniqueId from 'lodash/uniqueId';
-import { useDispatch } from 'redux-react-hook';
+import Dragable from './dragable'
 const EditorContainer = props => {
     let el = useRef(null)
     let state = useMappedState(state => state.state || [])
-    const dispatch = useDispatch()
     return (
         <div
             ref={el}
@@ -75,108 +65,14 @@ const EditorContainer = props => {
                                             page.map((item, index) => {
                                                 let { content } = item
                                                 let type = content[0].type
-                                                return (
-                                                    <div key={item.id}>
-                                                        {
-                                                            item.showToolbar && !snapshot.isDraggingOver ?
-                                                                <ToolBar editor={item.editor} />
-                                                                :
-                                                                null
-                                                        }
-                                                        <Draggable
-                                                            draggableId={item.id}
-                                                            index={index}
-                                                        >
-                                                            {
-                                                                (providedDraggable, snapshotDraggable) => {
-                                                                    return (
-                                                                        <div
-                                                                            className={css`
-                                                                                display: flex;
-                                                                                justify-content: center;
-                                                                                position: relative;
-                                                                                &:hover > span {
-                                                                                    opacity: ${snapshot.isDraggingOver ? '0' : '1'}
-                                                                                }
-                                                                                opacity: ${snapshotDraggable.isDragging ? '0.5' : '1'}
-                                                                            `}
-                                                                            ref={providedDraggable.innerRef}
-                                                                            {...providedDraggable.draggableProps}
-                                                                        >
-                                                                            <CSSTransition
-                                                                                appear={true}
-                                                                                in={item.showToolbar && !snapshot.isDraggingOver}
-                                                                                timeout={{
-                                                                                    appear: 200,
-                                                                                    enter: 200,
-                                                                                    exit: 200
-                                                                                }}
-                                                                                classNames="tool"
-                                                                                unmountOnExit
-                                                                            >
-                                                                                {
-                                                                                    type !== 'table' ?
-                                                                                    (
-                                                                                        type !== 'divider'?
-                                                                                        <Tool
-                                                                                            pageIndex={pageIndex}
-                                                                                            editor={item.editor}
-                                                                                            index={index}
-                                                                                        />
-                                                                                        :
-                                                                                        <DividerTool
-                                                                                            pageIndex={pageIndex}
-                                                                                            editor={item.editor}
-                                                                                            index={index}
-                                                                                        />
-                                                                                    )
-                                                                                    :
-                                                                                    <TableTool
-                                                                                        pageIndex={pageIndex}
-                                                                                        editor={item.editor}
-                                                                                        index={index}
-                                                                                    />
-                                                                                }
-                                                                            </CSSTransition>
-                                                                            <span
-                                                                                className={css`
-                                                                                    margin-right: 10px;
-                                                                                    opacity: 0;
-                                                                                    user-select:none;
-                                                                                `}
-                                                                                {...providedDraggable.dragHandleProps}
-                                                                            ><Icon type="drag" /></span>
-                                                                            {
-                                                                                type === 'addImage' ?
-                                                                                    <div
-                                                                                        className={css`
-                                                                                            width: 716px;
-                                                                                            box-sizing: border-box;
-                                                                                            transition: all 0.15s;
-                                                                                            margin: 5px 0;
-                                                                                            padding: 5px;
-                                                                                            box-shadow: ${item.showToolbar && !snapshot.isDraggingOver ? '0 0 0 1px #bee1c7' : 'none'};
-                                                                                        `}
-                                                                                    >
-                                                                                        <UploadImg dispatch={dispatch} editor={item.editor} pageIndex={pageIndex} index={index} />
-                                                                                    </div>
-                                                                                    :
-                                                                                    <Editor
-                                                                                        editor={item.editor}
-                                                                                        readOnly={snapshot.isDraggingOver}
-                                                                                        value={item.content}
-                                                                                        index={index}
-                                                                                        pageIndex={pageIndex}
-                                                                                        isFocused={item.showToolbar && !snapshot.isDraggingOver}
-                                                                                    />
-                                                                            }
-                                                                        </div>
-                                                                    )
-                                                                }
-                                                            }
-                                                        </Draggable>
-                                                    </div>
-                                                )
+                                                return <Dragable 
+                                                    key={item.id}
+                                                    item={item}
+                                                    index={index}
+                                                    type={type}
+                                                    snapshot={snapshot}
+                                                    pageIndex={pageIndex}
+                                                />
                                             })
                                         }
                                         {provided.placeholder}
