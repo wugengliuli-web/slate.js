@@ -194,7 +194,4 @@ const TableTool = ({pageIndex, index, editor}) => {
     )
 }
 
-export default memo(TableTool, (prve, next) => {
-    if(prve.editor !== next.editor || prve.index !== next.index) return false
-    else return true
-})
+export default memo(TableTool)

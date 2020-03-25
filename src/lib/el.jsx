@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { css } from 'emotion'
 import {
     useEditor,
@@ -238,7 +238,7 @@ export const CheckListItemElement = ({ attributes, children, element }) => {
 }
 
 //上传图片的按钮
-export const UploadImg = ({ dispatch, pageIndex, index, editor }) => {
+export const UploadImg = memo(({ dispatch, pageIndex, index, editor }) => {
     const { Dragger } = Upload;
     const props = {
         name: 'file',
@@ -296,9 +296,9 @@ export const UploadImg = ({ dispatch, pageIndex, index, editor }) => {
             <p className="ant-upload-hint">大小不超过10MB </p>
         </Dragger>
     )
-}
+})
 
-const Resizeable = props => {
+export const Resizeable = props => {
     const { onResize, width, ...restProps } = props
     if(!width) return <th {...restProps} />
     return (

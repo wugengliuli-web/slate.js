@@ -99,7 +99,4 @@ const DividerTool = ({ pageIndex, index, editor }) => {
     )
 }
 
-export default memo(DividerTool, (prve, next) => {
-    if (prve.editor !== next.editor || prve.index !== next.index) return false
-    else return true
-})
+export default memo(DividerTool)

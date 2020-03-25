@@ -83,7 +83,4 @@ const Tool = ({pageIndex, index, editor}) => {
     )
 }
 
-export default memo(Tool, (prve, next) => {
-    if(prve.editor !== next.editor || prve.index !== next.index) return false
-    else return true
-})
+export default memo(Tool)
