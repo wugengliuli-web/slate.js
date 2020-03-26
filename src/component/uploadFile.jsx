@@ -6,14 +6,14 @@ import { jsonTomyJson } from '../lib/jsonTOmyJson'
 import { addPageAction, setValAction } from '../store/action'
 import { useDispatch } from 'redux-react-hook';
 const { Dragger } = Upload;
-const UploadFile = ({ setState }) => {
+const UploadFile = props => {
     let dispatch = useDispatch()
     let addPage = useCallback(() => {
         const action = addPageAction()
         dispatch(action)
     }, [])
 
-    const props = {
+    const componentProps = {
         name: 'file',
         multiple: false,
         showUploadList: false,
@@ -42,7 +42,10 @@ const UploadFile = ({ setState }) => {
                 }
             })
             let { data: { code, data } } = res
+            console.log(data);
+            
             let json = jsonTomyJson(data)
+            console.log(json)
             const action = setValAction(json)
             dispatch(action)
         },
@@ -65,7 +68,7 @@ const UploadFile = ({ setState }) => {
             padding: 0 10%;
             margin-top: 30px;
         `}>
-            <Dragger {...props}>
+            <Dragger {...componentProps}>
                 <p className="ant-upload-drag-icon">
                     <Icon type="inbox" />
                 </p>

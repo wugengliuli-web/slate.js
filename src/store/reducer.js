@@ -22,11 +22,18 @@ import uniqueId from 'lodash/uniqueId'
 const initState = {
     state: [] //数据
 }
-
+function getnewClo(table){
+    let col = 0;
+    for(let i=0;i<table.children.length;i++){
+        if (table.children[i].children.length > col) col = table.children[i].children.length;
+    }
+    return col;
+}
 
 const reducer = (state = initState, action) => {
     // let a = state.state.map(item => {
     //     return item.map(item => {
+    //             console.log(item.content)
     //         return item.content
     //     })
     // })
@@ -299,6 +306,22 @@ const reducer = (state = initState, action) => {
                 }
 
             })
+            let cloumnLength=getnewClo(newState.state[mergeLeftPageIndex][mergeLeftIndex].content[0])
+            newState = updata(newState, {
+                state: {
+                    [mergeLeftPageIndex]: {
+                        [mergeLeftIndex]: {
+                            content: {
+                                [0]: {
+                                    column:{
+                                        $set: cloumnLength
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
             return newState
         case mergeRight:
             const {
@@ -351,6 +374,22 @@ const reducer = (state = initState, action) => {
                                                 ]
                                             }
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+            let cloumnLengthRight = getnewClo(newStateMergeRight.state[mergeRightPageIndex][mergeRightIndex].content[0])
+            newStateMergeRight = updata(newStateMergeRight, {
+                state: {
+                    [mergeRightPageIndex]: {
+                        [mergeRightIndex]: {
+                            content: {
+                                [0]: {
+                                    column: {
+                                        $set: cloumnLengthRight
                                     }
                                 }
                             }

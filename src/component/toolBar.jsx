@@ -113,11 +113,10 @@ const StyleBlockButtonToggle = ({ editor, text, changeStyle, icon }) => {
 
 const setMarkStyle = (editor, changeStyle) => {
     ReactEditor.focus(editor)
-    Transforms.setNodes(
-        editor,
-        { ...changeStyle },
-        { match: n => Text.isText(n), split: true }
-    )
+    let [format, style] = Object.entries(changeStyle)[0]
+    if(format && style) {
+        Editor.addMark(editor, format, style)
+    }
 }
 
 const StyleMarkButton = ({ color, editor, changeStyle }) => {
@@ -153,8 +152,7 @@ export const setBlockStyle = (editor, changeStyle) => {
         if(!focus) return
         let [, row, column] = focus.path
         style = nodes[0].children[row].children[column].style
-    }
-    
+    } 
     Transforms.setNodes(editor, {
         style: {
             ...style,
