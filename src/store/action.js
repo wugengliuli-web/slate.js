@@ -16,13 +16,13 @@ import {
     addPreRow,
     addNextRow
 } from './actionType'
-export const changeEditorValueAction = (pageIndex, index, value, isFocus) => {
+export const changeEditorValueAction = (editor, pageIndex, value, isFocus) => {
     return {
         type: changeEditorValue,
         pageIndex, //第几页
-        index, //第几页的第几块
         value,
-        isFocus
+        isFocus,
+        editor
     }
 }
 

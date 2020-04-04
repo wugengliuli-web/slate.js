@@ -5,15 +5,14 @@ import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
 import { useDispatch } from 'redux-react-hook'
 import { changeEditorValueAction } from '../store/action'
-const Editor = ({pageIndex, index, readOnly, editor, value, isFocused}) => {
-    // editor = useMemo(() => editor, [])
+const Editor = ({pageIndex, editor, value, isFocused}) => {
     let el = useRef(null)
     const dispatch = useDispatch()
     const renderElement = useCallback(props =>  <Element editor={editor} {...props} />, [])
     const changeVal = useCallback(val => {
-        const action = changeEditorValueAction(pageIndex, index, val, ReactEditor.isFocused(editor))
+        const action = changeEditorValueAction(editor, pageIndex, val, ReactEditor.isFocused(editor))
         dispatch(action)
-    }, [pageIndex, index])
+    }, [pageIndex])
     return (
         <div
             ref={el}
@@ -32,7 +31,6 @@ const Editor = ({pageIndex, index, readOnly, editor, value, isFocused}) => {
                 onChange={changeVal}
             >
                 <Editable
-                    readOnly={readOnly}
                     placeholder="Edit here"
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}

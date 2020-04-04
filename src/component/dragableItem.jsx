@@ -3,7 +3,7 @@ import ToolWrapper from './toolComponent'
 import { UploadImg } from '../lib/el'
 import Editor from './editor'
 import { css } from 'emotion'
-import { Icon } from 'antd';
+import DraggableIcon from './draggableIcon'
 import { useDispatch } from 'redux-react-hook';
 const DragableItem = ({providedDraggable, snapshot, snapshotDraggable, item, index, pageIndex, type}) => {
     const dispatch = useDispatch()
@@ -28,14 +28,7 @@ const DragableItem = ({providedDraggable, snapshot, snapshotDraggable, item, ind
                 index={index}
                 type={type}
             />
-            <span
-                className={css`
-                    margin-right: 10px;
-                    opacity: 0;
-                    user-select:none;
-                `}
-                {...providedDraggable.dragHandleProps}
-            ><Icon type="drag" /></span>
+            <DraggableIcon providedDraggable={providedDraggable} />
             {
                 type === 'addImage' ?
                     <div
@@ -53,9 +46,7 @@ const DragableItem = ({providedDraggable, snapshot, snapshotDraggable, item, ind
                     :
                     <Editor
                         editor={item.editor}
-                        readOnly={snapshot.isDraggingOver}
                         value={item.content}
-                        index={index}
                         pageIndex={pageIndex}
                         isFocused={item.showToolbar && !snapshot.isDraggingOver}
                     />
@@ -65,4 +56,4 @@ const DragableItem = ({providedDraggable, snapshot, snapshotDraggable, item, ind
 }
 
 
-export default memo(DragableItem)
+export default memo(DragableItem) 

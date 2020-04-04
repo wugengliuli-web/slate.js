@@ -4,7 +4,6 @@ import ToolBar from './toolBar'
 import DragableItem from './dragableItem'
 
 const Dragable = ({ item, index, type, snapshot, pageIndex }) => {
-    
     return (
         <div>
             {

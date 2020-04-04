@@ -34,7 +34,7 @@ const UploadFile = props => {
             fd.append('docFile', file)
             console.log(file)
             let res = await axios({
-                url: 'http://112.44.251.136:8090/doc/conversionDocx4j',
+                url: 'http://112.44.251.136:8090/doc/conversionDocx',
                 method: 'POST',
                 data: fd,
                 headers: {

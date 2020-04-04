@@ -7,15 +7,12 @@ export const jsonTomyJson = items => {
         let { type } = item
         if(type === 'img') {
             item.children = [{ text: '' }]
-            let img = new Image()
-            img.src = item.url
-            img.onload = function() {
-                item.style = {
-                    initWidth: img.width
-                }
+            item.url = 'data:image/png;base64,' + item.url
+            item.style = {
+                initWidth: 696,
+                width: 696
             }
         }
-        item.style = {}
         let obj = {}
         obj.showToolbar = false
         obj.content = [item]

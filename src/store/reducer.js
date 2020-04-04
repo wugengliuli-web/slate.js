@@ -22,14 +22,26 @@ import uniqueId from 'lodash/uniqueId'
 const initState = {
     state: [] //数据
 }
-function getnewClo(table){
+function getnewClo(table) {
     let col = 0;
     for(let i=0;i<table.children.length;i++){
         if (table.children[i].children.length > col) col = table.children[i].children.length;
     }
     return col;
 }
-
+//用于记录 优化使用
+let initIndex = 0
+function getIndex(state, editor) {
+    if(state[initIndex] && state[initIndex].editor === editor) {
+        return initIndex
+    }
+    for(let i=0;i<state.length;i++) {
+        if(state[i].editor === editor) {
+            initIndex = i
+            return i
+        }
+    }
+}
 const reducer = (state = initState, action) => {
     // let a = state.state.map(item => {
     //     return item.map(item => {
@@ -39,9 +51,11 @@ const reducer = (state = initState, action) => {
     // })
     // console.log('json->',JSON.stringify(a))
     let { type } = action
+    
     switch (type) {
         case changeEditorValue:
-            const { pageIndex, index, value, isFocus } = action
+            const { editor, pageIndex, value, isFocus } = action
+            let index = getIndex(state.state[pageIndex], editor)
             return updata(state, {
                 state: {
                     [pageIndex]: {
