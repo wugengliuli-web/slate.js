@@ -18,7 +18,7 @@ import {
     addNextRow
 } from './actionType'
 import uniqueId from 'lodash/uniqueId'
-
+import { ReactEditor } from 'slate-react'
 const initState = {
     state: [] //数据
 }
@@ -138,13 +138,15 @@ const reducer = (state = initState, action) => {
             const {
                 editor: copyEditor,
                 pageIndex: copyPageIndex,
-                index: copyIndex
+                index: copyIndex,
+                oldEditor
             } = action
             let newEditor = Object.assign({}, state.state[copyPageIndex][copyIndex])
             newEditor.id = uniqueId()
             newEditor.editor = copyEditor
             newEditor.content = JSON.parse(JSON.stringify(state.state[copyPageIndex][copyIndex].content))
             newEditor.showToolbar = false
+            oldEditor && ReactEditor.focus(oldEditor)
             return updata(state, {
                 state: {
                     [copyPageIndex]: {

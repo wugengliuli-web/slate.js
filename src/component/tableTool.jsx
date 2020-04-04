@@ -29,7 +29,7 @@ const TableTool = ({pageIndex, index, editor}) => {
         icon: 'file-add',
         click: e => {
             let newEditor = createEditorFactory()
-            const action = copyElAction(pageIndex, index, newEditor)
+            const action = copyElAction(pageIndex, index, newEditor, editor)
             dispatch(action)
         }
     }, {

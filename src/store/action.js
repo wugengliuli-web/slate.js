@@ -60,12 +60,13 @@ export const setImgAction = (pageIndex, index, url, editor, width) => {
     }
 }
 
-export const copyElAction = (pageIndex, index, editor) => {
+export const copyElAction = (pageIndex, index, editor, oldEditor) => {
     return {
         type: copyEl,
         pageIndex,
         index,
-        editor
+        editor,
+        oldEditor
     }
 }
 

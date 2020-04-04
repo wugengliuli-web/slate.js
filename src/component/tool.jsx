@@ -7,7 +7,6 @@ import {
     copyElAction,
     delAction
 } from '../store/action'
-
 import { createEditorFactory } from '../lib/createEditor'
 const Tool = ({pageIndex, index, editor}) => {
     const dispatch = useDispatch()
@@ -16,7 +15,7 @@ const Tool = ({pageIndex, index, editor}) => {
         icon: 'file-add',
         click: e => {
             let newEditor = createEditorFactory()
-            const action = copyElAction(pageIndex, index, newEditor)
+            const action = copyElAction(pageIndex, index, newEditor, editor)
             dispatch(action)
         }
     }, {
