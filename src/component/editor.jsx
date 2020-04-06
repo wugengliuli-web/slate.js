@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, memo, useMemo } from 'react'
+import React, { useCallback, useRef, memo } from 'react'
 import { Slate, Editable, ReactEditor } from 'slate-react'
 import { css } from 'emotion'
 import { Element } from '../lib/element'

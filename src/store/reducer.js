@@ -49,7 +49,7 @@ const reducer = (state = initState, action) => {
     //         return item.content
     //     })
     // })
-    // console.log('json->',JSON.stringify(a))
+    // console.log(a)
     let { type } = action
     
     switch (type) {

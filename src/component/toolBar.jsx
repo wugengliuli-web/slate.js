@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { css } from 'emotion'
 import { Button, Menu, Dropdown } from 'antd'
-import { Editor, Transforms, Text } from 'slate'
+import { Editor, Transforms } from 'slate'
 import {
     fontColor,
     fontSize,

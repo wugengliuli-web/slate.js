@@ -38,8 +38,9 @@ export const BulletedList = ({ attributes, children, element }) => {
 
 export const HeadingOne = ({ attributes, children, element }) => {
     const { style } = element
+
     return (
-        <h1 {...attributes} className={css`
+        <h1 onChange={e => { console.log('eee') }} {...attributes} className={css`
             ${style}
         `}>{children}
         </h1>

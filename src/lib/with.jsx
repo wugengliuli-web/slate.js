@@ -1,5 +1,4 @@
 import { Editor, Point, Transforms, Range } from 'slate'
-
 const withDelAll = editor => {
     let { deleteBackward, deleteForward, deleteFragment } = editor
     editor.deleteBackward = (...args) => {
@@ -24,7 +23,6 @@ const withDelAll = editor => {
 
     editor.deleteFragment = (...arg) => {
         console.log(...arg);
-        
         //选择后删除触发
         deleteFragment(...arg)
         console.log('deleteFragment')
@@ -32,26 +30,27 @@ const withDelAll = editor => {
     return editor
 }
 
-// const withInsert = editor => {
-//     let { insertData, insertFragment, insertNode, insertText } = editor
+const withInsert = editor => {
+    let { insertFragment, insertNode, insertText } = editor
 
-//     editor.insertFragment = fragment => {
-//         console.log('insertFragment->', fragment);
-//         insertFragment(fragment)
-//     }
+    editor.insertFragment = fragment => {
+        console.log('insertFragment->', fragment);
+        insertFragment(fragment)
+    }
 
-//     editor.insertNode = node => {
-//         console.log('insertNode', node);
-//         insertNode(node)
-//     }
+    editor.insertNode = node => {
+        console.log('insertNode', node);
+        insertNode(node)
+    }
 
-//     editor.insertText = text => {
-//         console.log('insertText->', text)
-//         insertText(text)
-//     }
+    editor.insertText = text => {
+        console.log('insertText->', text)
+        const { marks } = editor
+        insertText(text)
+    }
 
-//     return editor
-// }
+    return editor
+}
 
 const withCheckList = editor => {
     const { deleteBackward } = editor
@@ -87,7 +86,6 @@ const withImage = editor => {
     editor.isVoid = el => {
         return el.type === 'img' ? true : isVoid(el)
     }
-
     editor.isInline = el => {
         return el.type === 'image' ? true : isInline(el)
     }
@@ -100,12 +98,11 @@ const withDivider = editor => {
     editor.isVoid = el => {
         return el.type === 'divider' ? true : isVoid(el)
     }
-
     editor.isInline = el => {
         return el.type === 'divider' ? false : isInline(el)
     }
     return editor
 }
 export const withWrapper = editor => {
-    return withDelAll(withDivider(withCheckList(withImage(editor))))
+    return withInsert(withDelAll(withDivider(withCheckList(withImage(editor)))))
 }
