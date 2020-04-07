@@ -5,6 +5,7 @@ import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
 import { useDispatch } from 'redux-react-hook'
 import { changeEditorValueAction } from '../store/action'
+import { Transforms } from 'slate'
 const Editor = ({pageIndex, editor, value, isFocused}) => {
     let el = useRef(null)
     const dispatch = useDispatch()
@@ -31,7 +32,7 @@ const Editor = ({pageIndex, editor, value, isFocused}) => {
                 onChange={changeVal}
             >
                 <Editable
-                    placeholder="Edit here"
+                    // placeholder="Edit here"
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                 />

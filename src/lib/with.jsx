@@ -3,7 +3,7 @@ const withDelAll = editor => {
     let { deleteBackward, deleteForward, deleteFragment } = editor
     editor.deleteBackward = (...args) => {
         //一个一个删除时触发
-        let { type } = editor.children[0]
+        const { type } = editor.children[0]
         if(type === 'table') {
             //如果是表格
             //不允许删除表格的td 
@@ -22,7 +22,15 @@ const withDelAll = editor => {
     }
 
     editor.deleteFragment = (...arg) => {
-        console.log(...arg);
+        const { type } = editor.children[0]
+        if(type === 'table') {
+            //如果是表格
+            //不允许选中删除表格
+            const { selection: { focus: { path: focusPath }, anchor: { path: anchorPath } } } = editor
+            for(const i in focusPath) {
+                if(focusPath[i] !== anchorPath[i]) return
+            }
+        }
         //选择后删除触发
         deleteFragment(...arg)
         console.log('deleteFragment')
@@ -34,19 +42,24 @@ const withInsert = editor => {
     let { insertFragment, insertNode, insertText } = editor
 
     editor.insertFragment = fragment => {
-        console.log('insertFragment->', fragment);
+        console.log('insertFragment->', fragment)
         insertFragment(fragment)
     }
 
     editor.insertNode = node => {
-        console.log('insertNode', node);
+        console.log('insertNode', node)
         insertNode(node)
     }
 
     editor.insertText = text => {
         console.log('insertText->', text)
         const { marks } = editor
+        
         insertText(text)
+        // if(marks && /^[\u4e00-\u9fa5]+$/.test(text)) {
+        //     debugger
+        //     editor.insertBreak()
+        // }
     }
 
     return editor
@@ -80,7 +93,6 @@ const withCheckList = editor => {
     return editor
 }
 
-
 const withImage = editor => {
     const { isVoid, isInline } = editor
     editor.isVoid = el => {
@@ -92,7 +104,6 @@ const withImage = editor => {
     return editor
 }
 
-
 const withDivider = editor => {
     const { isVoid, isInline } = editor
     editor.isVoid = el => {
@@ -103,6 +114,7 @@ const withDivider = editor => {
     }
     return editor
 }
+
 export const withWrapper = editor => {
     return withInsert(withDelAll(withDivider(withCheckList(withImage(editor)))))
 }
