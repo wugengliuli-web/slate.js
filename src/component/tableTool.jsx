@@ -1,7 +1,6 @@
 import React, { memo } from 'react'
 import { css } from 'emotion'
 import { Icon } from 'antd'
-import update from 'immutability-helper'
 import {
     copyElAction,
     delRowAction,
@@ -16,7 +15,6 @@ import {
 } from '../store/action'
 import { setBlockStyle } from './toolBar'
 import { useDispatch } from 'redux-react-hook';
-import { Editor } from 'slate'
 import { createEditorFactory } from '../lib/createEditor'
 
 /**

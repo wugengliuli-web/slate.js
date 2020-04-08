@@ -45,6 +45,7 @@ const App = props => {
 			dispatch(action)
 		}
 	}, [])
+
 	return (
 		<div className={css`
             width: 100%;

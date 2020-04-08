@@ -3,6 +3,7 @@ import React, { memo } from 'react'
 import ToolBar from './toolBar'
 import DragableItem from './dragableItem'
 
+
 const Dragable = ({ item, index, type, snapshot, pageIndex }) => {
     return (
         <div>
@@ -19,7 +20,7 @@ const Dragable = ({ item, index, type, snapshot, pageIndex }) => {
                 {
                     (providedDraggable, snapshotDraggable) => {
                         return (
-                            <DragableItem 
+                            <DragableItem
                                 snapshot={snapshot}
                                 snapshotDraggable={snapshotDraggable}
                                 item={item}

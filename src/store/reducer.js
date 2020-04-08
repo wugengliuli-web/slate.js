@@ -80,6 +80,10 @@ const reducer = (state = initState, action) => {
             })
         case addEditor:
             const { pageIndex: pageIndexAddEditor, index: indexAddEditor, value: valueAddEditor } = action
+            setTimeout(function() {
+                const type = valueAddEditor.content[0].type
+                type !== 'addImage' && ReactEditor.focus(valueAddEditor.editor)
+            }, 100)
             return updata(state, {
                 state: {
                     [pageIndexAddEditor]: {
