@@ -14,6 +14,7 @@ import {
     addPreCol,
     addNextCol,
     addPreRow,
+    jumpPage,
     addNextRow
 } from './actionType'
 export const changeEditorValueAction = (editor, pageIndex, value, isFocus) => {
@@ -23,6 +24,13 @@ export const changeEditorValueAction = (editor, pageIndex, value, isFocus) => {
         value,
         isFocus,
         editor
+    }
+}
+
+export const jumpPageAction = (pageNumber) => {
+    return {
+        type: jumpPage,
+        pageNumber:pageNumber
     }
 }
 

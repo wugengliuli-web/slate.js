@@ -15,7 +15,8 @@ import {
     addPreCol,
     addNextCol,
     addPreRow,
-    addNextRow
+    addNextRow,
+    jumpPage
 } from './actionType'
 import uniqueId from 'lodash/uniqueId'
 import { ReactEditor } from 'slate-react'
@@ -68,6 +69,13 @@ const reducer = (state = initState, action) => {
                             }
                         }
                     }
+                }
+            })
+        case jumpPage:
+            const {pageNumber}=action;
+            return updata(state,{
+                pageNumber:{
+                    $set:pageNumber
                 }
             })
         case addPage:

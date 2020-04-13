@@ -1,10 +1,10 @@
-import React, { memo, useCallback } from 'react'
-import { Upload, Icon, message, Button } from 'antd';
+import React, { memo, useCallback, useRef, useEffect } from 'react'
+import { Upload, Icon, message, Button,Pagination } from 'antd';
 import { css } from 'emotion'
 import axios from 'axios'
 import { jsonTomyJson } from '../lib/jsonTOmyJson'
-import { addPageAction, setValAction } from '../store/action'
-import { useDispatch } from 'redux-react-hook';
+import { addPageAction, setValAction,jumpPageAction } from '../store/action'
+import { useDispatch ,useMappedState} from 'redux-react-hook';
 const { Dragger } = Upload;
 const UploadFile = props => {
     let dispatch = useDispatch()
@@ -12,7 +12,14 @@ const UploadFile = props => {
         const action = addPageAction()
         dispatch(action)
     }, [])
-
+    let state=useMappedState(state=>state.state)
+    let junpPage=useCallback((pageNumber)=>{
+        console.log(pageNumber)
+        if(state[pageNumber]){
+            const action = jumpPageAction(pageNumber)
+            dispatch(action)
+        }
+    })
     const componentProps = {
         name: 'file',
         multiple: false,
@@ -62,7 +69,8 @@ const UploadFile = props => {
         },
     };
 
-
+    let pageLength=useMappedState(state=>state.state.length)
+    let pageNumber = useMappedState(state => state.pageNumber || 0)
     return (
         <div className={css`
             padding: 0 10%;
@@ -82,6 +90,11 @@ const UploadFile = props => {
             className={css`
                 margin-top:  20px;
             `}>添加一页</Button>
+            
+            <Pagination className={css`
+                margin-top:  20px;
+            `} current={pageNumber} defaultPageSize={1}  simple total={pageLength} onChange={(e)=>{junpPage(e)}} />
+            
         </div>
     )
 }

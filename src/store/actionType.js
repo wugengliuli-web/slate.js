@@ -47,3 +47,6 @@ export const addPreRow = 'ADD_PRE_RAW'
 
 // 下方添加行
 export const addNextRow = 'ADD_NEXT_RAW'
+
+// 跳转网页
+export const jumpPage = 'JUMP_PAGE'
