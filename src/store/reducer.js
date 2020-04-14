@@ -21,7 +21,8 @@ import {
 import uniqueId from 'lodash/uniqueId'
 import { ReactEditor } from 'slate-react'
 const initState = {
-    state: [] //数据
+    state: [], //数据
+    pageNumber: 0
 }
 function getnewClo(table) {
     let col = 0;

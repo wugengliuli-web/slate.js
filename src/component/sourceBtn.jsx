@@ -3,7 +3,9 @@ import { Tag } from 'antd'
 import { css } from 'emotion'
 const SourceBtn = ({ format, text, attrs, color }) => {
     return (
-        <Tag className={css`
+        <Tag
+        {...attrs} 
+        className={css`
             margin: 5px;
             width: 120px;
             height: 50px;
@@ -13,7 +15,7 @@ const SourceBtn = ({ format, text, attrs, color }) => {
             cursor: move;
         `} 
         color={color}
-        {...attrs}>{text}</Tag>
+        >{text}</Tag>
     )
 } 
 

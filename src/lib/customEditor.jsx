@@ -74,3 +74,5 @@ export const reImgSize = throttle(function () {
         { match: n => n.type === 'img' }
     )
 }, 50)
+
+export const range = (start, end) => new Array(end - start).fill(start).map((el, i) => start + i)

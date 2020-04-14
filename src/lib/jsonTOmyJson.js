@@ -20,6 +20,14 @@ export const jsonTomyJson = items => {
         obj.id = uniqueId()
         return obj
     })
-    state.push(items)
+    let res = []
+    items.forEach((item, index) => {
+        if((index % 20 === 0 && index !== 0)||(res.length !== 0 && index === items.length - 1)) {
+            state.push(res)
+            res = []
+        } else {
+            res.push(item)
+        }
+    })
     return state
 }
