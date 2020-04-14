@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useRef, useEffect } from 'react'
-import { Upload, Icon, message, Button,Pagination } from 'antd';
+import { Upload, Icon, message, Button } from 'antd';
 import { css } from 'emotion'
 import axios from 'axios'
 import { jsonTomyJson } from '../lib/jsonTOmyJson'
@@ -91,9 +91,9 @@ const UploadFile = props => {
                 margin-top:  20px;
             `}>添加一页</Button>
             
-            <Pagination className={css`
+            {/* <Pagination className={css`
                 margin-top:  20px;
-            `} current={pageNumber} defaultPageSize={1}  simple total={pageLength} onChange={(e)=>{junpPage(e)}} />
+            `} current={pageNumber} defaultPageSize={1}  simple total={pageLength} onChange={(e)=>{junpPage(e)}} /> */}
             
         </div>
     )
