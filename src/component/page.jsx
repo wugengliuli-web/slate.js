@@ -9,7 +9,7 @@ const Page = ({ page, provided, snapshot, pageIndex, scrollTop, offsetHeight }) 
     useEffect(() => {
         if(dom.current && offsetHeight) {
             /**
-             * 计算是否渲染列表，否则渲染空的div
+             * 判断是否处于可视区域，如果在则渲染列表，否则渲染空的div
              * 判断：
              *      1. 当前page的top + 高度 <  scrollTop
              *      2. 当前page的top > scrollTop
