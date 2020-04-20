@@ -57,11 +57,13 @@ export const createDataFactory = ({format}) => {
                         }
                     ]
                 }
-            ]
+            ],
+            style: {}
         }]
     } else {
         value['content'] = [{
             type: format,
+            style: {},
             children: [{ text: '' }]
         }]
     }
