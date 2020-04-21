@@ -8,6 +8,12 @@ const Page = ({ page, provided, snapshot, pageIndex, scrollTop, offsetHeight }) 
     const [height, setHeight] = useState(877)
     useEffect(() => {
         if(dom.current && offsetHeight) {
+            const { isUsingPlaceholder } = snapshot
+            if(isUsingPlaceholder) {
+                setIsShow(true)
+                setHeight(dom.current.offsetHeight)
+                return
+            }
             /**
              * 判断是否处于可视区域，如果在则渲染列表，否则渲染空的div
              * 判断：
