@@ -49,3 +49,51 @@ body {
     transform: translateY(-100%);
     display: none;
 }
+
+
+.showDrawer{
+    height:100%;
+    width:300px;
+    position:absolute;
+    z-index: 999;
+    top:0;
+    right:0;
+    background:#fff;
+    animation:showbox 0.5s;
+    -webkit-animation:showbox 0.5s;
+    box-shadow: -5px 0px 10px  #D8D6D5;
+}
+@keyframes showbox
+{
+	from {width:0px;}
+	to {width:300px;}
+}
+@-webkit-keyframes showbox /* Safari and Chrome */
+{
+	from {width:0px;}
+	to {width:300px;}
+}
+
+.noshowDrawer{
+    height:100%;
+    width:0px;
+    position:absolute;
+    z-index: 999;
+    top:0;
+    right:0;
+    background:#fff;
+    border:1px #eee solid;
+    animation:noshowbox 1s;
+    -webkit-animation:noshowbox 1s;
+    overflow: hidden;
+}
+@keyframes noshowbox
+{
+	from {width:300px;}
+	to {width:0px;display: none;}
+}
+@-webkit-keyframes noshowbox /* Safari and Chrome */
+{
+	from {width:300px;}
+	to {width:0px;display: none;}
+}

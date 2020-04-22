@@ -279,18 +279,16 @@ const createMenuFontIndent = editor => {
 const ToolBar = ({ editor, state, setState }) => {
     return (
         <div className={css`
-            z-index: 999;
+            z-index: 998;
             background: #efedec;
-            width: calc(100% - 300px);
+            width: 100%;
             height: 50px;
-            overflow: auto;
+            overflow-x: auto; 
             white-space:nowrap;
             margin-bottom: 50px;
             position: fixed;
             top: 60px;
             left: 0;
-            display: flex;
-            justify-content: center;
             & > button {
                 margin: 0 3px;
                 padding: 8px;

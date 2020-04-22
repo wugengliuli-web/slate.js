@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState} from 'react'
 import EditorContainer from './component/editorContainer'
 import ToolMoveBar from './component/toolMoveBar'
 import { css } from 'emotion'
@@ -8,8 +8,10 @@ import UploadFile from './component/uploadFile'
 import { addEditorAction, exchangeEditorAction } from './store/action'
 import { useDispatch } from 'redux-react-hook';
 import { createDataFactory } from './lib/createData'
+import { Drawer,Button} from 'antd'
 const App = props => {
 	const dispatch = useDispatch()
+	const [drawerVisible, showDrawer]=useState(true)
 	const onDragEnd = useCallback(info => {
 		const { source, destination } = info
 		if (!destination) {
@@ -55,32 +57,34 @@ const App = props => {
 				width: 100%;
 				height: 60px;
 				line-height: 60px;
-				text-align: center;
-			`}>账户信息</div>
+				display:flex;
+				align-items:center;
+			`}>
+				<span style={{margin:'0 auto'}}>账户信息</span>
+				<Button type="primary" style={{ float: 'right', marginRight: '20px' }} onClick={() => { showDrawer((!drawerVisible))}}>
+					{drawerVisible ? '关闭菜单' :'显示菜单'}
+        		</Button>
+			</div>
 			<DragDropContext
 				onDragEnd={onDragEnd}
+				onDragStart={() => { showDrawer(false)}}
 			>
 				<div className={css`
 					height: calc(100% - 60px);
 					width: 100%;
-					position: relative;
+					position: relative;	
 				`}>
 					<div className={css`
-						margin-right: 300px;
+						width:100%;
 						height: 100%;
 					`}>
 						<EditorContainer/>
 					</div>
-					<div className={css`
-						width: 300px;
-						height: 100%;
-						position: absolute;
-						right: 0;
-						top: 0px;
-					`}>
+					<div className={drawerVisible ? 'showDrawer':'noshowDrawer' }>
 						<ToolMoveBar />
-						<UploadFile  />
+						<UploadFile />
 					</div>
+						
 				</div>
 			</DragDropContext>
 		</div>
