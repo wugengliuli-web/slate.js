@@ -53,7 +53,6 @@ const EditorContainer = props => {
                     return <Droppable
                                 droppableId={"editor" + pageIndex}
                                 key={pageIndex}
-                                
                             >
                                 {
                                     (provided, snapshot) => {
