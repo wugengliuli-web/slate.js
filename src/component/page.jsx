@@ -10,6 +10,7 @@ const Page = ({ page, provided, snapshot, pageIndex, scrollTop, offsetHeight }) 
         if(dom.current && offsetHeight) {
             const { isUsingPlaceholder } = snapshot
             /**
+             * 如果处于拖动状态或者处于可视区域
              * 判断是否处于可视区域，如果在则渲染列表，否则渲染空的div
              * 判断：
              *      1. 当前page的top + 高度 <  scrollTop
