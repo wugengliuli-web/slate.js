@@ -99,7 +99,7 @@ const UploadFile = props => {
                 </p>
                 <p className="ant-upload-text">点击文件上传</p>
                 <p className="ant-upload-hint">
-                    支持word文件
+                    支持docx文件
                 </p>
             </Dragger>
             <Button

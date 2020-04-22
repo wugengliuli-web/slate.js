@@ -5,7 +5,6 @@ import { Element } from '../lib/element'
 import { renderLeaf } from '../lib/leaf'
 import { useDispatch } from 'redux-react-hook'
 import { changeEditorValueAction } from '../store/action'
-import { Transforms } from 'slate'
 const Editor = ({pageIndex, editor, value, isFocused}) => {
     let el = useRef(null)
     const dispatch = useDispatch()

@@ -1,7 +1,7 @@
 import React, { memo, useRef, useState, useEffect } from 'react'
 import Dragable from './dragable'
 import { css } from 'emotion'
-
+import { Draggable } from 'react-beautiful-dnd'
 const Page = ({ page, provided, snapshot, pageIndex, scrollTop, offsetHeight }) => {
     const dom = useRef(null)
     const [isShow, setIsShow] = useState(false)
@@ -46,13 +46,11 @@ const Page = ({ page, provided, snapshot, pageIndex, scrollTop, offsetHeight }) 
                             ref={provideds.innerRef}
                             {...provideds.draggableProps}
                             {...provideds.dragHandleProps}
-                            className={
-                                css`height: ${height}px;
-                                width: 816px;`
-                            }
-                        >
-                            none
-                        </div>
+                            className={css`
+                                height: ${height}px;
+                                width: 816px;
+                            `}
+                        ></div>
                     )}
                 </Draggable>
             </div>
@@ -87,6 +85,7 @@ const Page = ({ page, provided, snapshot, pageIndex, scrollTop, offsetHeight }) 
                         />
                     })
                 }
+                {provided.placeholder}
             </div>
         </div>
     )
