@@ -53,6 +53,23 @@ const EditorContainer = props => {
                     return <Droppable
                                 droppableId={"editor" + pageIndex}
                                 key={pageIndex}
+                                mode="virtual"
+                                renderClone={(provided, snapshot, rubric) => {
+                                    let { content } = item[rubric.source.index]
+                                        return (<div
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            ref={provided.innerRef}
+                                        >
+                                            <Editor
+                                                editor={item[rubric.source.index].editor}
+                                                value={content}
+                                                pageIndex={0}
+                                                isFocused={item[rubric.source.index].showToolbar && !snapshot.isDraggingOver}
+                                            />
+                                        </div>)
+                                    }
+                                }
                             >
                                 {
                                     (provided, snapshot) => {

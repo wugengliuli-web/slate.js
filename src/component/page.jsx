@@ -39,6 +39,21 @@ const Page = ({ page, provided, snapshot, pageIndex, scrollTop, offsetHeight }) 
             <div
                 ref={provided.innerRef}
             >
+                <Draggable draggableId={'item.id'} index={0}>
+                    {(provideds, snapshot) => (
+                        <div
+                            ref={provideds.innerRef}
+                            {...provideds.draggableProps}
+                            {...provideds.dragHandleProps}
+                            className={
+                                css`height: ${height}px;
+                                width: 816px;`
+                            }
+                        >
+                            none
+                        </div>
+                    )}
+                </Draggable>
             </div>
         </div>
     }
@@ -71,7 +86,6 @@ const Page = ({ page, provided, snapshot, pageIndex, scrollTop, offsetHeight }) 
                         />
                     })
                 }
-                {provided.placeholder}
             </div>
         </div>
     )
