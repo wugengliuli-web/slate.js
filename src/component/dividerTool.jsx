@@ -60,7 +60,7 @@ const DividerTool = ({ pageIndex, index, editor }) => {
             <div className="tool">
                 {
                     tool.map((item, index) => (
-                        item.title == '修改样式'?
+                        item.title === '修改样式'?
                             <Dropdown overlay={() => menu(item)} placement="bottomLeft"
                                 onClick={item.click} key={String(index)} title={item.title}
                                 className={css`

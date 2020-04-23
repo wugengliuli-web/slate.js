@@ -8,10 +8,11 @@ import UploadFile from './component/uploadFile'
 import { addEditorAction, exchangeEditorAction } from './store/action'
 import { useDispatch } from 'redux-react-hook';
 import { createDataFactory } from './lib/createData'
-import { Drawer,Button} from 'antd'
+import { Button} from 'antd'
+import { CSSTransition } from 'react-transition-group'
 const App = props => {
 	const dispatch = useDispatch()
-	const [drawerVisible, showDrawer]=useState(true)
+	const [showDrawer, setShowDrawer] = useState(true)
 	const onDragEnd = useCallback(info => {
 		const { source, destination } = info
 		if (!destination) {
@@ -52,6 +53,7 @@ const App = props => {
 		<div className={css`
             width: 100%;
             height: 100%;
+			overflow: hidden;
         `}>
 			<div className={css`
 				width: 100%;
@@ -61,13 +63,12 @@ const App = props => {
 				align-items:center;
 			`}>
 				<span style={{margin:'0 auto'}}>账户信息</span>
-				<Button type="primary" style={{ float: 'right', marginRight: '20px' }} onClick={() => { showDrawer((!drawerVisible))}}>
-					{drawerVisible ? '关闭菜单' :'显示菜单'}
+				<Button type="primary" style={{ float: 'right', marginRight: '20px' }} onClick={() => { setShowDrawer((!showDrawer))}}>
+					{showDrawer ? '关闭菜单' :'显示菜单'}
         		</Button>
 			</div>
 			<DragDropContext
 				onDragEnd={onDragEnd}
-				onDragStart={() => { showDrawer(false)}}
 			>
 				<div className={css`
 					height: calc(100% - 60px);
@@ -78,13 +79,33 @@ const App = props => {
 						width:100%;
 						height: 100%;
 					`}>
-						<EditorContainer/>
+						<EditorContainer />
 					</div>
-					<div className={drawerVisible ? 'showDrawer':'noshowDrawer' }>
-						<ToolMoveBar />
-						<UploadFile />
-					</div>
-						
+					<CSSTransition
+						appear={true}
+						in={showDrawer}
+						timeout={{
+							appear: 200,
+							enter: 200,
+							exit: 200
+						}}
+						classNames="btnTool"
+						unmountOnExit
+					>
+						<div className={css`
+							transition: all 0.3s;
+							width: 300px;
+							height: 100%;
+							position: absolute;
+							right: 0;
+							top: 0;
+							background: #fff;
+							overflow: hidden;
+						`}>
+							<ToolMoveBar />
+							<UploadFile />
+						</div>
+					</CSSTransition>
 				</div>
 			</DragDropContext>
 		</div>

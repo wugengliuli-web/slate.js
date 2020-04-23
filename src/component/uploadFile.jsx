@@ -20,14 +20,15 @@ const UploadFile = props => {
         showUploadList: false,
         // accept: '.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         beforeUpload(file) {
-            // if(!file) return
-            // let { type } = file
-            // if(/(document|doc|docx)$/i.test(type)) {
-            //     return Promise.resolve(file)
-            // } else {
-            //     message.error('文件类型错误')
-            //     return Promise.reject('error')
-            // }
+            if(!file) return
+            let { type } = file
+            console.log(type)
+            if(/(document|docx)$/i.test(type)) {
+                return Promise.resolve(file)
+            } else {
+                message.error('文件类型错误')
+                return Promise.reject('error')
+            }
         },
         async customRequest(info) {
             let { file } = info
