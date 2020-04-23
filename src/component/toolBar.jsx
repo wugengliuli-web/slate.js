@@ -281,7 +281,7 @@ const ToolBar = ({ editor, state, setState }) => {
         <div className={css`
             z-index: 998;
             background: #efedec;
-            width: calc(100% - 300px);
+            width: 100%;
             height: 50px;
             overflow: auto; 
             white-space:nowrap;
@@ -289,6 +289,8 @@ const ToolBar = ({ editor, state, setState }) => {
             position: fixed;
             top: 60px;
             left: 0;
+            display: flex;
+            justify-content: center;
             & > button {
                 margin: 0 3px;
                 padding: 8px;
