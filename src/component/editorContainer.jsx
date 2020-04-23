@@ -4,6 +4,7 @@ import { BackTop } from 'antd';
 import { Droppable } from 'react-beautiful-dnd'
 import { useMappedState } from 'redux-react-hook';
 import Page from './page'
+import Throttle from '../lib/throttle'
 const EditorContainer = props => {
     let el = useRef(null)
     let state = useMappedState(state => state.state || [])
@@ -13,7 +14,7 @@ const EditorContainer = props => {
     }, [])
     return (
         <div
-            onScroll={onScroll}
+            onScroll={Throttle(onScroll,300)}
             ref={el}
             className={css`
                 width: 100%;
