@@ -16,7 +16,8 @@ import {
     addNextCol,
     addPreRow,
     addNextRow,
-    jumpPage
+    jumpPage,
+    setTempaltes
 } from './actionType'
 import uniqueId from 'lodash/uniqueId'
 import { ReactEditor } from 'slate-react'
@@ -584,6 +585,10 @@ const reducer = (state = initState, action) => {
                         }
                     }
                 }
+            })
+        case setTempaltes:
+            return updata(state,{
+                state: {$set:action.newState}
             })
         default:
             return state

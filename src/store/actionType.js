@@ -50,3 +50,6 @@ export const addNextRow = 'ADD_NEXT_RAW'
 
 // 跳转网页
 export const jumpPage = 'JUMP_PAGE'
+
+// 设置模板
+export const setTempaltes = 'SET_TEMPALTES'

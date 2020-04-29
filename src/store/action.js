@@ -15,7 +15,8 @@ import {
     addNextCol,
     addPreRow,
     jumpPage,
-    addNextRow
+    addNextRow,
+    setTempaltes
 } from './actionType'
 export const changeEditorValueAction = (editor, pageIndex, value, isFocus) => {
     return {
@@ -163,5 +164,12 @@ export const addNextRawAction = (pageIndex, index, row) => {
         pageIndex,
         index,
         row
+    }
+}
+
+export const setTempaltesAction = (state) => {
+    return {
+        type: setTempaltes,
+        newState:state
     }
 }

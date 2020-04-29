@@ -15,6 +15,7 @@ const EditorContainer = props => {
     return (
         <div
             onScroll={Throttle(onScroll,300)}
+            id="pageRoot"
             ref={el}
             className={css`
                 width: 100%;

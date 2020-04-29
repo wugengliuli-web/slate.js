@@ -10,6 +10,7 @@ import { useDispatch } from 'redux-react-hook';
 import { createDataFactory } from './lib/createData'
 import { Button} from 'antd'
 import { CSSTransition } from 'react-transition-group'
+import Tempaltes from './component/tempaltes'
 const App = props => {
 	const dispatch = useDispatch()
 	const [showDrawer, setShowDrawer] = useState(true)
@@ -104,6 +105,7 @@ const App = props => {
 						`}>
 							<ToolMoveBar />
 							<UploadFile />
+							<Tempaltes />
 						</div>
 					</CSSTransition>
 				</div>
