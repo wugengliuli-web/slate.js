@@ -17,7 +17,9 @@ import {
     addPreRow,
     addNextRow,
     jumpPage,
-    setTempaltes
+    setTempaltes,
+    delFlexText,
+    addFlexText
 } from './actionType'
 import uniqueId from 'lodash/uniqueId'
 import { ReactEditor } from 'slate-react'
@@ -58,7 +60,7 @@ const reducer = (state = initState, action) => {
     switch (type) {
         case changeEditorValue:
             const { editor, pageIndex, value, isFocus } = action
-            let index = getIndex(state.state[pageIndex], editor)
+            let index = getIndex(state.state[pageIndex], editor)    
             return updata(state, {
                 state: {
                     [pageIndex]: {
@@ -590,6 +592,52 @@ const reducer = (state = initState, action) => {
             return updata(state,{
                 state: {$set:action.newState}
             })
+        case addFlexText:
+            const {
+                pageIndex: flexAddPageIndex, index: flexAddIndex, 
+                childIndex: flexAddChildIndex,
+                editor: flexAddEditor
+            } = action
+            let newFlexEditor = JSON.parse(JSON.stringify(state.state[flexAddPageIndex][flexAddIndex]
+                .content[0].children[flexAddChildIndex]))
+            ReactEditor.focus(flexAddEditor)
+            return updata(state, {
+                state: {
+                    [flexAddPageIndex]: {
+                        [flexAddIndex]: {
+                            content: {
+                                [0]: {
+                                    children: {
+                                        $splice: [
+                                            [flexAddChildIndex, 0, newFlexEditor]
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+        case delFlexText:
+            const {
+                pageIndex: flexDelPageIndex, index: flexDelIndex, childIndex: flexDelChildIndex
+            } = action
+
+            return updata(state, {state: {
+                [flexDelPageIndex]: {
+                    [flexDelIndex]: {
+                        content: {
+                            [0]: {
+                                children: {
+                                    $splice: [
+                                        [flexDelChildIndex, 1]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }})
         default:
             return state
     }

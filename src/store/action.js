@@ -16,7 +16,9 @@ import {
     addPreRow,
     jumpPage,
     addNextRow,
-    setTempaltes
+    setTempaltes,
+    delFlexText,
+    addFlexText
 } from './actionType'
 export const changeEditorValueAction = (editor, pageIndex, value, isFocus) => {
     return {
@@ -171,5 +173,24 @@ export const setTempaltesAction = (state) => {
     return {
         type: setTempaltes,
         newState:state
+    }
+}
+
+export const delFlexTextAction = (pageIndex, index, childIndex) => {
+    return {
+        type: delFlexText,
+        pageIndex,
+        index,
+        childIndex
+    }
+}
+
+export const addFlexTextAction = (pageIndex, index, childIndex, editor) => {
+    return {
+        type: addFlexText,
+        pageIndex,
+        index,
+        childIndex,
+        editor
     }
 }

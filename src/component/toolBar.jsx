@@ -153,6 +153,15 @@ export const setBlockStyle = (editor, changeStyle) => {
         let [, row, column] = focus.path
         style = nodes[0].children[row].children[column].style
     } 
+    else if (type === 'flexText') {
+        format = 'paragraph'
+        let { selection } = editor
+        if (!selection) return
+        let { focus = null } = selection
+        if (!focus) return
+        let [,index] = focus.path
+        style = nodes[0].children[index].style
+    } 
     Transforms.setNodes(editor, {
         style: {
             ...style,

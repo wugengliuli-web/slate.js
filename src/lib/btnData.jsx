@@ -30,4 +30,8 @@ export default [{
     text: 'Divider',
     attrs: {},
     format: 'divider'
+    },{
+    text: 'flex',
+    attrs: {},
+    format: 'flexText'
 }]

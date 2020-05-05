@@ -38,7 +38,6 @@ export const BulletedList = ({ attributes, children, element }) => {
 
 export const HeadingOne = ({ attributes, children, element }) => {
     const { style } = element
-
     return (
         <h1 onChange={e => { console.log('eee') }} {...attributes} className={css`
             ${style}
@@ -374,4 +373,18 @@ export const TableCell = ({ attributes, children, element, editor }) => {
 
 export const TableContent = ({ attributes, children, element }) => {
     return <p {...attributes}>{children}</p>
+}
+
+export const FlexText = ({ attributes, children, element }) => {
+    return (
+        <div onChange={e => { console.log('FlexText') }} {...attributes} className={css`
+            display: flex;
+            justifyContent: space-around;
+            >*{
+                flex:1;
+                ${children.props.selection ? 'border:1px solid #eee;' : null}
+            }
+        `}>{children}
+        </div>
+    )
 }

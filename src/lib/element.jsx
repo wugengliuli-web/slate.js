@@ -15,13 +15,16 @@ import {
 	TableContainer,
 	TableRow,
 	TableCell,
-	TableContent
+	TableContent,
+	FlexText
 } from './el'
 
 
 export const Element = props => {
 	let { element } = props
 	switch (element.type) {
+		case 'flexText':
+			return <FlexText {...props} />
 		case 'divider':
 			return <DividerEl {...props} />
 		case 'block-quote':

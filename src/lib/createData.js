@@ -60,7 +60,17 @@ export const createDataFactory = ({format}) => {
             ],
             style: {}
         }]
-    } else {
+    } 
+    else if (format === 'flexText'){
+        value['content'] = [{
+            type: format,
+            children: [
+                { type:'paragraph',children:[{text:''}]},
+                { type: 'paragraph', children: [{ text: '' }] },
+            ]
+        }]
+    }
+    else {
         value['content'] = [{
             type: format,
             style: {},

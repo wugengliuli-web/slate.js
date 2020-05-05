@@ -53,3 +53,9 @@ export const jumpPage = 'JUMP_PAGE'
 
 // 设置模板
 export const setTempaltes = 'SET_TEMPALTES'
+
+// 删除flex组件中的子组件
+export const delFlexText = 'DEL_FLEXTEXT'
+
+// 添加flex组件中的子组件
+export const addFlexText = 'ADD_FLEXTEXT'
