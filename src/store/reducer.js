@@ -6,6 +6,7 @@ import {
     exchangeEditor,
     setImg,
     copyEl,
+    pasteEl,
     delRow,
     delCol,
     mergeLeft,
@@ -164,12 +165,27 @@ const reducer = (state = initState, action) => {
             newEditor.showToolbar = false
             oldEditor && ReactEditor.focus(oldEditor)
             return updata(state, {
+                copyEditor: {
+                    $set: newEditor
+                }
+            })
+        case pasteEl:
+            const { pageIndex: pageIndexPasteEditor, index: indexPasteEditor } = action
+            
+            setTimeout(function () {
+                const type = state.copyEditor.content[0].type
+                type !== 'addImage' && ReactEditor.focus(state.copyEditor.editor)
+            }, 100)
+            return updata(state, {
                 state: {
-                    [copyPageIndex]: {
+                    [pageIndexPasteEditor]: {
                         $splice: [
-                            [copyIndex, 0, newEditor]
+                            [indexPasteEditor, 0, state.copyEditor]
                         ]
                     }
+                },
+                copyEditor:{
+                    $set:null
                 }
             })
         case delEl:

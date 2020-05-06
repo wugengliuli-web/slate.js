@@ -30,8 +30,13 @@ export default [{
     text: 'Divider',
     attrs: {},
     format: 'divider'
-    },{
+},{
     text: 'flex',
     attrs: {},
     format: 'flexText'
-}]
+},{
+    text: '复制的组件',
+    attrs: {},
+    format: 'copyEditor'
+}
+]

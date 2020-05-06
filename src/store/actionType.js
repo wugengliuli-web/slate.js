@@ -18,6 +18,9 @@ export const setImg = 'SET_IMG'
 //复制
 export const copyEl = 'COPY_EL'
 
+//粘贴
+export const pasteEl = 'PASTE_EL'
+
 // 删除行
 export const delRow = 'DEL_ROW' 
 

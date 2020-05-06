@@ -5,6 +5,7 @@ import {
     exchangeEditor,
     setImg,
     copyEl,
+    pasteEl,
     delEl,
     delRow,
     delCol,
@@ -78,6 +79,13 @@ export const copyElAction = (pageIndex, index, editor, oldEditor) => {
         index,
         editor,
         oldEditor
+    }
+}
+export const pasteElAction = (pageIndex, index ) => {
+    return {
+        type: pasteEl,
+        pageIndex, //第几页
+        index, //第几页的第几块
     }
 }
 

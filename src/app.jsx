@@ -5,7 +5,7 @@ import { css } from 'emotion'
 import { DragDropContext } from 'react-beautiful-dnd';
 import './scss/index.scss'
 import UploadFile from './component/uploadFile'
-import { addEditorAction, exchangeEditorAction } from './store/action'
+import { addEditorAction, exchangeEditorAction, pasteElAction } from './store/action'
 import { useDispatch } from 'redux-react-hook';
 import { createDataFactory } from './lib/createData'
 import { Button} from 'antd'
@@ -36,7 +36,7 @@ const App = props => {
 			})
 			dispatch(action)
 		} else {
-			//如果是添加一个元素
+			//如果是添加一个元素,先判断是否是复制的组件
 			/**
 			 * 产生一个编辑器
 			 * 先拿到是加在第几页的
@@ -44,9 +44,16 @@ const App = props => {
 			let page = Number(destination.droppableId.match(reg)[0])  //第几页
 			let { draggableId } = info  //产生编辑的类型
 			let { index } = destination //第几页的第几个块状
-			let value = createDataFactory({ format: draggableId })
-			const action = addEditorAction(page, index, value)
-			dispatch(action)
+			// 如果不是复制的组件，新建一个。否则粘贴一个组件
+			if (draggableId!='copyEditor'){
+				let value = createDataFactory({ format: draggableId })
+				const action = addEditorAction(page, index, value)
+				dispatch(action)
+			}else{
+				const action = pasteElAction(page, index)
+				dispatch(action)
+			}
+			
 		}
 	}, [])
 

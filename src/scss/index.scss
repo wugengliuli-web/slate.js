@@ -78,3 +78,46 @@ body {
     transform: translateY(-100%);
     display: none;
 }
+.copyButton{
+    animation:changeOpacity 2s ;
+    -moz-animation:changeOpacity 2s ; /* Firefox */
+    -webkit-animation:changeOpacity 2s ; /* Safari and Chrome */
+    -o-animation:changeOpacity 2s ; /* Opera */
+}
+@keyframes changeOpacity
+{
+0%   {opacity:0;}
+20%  {opacity:1;}
+40%  {opacity:0;}
+60% {opacity:1;}
+80%  {opacity:0;}
+100% {opacity:1;}
+}
+
+@-moz-keyframes changeOpacity /* Firefox */
+{
+0%   {opacity:0;}
+20%  {opacity:1;}
+40%  {opacity:0;}
+60% {opacity:1;}
+80%  {opacity:0;}
+100% {opacity:1;}
+}
+
+@-webkit-keyframes changeOpacity /* Safari and Chrome */
+{
+0%   {opacity:0;}
+20%  {opacity:1;}
+40%  {opacity:0;}
+60% {opacity:1;}
+80%  {opacity:0;}
+100% {opacity:1;}
+}
+
+@-o-keyframes changeOpacity /* Opera */
+{
+0%   {opacity:0;}
+20%  {opacity:1;}
+40%  {opacity:0;}
+60% {opacity:1;}
+}

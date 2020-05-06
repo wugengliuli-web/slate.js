@@ -3,8 +3,11 @@ import { css } from 'emotion'
 import SourceBtn from './sourceBtn'
 import btnData from '../lib/btnData'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
+import { useMappedState } from 'redux-react-hook';
+import  '../scss/index.scss'
 const ToolMoveBar = props => {
     const [slateItem] = useState(btnData)
+    let copyEditor = useMappedState(state => state.copyEditor || null)
     return (
         <div
             className={css`
@@ -26,8 +29,51 @@ const ToolMoveBar = props => {
                             ref={provided.innerRef}
                         >
                             {
-                                slateItem.map((item, index) => (
-                                    <Draggable
+                                slateItem.map((item, index) => {
+                                    if (item.format ==='copyEditor'){
+                                        if (copyEditor){
+                                            return <Draggable
+                                                key={item.format}
+                                                draggableId={item.format}
+                                                index={index}
+                                            >
+                                                {
+                                                    (providedDraggable, snapshotDraggable) => {
+                                                        return (
+                                                            <>
+                                                                <span
+                                                                    {...providedDraggable.draggableProps}
+                                                                    {...providedDraggable.dragHandleProps}
+                                                                    ref={providedDraggable.innerRef}
+                                                                    className='copyButton'
+                                                                >
+                                                                    <SourceBtn
+                                                                        key={item.format}
+                                                                        attrs={item.attrs}
+                                                                        text={item.text}
+                                                                        format={item.format}
+                                                                        color="#108ee9"
+                                                                    />
+                                                                </span>
+                                                                {snapshotDraggable.isDragging && (
+                                                                    <span>
+                                                                        <SourceBtn
+                                                                            color="#2db7f5"
+                                                                            key={item.format}
+                                                                            attrs={item.attrs}
+                                                                            text={item.text}
+                                                                            format={item.format}
+                                                                        />
+                                                                    </span>
+                                                                )}
+                                                            </>
+                                                        )
+                                                    }
+                                                }
+                                            </Draggable>
+                                        }
+                                    }
+                                    else return <Draggable
                                         key={item.format}
                                         draggableId={item.format}
                                         index={index}
@@ -65,7 +111,7 @@ const ToolMoveBar = props => {
                                             }
                                         }
                                     </Draggable>
-                                ))
+                                })
                             }
                             {provided.placeholder}
                         </div>
