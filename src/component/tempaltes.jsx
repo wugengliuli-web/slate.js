@@ -324,4 +324,5 @@ const Tempaltes = props => {
             </Modal>
         </div>)
 }
+
 export default Tempaltes;
