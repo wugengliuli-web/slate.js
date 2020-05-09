@@ -13,7 +13,7 @@ import axios from 'axios'
 
 const TempaltesItem = props => {
     return <div className={css`margin:5px 10px;${props.choose?'background:#eee;':null}`} num={props.num}>
-        <img src={props.data.img} style={{ width: '100%', height: '130px',border:'1px solid #eee' }} />
+        <img src={props.data.img} alt="模板预览" style={{ width: '100%', height: '130px',border:'1px solid #eee' }} />
         <p className={css`text-align:center;`}>{props.data.title}</p>
     </div>
 }
@@ -143,6 +143,10 @@ const Tempaltes = props => {
             if (status === 200) {
                 message.success(`模板更新成功`);
                 setTempaltesDate([...tempaltesDate.slice(0, tempaltesIndex.id), ...tempaltesDate.slice(tempaltesIndex.id + 1)])
+                settempaltesIndex((text) => ({
+                    ...newTemoaltes,
+                    id: text.id
+                }))
             }
             else {
                 message.error(`模板更新失败`);
@@ -180,6 +184,7 @@ const Tempaltes = props => {
         let { status } = res
         if (status===200)message.success(`模板保存成功`);
         setTempaltesModalVisible(false)
+        settempaltesIndex(newTemoaltes)
     })
     // 保存临时模板
     function saveTimmingTempaltes(callback){
@@ -266,7 +271,8 @@ const Tempaltes = props => {
                             if (tempaltesFlag){
                                 let num = tempaltesIndex.id
                                 // 判断是否有修改
-                                if (tempaltesIndex.dom && isChange(state,JSON.parse(tempaltesIndex.dom)) ) {
+                                if (state.length !== 0 && (!tempaltesIndex.dom || 
+                                    (tempaltesIndex.dom && isChange(state,JSON.parse(tempaltesIndex.dom)))) ) {
                                     // 提示用户有未保存的编辑
                                     showConfirm((re) => {
                                         if (re) {
