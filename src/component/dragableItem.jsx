@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import ToolWrapper from './toolComponent'
 import { UploadImg } from '../lib/el'
-import Editor from './editor'
+import DropdownItem from './dropdownItem'
 import { css } from 'emotion'
 import DraggableIcon from './draggableIcon'
 import { useDispatch } from 'redux-react-hook';
@@ -45,7 +45,7 @@ const DragableItem = ({providedDraggable, snapshot, snapshotDraggable, item, ind
                             <UploadImg dispatch={dispatch} editor={item.editor} pageIndex={pageIndex} index={index} />
                         </div>
                         :
-                        <Editor
+                        <DropdownItem
                             editor={item.editor}
                             value={item.content}
                             pageIndex={pageIndex}
