@@ -82,7 +82,7 @@ export const NumberedList = ({ attributes, children, element }) => {
 export const DividerEl = ({ attributes, children, element }) => {
     const { style } = element
     return (
-        <div className={css`padding:20px 0;`} {...attributes} contentEditable={false} >
+        <div className={css`padding:20px 0;`} {...attributes} >
             <div className={css`border-top: 2px solid #000;${style}`} >{children}</div>
         </div>
     )

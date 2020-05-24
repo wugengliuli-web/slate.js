@@ -12,6 +12,11 @@ const withDelAll = editor => {
             let [,,,low] = path
             //如果偏移为0就不允许继续删除
             if(offset === 0 && low === 0) return
+        } else if (type === 'flexText'){
+            //如果是flexText，且偏移量为0,不删除子文本框
+            let { selection } = editor
+            let { focus: { offset } } = selection
+            if (offset === 0) return;
         }
         deleteBackward(...args)
     }

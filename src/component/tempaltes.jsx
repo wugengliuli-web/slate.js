@@ -12,9 +12,19 @@ import { createEditorFactory } from '../lib/createEditor'
 import axios from 'axios'
 
 const TempaltesItem = props => {
-    return <div className={css`margin:5px 10px;${props.choose?'background:#eee;':null}`} num={props.num}>
+    return <div 
+        className={css`
+            margin:5px 10px;${props.choose?'background:#eee;':null}
+        `} num={props.num}>
         <img src={props.data.img} alt="模板预览" style={{ width: '100%', height: '130px',border:'1px solid #eee' }} />
-        <p className={css`text-align:center;`}>{props.data.title}</p>
+        <p 
+        className={css`
+            width:83px;height:21px;
+            text-align:center;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        `}>{props.data.title}</p>
     </div>
 }
 const { confirm } = Modal;
@@ -94,7 +104,7 @@ const Tempaltes = props => {
             let imgUrl = canvas.toDataURL('image/png');
             settempaltesIndex((e) => ({...e, img:imgUrl}))
         })
-    }, [tempaltesModalVisible])
+    }, [tempaltesModalVisible, tempaltesFlag])
     // 删除模板
     const deleteTempalate = useCallback(async e=>{
         if (tempaltesIndex.id[0] !== 't') {
@@ -121,7 +131,7 @@ const Tempaltes = props => {
             message.success(`临时文档删除成功`);
         }
     })
-    // 跟新模板
+    // 更新模板
     const updateTempalate = useCallback(async e => {
         let newTemoaltes = {
             ...tempaltesIndex,
@@ -182,9 +192,17 @@ const Tempaltes = props => {
             }
         })
         let { status } = res
-        if (status===200)message.success(`模板保存成功`);
-        setTempaltesModalVisible(false)
-        settempaltesIndex(newTemoaltes)
+        if (status===200){
+            message.success(`模板保存成功`);
+            const action = setTempaltesAction([])
+            dispatch(action)
+            // 跳转到选择模板界面
+            settempaltesFlag(1)
+            settempaltesIndex(newTemoaltes)
+        }else{
+            message.error(`模板保存`);
+        }
+        
     })
     // 保存临时模板
     function saveTimmingTempaltes(callback){
@@ -287,10 +305,10 @@ const Tempaltes = props => {
                                 } else {
                                     setTempaltes(num)
                                 }
+                                setTempaltesModalVisible(false)
                             }else{
                                 addTempaltes()
                             }
-                            setTempaltesModalVisible(false)
                             
                         }}
                     >{tempaltesFlag ? '选择' : '保存为新模板'}</Button></p>

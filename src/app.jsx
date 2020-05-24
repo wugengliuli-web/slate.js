@@ -41,6 +41,7 @@ const App = props => {
 			 * 产生一个编辑器
 			 * 先拿到是加在第几页的
 			 */
+			if (destination.droppableId === 'btn') return; // 如果是ToolMoveBar组件，不创建。当快速拖拽组件时的bug
 			let page = Number(destination.droppableId.match(reg)[0])  //第几页
 			let { draggableId } = info  //产生编辑的类型
 			let { index } = destination //第几页的第几个块状

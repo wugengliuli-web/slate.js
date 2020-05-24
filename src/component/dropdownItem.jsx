@@ -2,9 +2,12 @@ import React, {memo}from 'react'
 import { Menu, Dropdown } from 'antd';
 import Editor from './editor'
 
-const data = [{ fieId: 0, lable: "姓名", value: "张三" }, 
-{ fieId: 1, lable: "专业", value: "计算机科学与技术" },
-{ fieId: 2, lable: "性别", value: "女" }]
+const data = 
+[
+    { fileId: 0, lable: "姓名", value: "张三" }, 
+    { fileId: 1, lable: "专业", value: "计算机科学与技术" },
+    { fileId: 2, lable: "性别", value: "女" }
+]
 const dropdownItem = props =>{
     // 下拉提示框
     const menu = (
