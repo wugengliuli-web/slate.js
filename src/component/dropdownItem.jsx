@@ -1,14 +1,20 @@
-import React, {memo}from 'react'
+import React, { memo, useEffect, useState}from 'react'
 import { Menu, Dropdown } from 'antd';
 import Editor from './editor'
-
-const data = 
-[
-    { fileId: 0, lable: "姓名", value: "张三" }, 
-    { fileId: 1, lable: "专业", value: "计算机科学与技术" },
-    { fileId: 2, lable: "性别", value: "女" }
-]
-const dropdownItem = props =>{
+import axios from 'axios'
+async function getDropdownData(info) {
+    let res = await axios({
+        url: 'http://47.56.80.94:8090/template/dataInfo',
+        method: 'GET',
+        headers: {
+            'Content-Type': 'json/form-data'
+        }
+    })
+    let { data:{data} } = res
+    return data
+}
+const DropdownItem = props =>{
+    let [data,setDate]=useState([])
     // 下拉提示框
     const menu = (
         <Menu onClick={(e) => {
@@ -17,11 +23,17 @@ const dropdownItem = props =>{
         >
             {
                 data.map((value,index) => <Menu.Item key={index} >
-                    {value.lable}：{value.value}
+                    {value.label}：{value.value}
                 </Menu.Item>)
             }
         </Menu>
     );
+    useEffect(()=>{
+        getDropdownData().then((text) => { 
+            setDate(text)
+        })
+        
+    },[])
     return (
         (props.editor.children[0] && props.editor.children[0].type) === 'divider' ?
         <Editor {...props} />:
@@ -30,9 +42,9 @@ const dropdownItem = props =>{
                 overlay = {menu}
                 visible={props.isFocused}
             >
-                <Editor {...props} />
+                {<Editor {...props} />}
             </Dropdown>
         )
 }
 
-export default memo(dropdownItem)
+export default memo(DropdownItem)
