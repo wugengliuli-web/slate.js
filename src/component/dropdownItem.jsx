@@ -32,10 +32,10 @@ const DropdownItem = props =>{
         getDropdownData().then((text) => { 
             setDate(text)
         })
-        
     },[])
     return (
-        (props.editor.children[0] && props.editor.children[0].type) === 'divider' ?
+        ((props.editor.children[0] && props.editor.children[0].type) === 'divider' ||  
+            (props.editor.children[0] && props.editor.children[0].type) === 'img') ?
         <Editor {...props} />:
         <Dropdown
                 placement = "bottomCenter"

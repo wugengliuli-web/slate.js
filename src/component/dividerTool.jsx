@@ -62,7 +62,9 @@ const DividerTool = ({ pageIndex, index, editor }) => {
                     tool.map((item, index) => (
                         item.title === '修改样式'?
                             <Dropdown overlay={() => menu(item)} placement="bottomLeft"
-                                onClick={item.click} key={String(index)} title={item.title}
+                                onClick={item.click} 
+                                key={String(index)} title={item.title}
+                                trigger={['click']}
                                 className={css`
                                 margin: 1px 2px;
                                 cursor: pointer;

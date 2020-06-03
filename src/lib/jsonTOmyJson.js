@@ -22,12 +22,14 @@ export const jsonTomyJson = items => {
     })
     let res = []
     items.forEach((item, index) => {
-        if((index % 20 === 0 && index !== 0)||(res.length !== 0 && index === items.length - 1)) {
+        if((index % 20 === 0 && index !== 0)||(res.length !== 0 && index === (items.length - 1))) {
+            res.push(item)
             state.push(res)
             res = []
         } else {
             res.push(item)
         }
     })
+    if (res) state.push(res)
     return state
 }
